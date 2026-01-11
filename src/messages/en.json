@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Carp Pro - Professional Carp Fishing Equipment",
+    "description": "The best selection of carp fishing gear. Rods, reels, bait and accessories from leading brands."
+  },
+  "nav": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "rods": "Rods",
+    "reels": "Reels",
+    "bait": "Bait",
+    "accessories": "Accessories",
+    "about": "About",
+    "contact": "Contact",
+    "cart": "Cart",
+    "search": "Search..."
+  },
+  "hero": {
+    "title": "YOUR FISHING",
+    "subtitle": "ON A NEW LEVEL",
+    "description": "Professional equipment for true carp anglers. Only trusted brands and top quality.",
+    "cta": "View Catalog",
+    "secondary": "Learn More"
+  },
+  "features": {
+    "title": "Why Choose Us",
+    "quality": {
+      "title": "Premium Quality",
+      "description": "Only original products from the world's leading manufacturers"
+    },
+    "delivery": {
+      "title": "Fast Delivery",
+      "description": "Same day dispatch. Delivery across Ukraine and Europe"
+    },
+    "support": {
+      "title": "Expert Support",
+      "description": "Our consultants are experienced anglers who will help you choose"
+    },
+    "warranty": {
+      "title": "Quality Guarantee",
+      "description": "Official warranty on all products and hassle-free returns"
+    }
+  },
+  "categories": {
+    "title": "Product Categories",
+    "rods": "Rods",
+    "reels": "Reels",
+    "lines": "Lines & Braids",
+    "bait": "Bait & Lures",
+    "accessories": "Accessories",
+    "clothing": "Clothing & Footwear",
+    "camping": "Camping",
+    "electronics": "Electronics"
+  },
+  "newsletter": {
+    "title": "Subscribe to Newsletter",
+    "description": "Get updates on new products, special offers and useful fishing tips",
+    "placeholder": "Your email",
+    "button": "Subscribe"
+  },
+  "footer": {
+    "description": "Professional carp fishing equipment. Serving passionate anglers since 2015.",
+    "categories": "Categories",
+    "information": "Information",
+    "delivery": "Shipping & Payment",
+    "returns": "Returns",
+    "warranty": "Warranty",
+    "privacy": "Privacy Policy",
+    "contacts": "Contact",
+    "address": "Kyiv, 15 Fisherman St.",
+    "workHours": "Mon-Fri: 9:00-18:00",
+    "copyright": "All rights reserved"
+  }
+}
+

@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Carp Pro - Profesjonalny sprzęt karpiowy",
+    "description": "Najlepszy wybór sprzętu do łowienia karpi. Wędki, kołowrotki, zanęty i akcesoria od wiodących marek."
+  },
+  "nav": {
+    "home": "Strona główna",
+    "catalog": "Katalog",
+    "rods": "Wędki",
+    "reels": "Kołowrotki",
+    "bait": "Zanęty",
+    "accessories": "Akcesoria",
+    "about": "O nas",
+    "contact": "Kontakt",
+    "cart": "Koszyk",
+    "search": "Szukaj..."
+  },
+  "hero": {
+    "title": "TWOJE WĘDKARSTWO",
+    "subtitle": "NA NOWYM POZIOMIE",
+    "description": "Profesjonalny sprzęt dla prawdziwych karpiarzy. Tylko sprawdzone marki i najlepsza jakość.",
+    "cta": "Zobacz katalog",
+    "secondary": "Dowiedz się więcej"
+  },
+  "features": {
+    "title": "Dlaczego my",
+    "quality": {
+      "title": "Najwyższa jakość",
+      "description": "Tylko oryginalne produkty od wiodących światowych producentów"
+    },
+    "delivery": {
+      "title": "Szybka dostawa",
+      "description": "Wysyłka w dniu zamówienia. Dostawa w całej Polsce i Europie"
+    },
+    "support": {
+      "title": "Wsparcie ekspertów",
+      "description": "Nasi konsultanci to doświadczeni wędkarze, którzy pomogą w wyborze"
+    },
+    "warranty": {
+      "title": "Gwarancja jakości",
+      "description": "Oficjalna gwarancja na wszystkie produkty i możliwość zwrotu"
+    }
+  },
+  "categories": {
+    "title": "Kategorie produktów",
+    "rods": "Wędki",
+    "reels": "Kołowrotki",
+    "lines": "Żyłki i plecionki",
+    "bait": "Zanęty i przynęty",
+    "accessories": "Akcesoria",
+    "clothing": "Odzież i obuwie",
+    "camping": "Camping",
+    "electronics": "Elektronika"
+  },
+  "newsletter": {
+    "title": "Zapisz się do newslettera",
+    "description": "Otrzymuj informacje o nowościach, promocjach i przydatne porady wędkarskie",
+    "placeholder": "Twój email",
+    "button": "Zapisz się"
+  },
+  "footer": {
+    "description": "Profesjonalny sprzęt do łowienia karpi. Działamy dla prawdziwych pasjonatów wędkarstwa od 2015 roku.",
+    "categories": "Kategorie",
+    "information": "Informacje",
+    "delivery": "Dostawa i płatność",
+    "returns": "Zwroty",
+    "warranty": "Gwarancja",
+    "privacy": "Polityka prywatności",
+    "contacts": "Kontakt",
+    "address": "Warszawa, ul. Rybacka 15",
+    "workHours": "Pn-Pt: 9:00-18:00",
+    "copyright": "Wszelkie prawa zastrzeżone"
+  }
+}
+
