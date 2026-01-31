@@ -7,7 +7,7 @@ import { useCart } from "@/components/CartProvider";
 import { useLocale, useTranslations } from "next-intl";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CartPage() {
   const locale = useLocale();
@@ -16,9 +16,14 @@ export default function CartPage() {
   const t = useTranslations();
   const { items, total, updateQty, removeItem, clear } = useCart();
   const [isAuthed, setIsAuthed] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const freeShippingThreshold = 200;
   const remainingForFreeShipping = Math.max(freeShippingThreshold - total, 0);
   const progress = Math.min((total / freeShippingThreshold) * 100, 100);
+  const totalItems = useMemo(
+    () => items.reduce((sum, item) => sum + item.qty, 0),
+    [items]
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -220,11 +225,26 @@ export default function CartPage() {
                   {total} {t("currency.uah")}
                 </span>
               </div>
+              <div className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600 flex items-center justify-between">
+                <span>{t("cart.itemsCount", { count: totalItems })}</span>
+                <span className="font-semibold text-slate-900">
+                  {total} {t("currency.uah")}
+                </span>
+              </div>
               <button
+                type="button"
+                onClick={() => {
+                  if (!isAuthed) {
+                    setIsLoginModalOpen(true);
+                  }
+                }}
                 className="w-full inline-flex items-center justify-center px-4 py-3 rounded-xl bg-[#7dd3fc] text-black font-bold hover:bg-[#f5c542] transition-colors disabled:opacity-60"
                 disabled={items.length === 0}
               >
-                {t("cart.checkout")}
+                {t("cart.checkoutWithTotal", {
+                  total,
+                  currency: t("currency.uah"),
+                })}
               </button>
               <p className="text-xs text-slate-500">
                 {t("cart.checkoutNote")}
@@ -232,6 +252,42 @@ export default function CartPage() {
             </div>
           </aside>
         </div>
+
+        {isLoginModalOpen && (
+          <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/40 px-4">
+            <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {t("cart.loginModalTitle")}
+                </h3>
+                <button
+                  type="button"
+                  className="text-sm text-slate-500 hover:text-slate-800"
+                  onClick={() => setIsLoginModalOpen(false)}
+                >
+                  {t("cart.loginModalClose")}
+                </button>
+              </div>
+              <p className="mt-2 text-sm text-slate-500">
+                {t("cart.loginModalSubtitle")}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href={`/${locale}/auth?mode=login&returnTo=/${locale}/cart`}
+                  className="inline-flex items-center justify-center rounded-xl bg-[#0ea5e9] text-white px-5 py-3 font-semibold"
+                >
+                  {t("cart.loginModalLogin")}
+                </Link>
+                <Link
+                  href={`/${locale}/auth?mode=register&returnTo=/${locale}/cart`}
+                  className="inline-flex items-center justify-center rounded-xl border border-slate-200 text-slate-700 px-5 py-3 font-semibold"
+                >
+                  {t("cart.loginModalRegister")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

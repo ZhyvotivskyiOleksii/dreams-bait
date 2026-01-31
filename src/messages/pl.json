@@ -177,7 +177,9 @@
     "cartSubtitle": "Dodanie produktów do koszyka nie oznacza rezerwacji.",
     "summaryTitle": "Podsumowanie",
     "totalLabel": "Razem",
+    "itemsCount": "Produktów: {count}",
     "checkout": "Przejdź dalej",
+    "checkoutWithTotal": "Przejdź dalej · {total} {currency}",
     "checkoutNote": "Po złożeniu zamówienia skontaktujemy się z Tobą.",
     "stepCart": "Koszyk",
     "stepCartNote": "Wartość koszyka",
@@ -196,7 +198,12 @@
     "newClientBenefit2": "Szybsze zakupy",
     "newClientBenefit3": "Rabaty i bonusy",
     "registerButton": "Zarejestruj się i zamów",
-    "guestButton": "Zamów bez rejestracji"
+    "guestButton": "Zamów bez rejestracji",
+    "loginModalTitle": "Zaloguj się, aby kontynuować",
+    "loginModalSubtitle": "Po logowaniu wrócisz do koszyka.",
+    "loginModalLogin": "Zaloguj się",
+    "loginModalRegister": "Utwórz konto",
+    "loginModalClose": "Zamknij"
   },
   "currency": {
     "uah": "€"

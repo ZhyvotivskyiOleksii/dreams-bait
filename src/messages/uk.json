@@ -176,7 +176,9 @@
     "cartSubtitle": "Додання товарів не означає резерву.",
     "summaryTitle": "Підсумок",
     "totalLabel": "Разом",
+    "itemsCount": "Товарів: {count}",
     "checkout": "Оформити замовлення",
+    "checkoutWithTotal": "Перейти далі · {total} {currency}",
     "checkoutNote": "Після оформлення ми зв'яжемося з вами для підтвердження.",
     "stepCart": "Кошик",
     "stepCartNote": "Вартість кошика",
@@ -195,7 +197,12 @@
     "newClientBenefit2": "Швидке оформлення",
     "newClientBenefit3": "Знижки та бонуси",
     "registerButton": "Зареєструватись і замовити",
-    "guestButton": "Замовити без реєстрації"
+    "guestButton": "Замовити без реєстрації",
+    "loginModalTitle": "Увійдіть, щоб продовжити",
+    "loginModalSubtitle": "Після входу ви повернетеся до кошика.",
+    "loginModalLogin": "Увійти",
+    "loginModalRegister": "Створити акаунт",
+    "loginModalClose": "Закрити"
   },
   "currency": {
     "uah": "€"

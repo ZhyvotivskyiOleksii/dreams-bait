@@ -176,7 +176,9 @@
     "cartSubtitle": "Adding items does not reserve stock.",
     "summaryTitle": "Summary",
     "totalLabel": "Total",
+    "itemsCount": "Items: {count}",
     "checkout": "Proceed",
+    "checkoutWithTotal": "Proceed · {total} {currency}",
     "checkoutNote": "We will contact you to confirm after checkout.",
     "stepCart": "Cart",
     "stepCartNote": "Cart value",
@@ -195,7 +197,12 @@
     "newClientBenefit2": "Faster checkout",
     "newClientBenefit3": "Discounts and bonuses",
     "registerButton": "Register and order",
-    "guestButton": "Order without registration"
+    "guestButton": "Order without registration",
+    "loginModalTitle": "Log in to continue",
+    "loginModalSubtitle": "After logging in, you will return to the cart.",
+    "loginModalLogin": "Log in",
+    "loginModalRegister": "Create account",
+    "loginModalClose": "Close"
   },
   "currency": {
     "uah": "€"
