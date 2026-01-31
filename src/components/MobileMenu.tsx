@@ -2,8 +2,9 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
-import { X, ChevronRight, Fish, ShoppingCart, Search } from "lucide-react";
+import { X, ChevronRight, ShoppingCart, Search } from "lucide-react";
 import clsx from "clsx";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -21,6 +22,7 @@ interface MobileMenuProps {
 
 export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProps) {
   const t = useTranslations("nav");
+  const commonT = useTranslations("common");
   const locale = useLocale();
 
   // Блокування прокрутки при відкритому меню
@@ -57,15 +59,15 @@ export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProp
           {/* Шапка */}
           <div className="flex items-center justify-between p-4 border-b border-sand-200">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-forest-700 rounded-full flex items-center justify-center">
-                <Fish className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+                <Image src="/logo.png" alt={commonT("logoAlt")} width={28} height={28} />
               </div>
-              <span className="font-heading text-xl text-forest-800">CARP PRO</span>
+              <span className="font-heading text-xl text-forest-800">DREAMS BAIT</span>
             </div>
             <button
               onClick={onClose}
               className="p-2 text-earth-600 hover:bg-sand-100 rounded-full transition-colors"
-              aria-label="Close menu"
+              aria-label={commonT("closeMenu")}
             >
               <X className="w-6 h-6" />
             </button>
@@ -129,7 +131,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProp
 
           {/* Перемикач мови */}
           <div className="p-4 border-t border-sand-200 bg-sand-50">
-            <p className="text-sm text-earth-500 mb-3 font-medium">Мова / Language</p>
+            <p className="text-sm text-earth-500 mb-3 font-medium">{commonT("languageLabel")}</p>
             <LanguageSwitcher variant="mobile" />
           </div>
         </div>

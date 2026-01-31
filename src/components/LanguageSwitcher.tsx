@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Globe, ChevronDown } from "lucide-react";
 import clsx from "clsx";
 import { locales, localeNames, localeFlags, type Locale } from "@/i18n/request";
@@ -15,6 +15,7 @@ interface LanguageSwitcherProps {
 export default function LanguageSwitcher({ isScrolled = false, variant = "header" }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const locale = useLocale() as Locale;
+  const commonT = useTranslations("common");
   const router = useRouter();
   const pathname = usePathname();
 
@@ -56,7 +57,7 @@ export default function LanguageSwitcher({ isScrolled = false, variant = "header
             ? "text-earth-600 hover:bg-sand-200"
             : "text-white hover:bg-white/20"
         )}
-        aria-label="Change language"
+        aria-label={commonT("changeLanguage")}
       >
         <span className="text-lg">{localeFlags[locale]}</span>
         <ChevronDown className={clsx(

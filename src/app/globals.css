@@ -4,17 +4,53 @@
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(90deg, #b8ff8a, #5cd915, #4db80e);
+  background: linear-gradient(90deg, #bae6fd, #7dd3fc, #f5c542, #f97316);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.price-range {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.price-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #fff;
+  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+  cursor: pointer;
+}
+
+.price-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: #f59e0b;
+  border: 2px solid #fff;
+  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+  cursor: pointer;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   :root {
-    --color-primary: #1f321f;
-    --color-secondary: #2d8fa8;
-    --color-accent: #a89460;
+    --color-primary: #0b1e2e;
+    --color-secondary: #7dd3fc;
+    --color-accent: #f5c542;
   }
 
   html {
@@ -88,6 +124,38 @@
 }
 
 @layer utilities {
+  .icon-usp-freedelivery {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #0ea5e9;
+    -webkit-mask: url("/korzyna/delivery.svg") no-repeat center / contain;
+    mask: url("/korzyna/delivery.svg") no-repeat center / contain;
+  }
+
+  .icon-usp-freedelivery-lg {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: #0ea5e9;
+    -webkit-mask: url("/korzyna/delivery.svg") no-repeat center / contain;
+    mask: url("/korzyna/delivery.svg") no-repeat center / contain;
+  }
+
+  .bg-slate-50,
+  .bg-slate-100 {
+    background-color: #ffffff !important;
+  }
+
+  .shadow,
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: none !important;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

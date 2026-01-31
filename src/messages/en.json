@@ -15,6 +15,10 @@
     "cart": "Cart",
     "search": "Search..."
   },
+  "breadcrumbs": {
+    "home": "Home",
+    "catalog": "Catalog"
+  },
   "hero": {
     "title": "YOUR FISHING",
     "subtitle": "ON A NEW LEVEL",
@@ -26,19 +30,23 @@
     "title": "Why Choose Us",
     "quality": {
       "title": "Premium Quality",
-      "description": "Only original products from the world's leading manufacturers"
+      "description": "Only original products from the world's leading manufacturers",
+      "note": "Original only"
     },
     "delivery": {
       "title": "Fast Delivery",
-      "description": "Same day dispatch. Delivery across Ukraine and Europe"
+      "description": "Same day dispatch. Delivery across Ukraine and Europe",
+      "note": "1-3 days across Europe"
     },
     "support": {
       "title": "Expert Support",
-      "description": "Our consultants are experienced anglers who will help you choose"
+      "description": "Our consultants are experienced anglers who will help you choose",
+      "note": "Always in touch"
     },
     "warranty": {
       "title": "Quality Guarantee",
-      "description": "Official warranty on all products and hassle-free returns"
+      "description": "Official warranty on all products and hassle-free returns",
+      "note": "Official warranty"
     }
   },
   "categories": {
@@ -70,6 +78,450 @@
     "address": "Kyiv, 15 Fisherman St.",
     "workHours": "Mon-Fri: 9:00-18:00",
     "copyright": "All rights reserved"
+  },
+  "common": {
+    "logoAlt": "Dreams Bait logo",
+    "officialPartner": "Official Partner",
+    "madeInUkraine": "Made in Ukraine",
+    "loading": "Loading...",
+    "changeLanguage": "Change language",
+    "closeMenu": "Close menu",
+    "languageLabel": "Language"
+  },
+  "header": {
+    "promotions": "Promotions",
+    "sale": "Sale",
+    "auth": "Sign in",
+    "logout": "Sign out",
+    "account": "Account",
+    "admin": "Admin"
+  },
+  "home": {
+    "hero": {
+      "backgroundAlt": "Hero background",
+      "bullets": {
+        "original": "Original products",
+        "warranty": "Official warranty",
+        "delivery": "Delivery across Europe"
+      }
+    },
+    "categories": {
+      "carpRods": "CARP RODS",
+      "carpReels": "CARP REELS",
+      "feederRods": "FEEDER RODS",
+      "feederReels": "FEEDER REELS",
+      "lines": "LINES & BRAIDS",
+      "hooks": "HOOKS",
+      "baits": "BAITS",
+      "accessories": "BAGS & ACCESSORIES",
+      "clothing": "CLOTHING, FOOTWEAR",
+      "camping": "TOURISM, CAMPING"
+    },
+    "popular": {
+      "title": "Popular categories"
+    },
+    "bestsellers": {
+      "title": "Bestsellers",
+      "viewAll": "All products",
+      "promoTitle": "I WANT\nTHE SAME\nTHING",
+      "more": "More",
+      "hitBadge": "HIT",
+      "items": {
+        "hit1": "Carp Pro Diamond Dome 2 Man tent",
+        "hit2": "Flagman 4.5x39mm glow sticks (2 pcs)",
+        "hit3": "Carp Pro Maxi Shelter carp tent",
+        "hit4": "Flagman fishing umbrella",
+        "hit5": "Carp Pro rod pod for 3 rods 123 DL"
+      }
+    },
+    "promo": {
+      "badge": "🎣 Season open",
+      "title": "READY FOR THE SEASON?",
+      "discountPrefix": "Discounts up to",
+      "discountSuffix": "on top brands!",
+      "cta": "View deals"
+    },
+    "partner": {
+      "badge": "Official distributor",
+      "title": "DREAMS BAIT — QUALITY WITHOUT COMPROMISE",
+      "description": "We are the official partner of Dreams Bait in Poland. We guarantee 100% original products, official warranty and service.",
+      "stats": {
+        "original": "Original",
+        "support": "Support",
+        "warranty": "Warranty years"
+      },
+      "primaryCta": "View catalog",
+      "secondaryCta": "About partnership"
+    }
+  },
+  "cart": {
+    "drawerLabel": "Cart drawer",
+    "title": "Cart",
+    "total": "Total: {total} {currency}",
+    "close": "Close cart",
+    "empty": "Cart is empty",
+    "emptySubtitle": "Check out our catalog, you will definitely find something.",
+    "remove": "Remove item",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "clear": "Clear cart",
+    "view": "Go to cart",
+    "browseCatalog": "Browse catalog",
+    "add": "Add {name} to cart",
+    "added": "Added to cart",
+    "freeDeliveryTitle": "Free delivery",
+    "freeDeliveryRemaining": "Spend {amount} {currency} more for free delivery",
+    "freeDeliveryUnlocked": "Free delivery unlocked",
+    "cartTitle": "Your cart",
+    "cartSubtitle": "Adding items does not reserve stock.",
+    "summaryTitle": "Summary",
+    "totalLabel": "Total",
+    "checkout": "Proceed",
+    "checkoutNote": "We will contact you to confirm after checkout.",
+    "stepCart": "Cart",
+    "stepCartNote": "Cart value",
+    "stepDetails": "Your details",
+    "stepDetailsNote": "Log in or provide details",
+    "stepDelivery": "Delivery & payment",
+    "stepDeliveryNote": "Choose a method",
+    "stepConfirm": "Verification",
+    "stepConfirmNote": "Review the order",
+    "loginTitle": "Login",
+    "loginSubtitle": "Log in to checkout faster.",
+    "loginButton": "Log in",
+    "newClientTitle": "New customer",
+    "newClientSubtitle": "Provide your details and place the order.",
+    "newClientBenefit1": "Order history",
+    "newClientBenefit2": "Faster checkout",
+    "newClientBenefit3": "Discounts and bonuses",
+    "registerButton": "Register and order",
+    "guestButton": "Order without registration"
+  },
+  "currency": {
+    "uah": "€"
+  },
+  "megaMenu": {
+    "title": "CATALOG",
+    "subtitle": "PRODUCTS",
+    "topSales": "Top sales",
+    "categories": {
+      "rods": "Rods",
+      "reels": "Reels",
+      "lines": "Lines & Braids",
+      "bait": "Baits",
+      "accessories": "Accessories",
+      "camping": "Camping"
+    },
+    "subcategories": {
+      "carpRods": "Carp rods",
+      "feederRods": "Feeder rods",
+      "carpReels": "Carp reels",
+      "feederReels": "Feeder reels",
+      "mono": "Monofilament line",
+      "braided": "Braided line",
+      "fluoro": "Fluorocarbon",
+      "leadcore": "Leadcore",
+      "nozzlesLiquids": "Nozzles & liquids",
+      "liquidsComponents": "Liquids & components",
+      "allForFishing": "All for fishing",
+      "landingNets": "Landing nets",
+      "rodPods": "Rod pods",
+      "biteAlarms": "Bite alarms",
+      "hooks": "Hooks",
+      "tents": "Tents",
+      "bedchairs": "Bedchairs",
+      "sleepingBags": "Sleeping bags",
+      "chairs": "Chairs"
+    },
+    "topProducts": {
+      "rods": {
+        "item1": "Carp Pro D-Carp 3.9m",
+        "item2": "Shimano Alivio 3.6m",
+        "item3": "Fox Horizon X4"
+      },
+      "reels": {
+        "item1": "Shimano Ultegra 5500",
+        "item2": "Daiwa Black Widow",
+        "item3": "Carp Pro Blackpool"
+      },
+      "lines": {
+        "item1": "Carp Pro Line 0.30mm",
+        "item2": "Fox Camotex 25lb",
+        "item3": "Korda Touchdown"
+      },
+      "bait": {
+        "item1": "Starbaits SK30 20mm",
+        "item2": "CCMoore Live System",
+        "item3": "Dynamite Baits"
+      },
+      "accessories": {
+        "item1": "Fox RX+ 3 Rod Set",
+        "item2": "Carp Pro Landing Net",
+        "item3": "Nash Siren S5R"
+      },
+      "camping": {
+        "item1": "Carp Pro Diamond Dome",
+        "item2": "Fox EOS 2 Bivvy",
+        "item3": "Nash Indulgence SS4"
+      }
+    }
+  },
+  "admin": {
+    "loginTitle": "Admin login",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "notAllowed": "You do not have access to this area.",
+    "dashboardTitle": "Admin dashboard",
+    "signedInAs": "Signed in as {email}",
+    "categoriesTitle": "Categories",
+    "categoriesHelp": "Choose a category to add products. Images are taken from the site menu.",
+    "categoriesDisabled": "Categories are prefilled by default.",
+    "categoriesEmpty": "Categories are not loaded yet.",
+    "categoriesSeed": "Load categories",
+    "activeCategory": "Category: {name}",
+    "selectCategory": "Select a category above.",
+    "categoryListTitle": "Categories",
+    "productsTitle": "Add product",
+    "productsHelp": "Fill in the fields below to create a new product card.",
+    "basicSection": "Basic details",
+    "priceSection": "Price & images",
+    "recentProducts": "Recently added:",
+    "productListTitle": "Products",
+    "nameUk": "Name (UA)",
+    "namePl": "Name (PL)",
+    "nameEn": "Name (EN)",
+    "descriptionUk": "Description (UA)",
+    "descriptionPl": "Description (PL)",
+    "descriptionEn": "Description (EN)",
+    "slug": "Slug",
+    "code": "Code",
+    "price": "Price",
+    "oldPrice": "Old price",
+    "discount": "Discount %",
+    "badgeNone": "Badge: none",
+    "badgeHit": "Badge: HIT",
+    "badgeSuper": "Badge: SUPER PRICE",
+    "badgeNew": "Badge: NEW",
+    "purchasedCount": "Bought (pcs)",
+    "helpPurchasedCount": "Initial purchases counter value.",
+    "stockCount": "Stock quantity",
+    "helpStockCount": "How many units are available for sale.",
+    "stockAdd": "Add to stock",
+    "helpStockAdd": "Adds quantity to the current stock.",
+    "active": "Active",
+    "mainImage": "Main image",
+    "gallery": "Gallery images (one URL per line or comma-separated)",
+    "galleryFiles": "Gallery files",
+    "uploadImage": "Upload image",
+    "clearImage": "Clear image",
+    "noImage": "No image",
+    "helpSlug": "You can enter it manually or leave empty for auto generation.",
+    "helpCode": "Internal product code or SKU. If empty, it's generated automatically.",
+    "helpName": "Shown on catalog and product page.",
+    "helpDescription": "Short text for product page description.",
+    "helpPrice": "Current selling price.",
+    "helpOldPrice": "Old price to show discount (optional).",
+    "helpDiscount": "Calculated automatically from price and old price.",
+    "helpBadge": "Badge shown on product card.",
+    "helpActive": "Only active products appear in catalog.",
+    "helpMainImage": "Main image for product card.",
+    "helpGalleryFiles": "You can select multiple files.",
+    "helpGalleryFilesLimit": "Add up to 8 photos to the gallery.",
+    "pickPhotos": "Add photos",
+    "noPhotosSelected": "No photos selected",
+    "selectedPhotos": "Selected: {count}",
+    "previewTitle": "Preview",
+    "previewOpen": "Preview",
+    "previewNoImage": "No image yet",
+    "previewName": "Product name",
+    "previewPrice": "Price will appear here",
+    "previewDescription": "Description preview",
+    "previewPage": "Product page preview",
+    "addCategory": "Add category",
+    "addProduct": "Add product",
+    "updateProduct": "Save changes",
+    "cancelEdit": "Cancel editing",
+    "edit": "Edit",
+    "productAdded": "Product added successfully.",
+    "productUpdated": "Changes saved.",
+    "deleteAll": "Delete all products",
+    "confirmDeleteAll": "Delete all products? This action cannot be undone.",
+    "confirmDeleteOne": "Delete this product? This action cannot be undone.",
+    "confirmTitle": "Confirm action",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "noCategories": "No categories yet.",
+    "noProducts": "No products yet.",
+    "categoryPlaceholder": "Select category",
+    "statusActive": "Active",
+    "statusInactive": "Hidden"
+  }
+  ,
+  "auth": {
+    "title": "Account access",
+    "subtitle": "Sign in or create a new account",
+    "login": "Sign in",
+    "register": "Register",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "country": "Country",
+    "countryPlaceholder": "Select a country",
+    "address": "Street, building and apartment number",
+    "postalCode": "Postal code",
+    "city": "City",
+    "email": "Email",
+    "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "loginSuccess": "Signed in successfully.",
+    "registerSuccess": "Account created.",
+    "backToSite": "Back to website",
+    "validation": {
+      "email": "Please enter a valid email.",
+      "passwordRequired": "Password is required.",
+      "passwordLength": "Password must be at least 8 characters.",
+      "firstName": "First name is required.",
+      "lastName": "Last name is required.",
+      "phone": "Phone number is required.",
+      "country": "Country is required.",
+      "address": "Address is required.",
+      "postalCode": "Postal code is required.",
+      "city": "City is required."
+    },
+    "countries": {
+      "albania": "Albania",
+      "andorra": "Andorra",
+      "armenia": "Armenia",
+      "austria": "Austria",
+      "azerbaijan": "Azerbaijan",
+      "belarus": "Belarus",
+      "belgium": "Belgium",
+      "bosniaHerzegovina": "Bosnia and Herzegovina",
+      "bulgaria": "Bulgaria",
+      "croatia": "Croatia",
+      "cyprus": "Cyprus",
+      "czechia": "Czechia",
+      "denmark": "Denmark",
+      "estonia": "Estonia",
+      "finland": "Finland",
+      "france": "France",
+      "georgia": "Georgia",
+      "germany": "Germany",
+      "greece": "Greece",
+      "hungary": "Hungary",
+      "iceland": "Iceland",
+      "ireland": "Ireland",
+      "italy": "Italy",
+      "kosovo": "Kosovo",
+      "latvia": "Latvia",
+      "liechtenstein": "Liechtenstein",
+      "lithuania": "Lithuania",
+      "luxembourg": "Luxembourg",
+      "malta": "Malta",
+      "moldova": "Moldova",
+      "monaco": "Monaco",
+      "montenegro": "Montenegro",
+      "netherlands": "Netherlands",
+      "northMacedonia": "North Macedonia",
+      "norway": "Norway",
+      "poland": "Poland",
+      "portugal": "Portugal",
+      "romania": "Romania",
+      "russia": "Russia",
+      "sanMarino": "San Marino",
+      "serbia": "Serbia",
+      "slovakia": "Slovakia",
+      "slovenia": "Slovenia",
+      "spain": "Spain",
+      "sweden": "Sweden",
+      "switzerland": "Switzerland",
+      "turkey": "Turkey",
+      "ukraine": "Ukraine",
+      "unitedKingdom": "United Kingdom",
+      "vatican": "Vatican City"
+    }
+  }
+  ,
+  "account": {
+    "title": "My account",
+    "subtitle": "Your profile details",
+    "backToSite": "Back to website",
+    "menuProfile": "Profile",
+    "menuFavorites": "Favorites",
+    "favoritesTitle": "Saved products",
+    "favoritesEmpty": "You haven't added any favorites yet.",
+    "favoritesView": "View",
+    "favoritesRemove": "Remove",
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "Email",
+      "country": "Country",
+      "address": "Street, building and apartment number",
+      "postalCode": "Postal code",
+      "city": "City"
+    }
+  },
+  "promotionsPage": {
+    "title": "Promotions",
+    "description": "There are no active promotions right now."
+  },
+  "salePage": {
+    "title": "Sale",
+    "description": "There are no active offers right now."
+  },
+  "catalogPage": {
+    "empty": "Products for this category will appear here soon.",
+    "favorites": "Add to favorites",
+    "addToCart": "Add to cart",
+    "categoriesTitle": "Categories",
+    "tagsTitle": "Tags",
+    "priceTitle": "Price, €",
+    "from": "From",
+    "to": "To",
+    "apply": "Filter",
+    "filterTitle": "Filters",
+    "filterOpen": "Filters",
+    "filterClose": "Close",
+    "filterBack": "Back",
+    "filterShow": "Show",
+    "codeLabel": "SKU:",
+    "boughtLabel": "Bought",
+    "outOfStock": "Out of stock",
+    "badges": {
+      "hit": "HIT",
+      "super": "SUPER PRICE",
+      "new": "NEW"
+    }
+  },
+  "productPage": {
+    "favorites": "Add to favorites",
+    "productCode": "Code:",
+    "readyToShip": "In stock",
+    "discountEnds": "Discount ends in {days} days",
+    "buy": "Add to cart",
+    "buyNow": "Buy now",
+    "paymentTitle": "Payment methods",
+    "outOfStock": "Out of stock",
+    "share": "Share",
+    "copied": "Copied",
+    "warrantyTitle": "Product warranty",
+    "warrantyText": "Return conditions and product warranty.",
+    "freeDeliveryTitle": "Free delivery",
+    "freeDeliveryText": "Free from {amount} €."
+  },
+  "favoritesModal": {
+    "title": "Great choice! Save it?",
+    "subtitle": "Sign in or register to save products to Favorites",
+    "login": "Sign in",
+    "register": "Register",
+    "close": "Close",
+    "imageAlt": "Sign in prompt"
   }
 }
 

@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { 
-  Fish, 
   MapPin, 
   Phone, 
   Mail, 
@@ -16,6 +16,7 @@ import {
 
 export default function Footer() {
   const t = useTranslations();
+  const commonT = useTranslations("common");
   const locale = useLocale();
 
   const categories = [
@@ -50,11 +51,11 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder={t("newsletter.placeholder")}
-                className="flex-1 px-5 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5cd915] focus:border-transparent"
+                className="flex-1 px-5 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] focus:border-transparent"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-[#5cd915] text-black font-bold tracking-wide rounded-lg hover:bg-[#4db812] transition-colors flex items-center justify-center gap-2"
+                className="px-6 py-3 bg-[#7dd3fc] text-black font-bold tracking-wide rounded-lg hover:bg-[#f5c542] transition-colors flex items-center justify-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 {t("newsletter.button")}
@@ -70,13 +71,13 @@ export default function Footer() {
           {/* Про компанію */}
           <div className="lg:col-span-1">
             <Link href={`/${locale}`} className="flex items-center gap-3 mb-5">
-              <div className="w-14 h-14 bg-[#5cd915] rounded-full flex items-center justify-center">
-                <Fish className="w-8 h-8 text-black" />
+              <div className="w-14 h-14 rounded-full flex items-center justify-center overflow-hidden">
+                <Image src="/logo.png" alt={commonT("logoAlt")} width={40} height={40} />
               </div>
               <div>
-                <span className="font-heading text-2xl tracking-wider text-white">CARP PRO</span>
-                <div className="text-xs tracking-widest uppercase text-[#5cd915] font-bold">
-                  Official Partner
+                <span className="font-heading text-2xl tracking-wider text-white">DREAMS BAIT</span>
+                <div className="text-xs tracking-widest uppercase text-[#7dd3fc] font-bold">
+                  {commonT("officialPartner")}
                 </div>
               </div>
             </Link>
@@ -88,7 +89,7 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-[#5cd915] rounded-full flex items-center justify-center hover:bg-[#4db812] transition-colors"
+                className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
               >
                 <Facebook className="w-6 h-6 text-black" />
               </a>
@@ -96,7 +97,7 @@ export default function Footer() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-[#5cd915] rounded-full flex items-center justify-center hover:bg-[#4db812] transition-colors"
+                className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
               >
                 <Instagram className="w-6 h-6 text-black" />
               </a>
@@ -104,7 +105,7 @@ export default function Footer() {
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-[#5cd915] rounded-full flex items-center justify-center hover:bg-[#4db812] transition-colors"
+                className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
               >
                 <Youtube className="w-6 h-6 text-black" />
               </a>
@@ -121,7 +122,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-[#5cd915] transition-colors text-sm"
+                    className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -140,7 +141,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-[#5cd915] transition-colors text-sm"
+                    className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -156,29 +157,29 @@ export default function Footer() {
             </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#5cd915] flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-[#7dd3fc] flex-shrink-0 mt-0.5" />
                 <span className="text-gray-400 text-sm">{t("footer.address")}</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#5cd915] flex-shrink-0" />
+                <Phone className="w-5 h-5 text-[#7dd3fc] flex-shrink-0" />
                 <a
                   href="tel:+380991234567"
-                  className="text-gray-400 hover:text-[#5cd915] transition-colors text-sm"
+                  className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                 >
                   +38 (099) 123-45-67
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#5cd915] flex-shrink-0" />
+                <Mail className="w-5 h-5 text-[#7dd3fc] flex-shrink-0" />
                 <a
                   href="mailto:info@carppro.ua"
-                  className="text-gray-400 hover:text-[#5cd915] transition-colors text-sm"
+                  className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                 >
                   info@carppro.ua
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-[#5cd915] flex-shrink-0" />
+                <Clock className="w-5 h-5 text-[#7dd3fc] flex-shrink-0" />
                 <span className="text-gray-400 text-sm">{t("footer.workHours")}</span>
               </li>
             </ul>
@@ -191,10 +192,10 @@ export default function Footer() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
             <p>
-              © {new Date().getFullYear()} Carp Pro. {t("footer.copyright")}
+              © {new Date().getFullYear()} Dreams Bait. {t("footer.copyright")}
             </p>
             <div className="flex items-center gap-6">
-              <span>🇺🇦 Made in Ukraine</span>
+              <span>🇺🇦 {commonT("madeInUkraine")}</span>
             </div>
           </div>
         </div>

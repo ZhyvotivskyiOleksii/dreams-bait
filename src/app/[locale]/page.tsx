@@ -10,10 +10,9 @@ import {
   ChevronRight,
   BadgeCheck,
   MapPin,
-  Check,
-  ShoppingCart
+  Check
 } from "lucide-react";
-import HeroSlider from "@/components/HeroSlider";
+import BestsellersGrid from "@/components/BestsellersGrid";
 
 export default function HomePage() {
   const t = useTranslations();
@@ -21,166 +20,132 @@ export default function HomePage() {
   const categories = [
     {
       id: "carp-rods",
-      name: "КАРПОВІ ВУДКИ",
-      image: "/category/wendka.png",
+      name: t("home.categories.carpRods"),
+      image: "/category/wendka.webp",
     },
     {
       id: "carp-reels",
-      name: "КАРПОВІ КОТУШКИ",
+      name: t("home.categories.carpReels"),
       image: "/category/kolowrotek.webp",
     },
     {
       id: "feeder-rods",
-      name: "ФІДЕРНІ ВУДКИ",
-      image: "/category/wendka.png",
+      name: t("home.categories.feederRods"),
+      image: "/category/wendka.webp",
     },
     {
       id: "feeder-reels",
-      name: "ФІДЕРНІ КОТУШКИ",
-      image: "/category/kolowrotek.webp",
-    },
-    {
-      id: "spinning-rods",
-      name: "СПІНІНГОВІ ВУДКИ",
-      image: "/category/wendka.png",
-    },
-    {
-      id: "spinning-reels",
-      name: "СПІНІНГОВІ КОТУШКИ",
+      name: t("home.categories.feederReels"),
       image: "/category/kolowrotek.webp",
     },
     {
       id: "lines",
-      name: "ЛЕСКИ, ШНУРИ",
-      image: "/category/lead-core.png",
+      name: t("home.categories.lines"),
+      image: "/category/zylki.jpg",
     },
     {
       id: "hooks",
-      name: "ГАЧКИ",
-      image: "/category/baits.webp",
+      name: t("home.categories.hooks"),
+      image: "/category/aksesoria.jpg",
     },
     {
       id: "baits",
-      name: "ПРИМАНКИ",
-      image: "/category/baits.webp",
+      name: t("home.categories.baits"),
+      image: "/category/zenety.jpg",
     },
     {
       id: "accessories",
-      name: "ЗИМОВЕ ОСНАЩЕННЯ",
-      image: "/category/acsesoria.jpg",
+      name: t("home.categories.accessories"),
+      image: "/category/aksesoria.jpg",
     },
     {
       id: "clothing",
-      name: "ОДЯГ, ВЗУТТЯ",
-      image: "/category/odziezh.png",
+      name: t("home.categories.clothing"),
+      image: "/category/camping.webp",
     },
     {
       id: "camping",
-      name: "ТУРИЗМ, КЕМПІНГ",
-      image: "/category/namiot.jpg",
+      name: t("home.categories.camping"),
+      image: "/category/camping.webp",
     },
+  ];
+
+  const bestsellers = [
+    { id: "hit-1", name: t("home.bestsellers.items.hit1"), oldPrice: 20250, price: 16200, discount: 20, image: "/category/namiot.jpg" },
+    { id: "hit-2", name: t("home.bestsellers.items.hit2"), oldPrice: 153, price: 115, discount: 25, image: "/category/zenety.jpg" },
+    { id: "hit-3", name: t("home.bestsellers.items.hit3"), oldPrice: 16848, price: 13478, discount: 20, image: "/category/camping.webp" },
+    { id: "hit-4", name: t("home.bestsellers.items.hit4"), oldPrice: 1700, price: 1275, discount: 25, image: "/category/camping.webp" },
+    { id: "hit-5", name: t("home.bestsellers.items.hit5"), oldPrice: 4257, price: 3406, discount: 20, image: "/category/aksesoria.jpg" },
   ];
 
   return (
     <>
       {/* Hero секція */}
-      <section className="relative min-h-screen flex items-center justify-center">
-        {/* Слайдер фонових зображень */}
-        <HeroSlider />
-
-
-        {/* Контент */}
-        <div className="relative z-10 container mx-auto px-4 py-32 text-center">
-          <div className="max-w-5xl mx-auto">
-            {/* Бейдж партнерства */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-black/60 backdrop-blur-sm rounded-full mb-8 animate-fade-in" style={{ border: '2px solid #5cd915' }}>
-              <BadgeCheck className="w-5 h-5" style={{ color: '#5cd915' }} />
-              <span className="text-white font-semibold text-sm uppercase tracking-wider">
-                Офіційний партнер Carp Pro в Польщі
-              </span>
-              <MapPin className="w-4 h-4" style={{ color: '#5cd915' }} />
-            </div>
-
-            {/* Головний заголовок */}
-            <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-4 leading-[0.9] animate-fade-in tracking-tight">
-              {t("hero.title")}
-            </h1>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-8 animate-fade-in tracking-tight gradient-text" style={{ animationDelay: "0.1s" }}>
-              {t("hero.subtitle")}
-            </h2>
-            
-            {/* Опис */}
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6 animate-fade-in font-medium" style={{ animationDelay: "0.2s" }}>
-              {t("hero.description")}
-            </p>
-
-            {/* Переваги партнерства */}
-            <div className="flex flex-wrap justify-center gap-8 mb-10 animate-fade-in" style={{ animationDelay: "0.25s" }}>
-              <div className="flex items-center gap-2 text-white text-sm font-bold">
-                <Check className="w-6 h-6" style={{ color: '#5cd915' }} />
-                Оригінальна продукція
-              </div>
-              <div className="flex items-center gap-2 text-white text-sm font-bold">
-                <Check className="w-6 h-6" style={{ color: '#5cd915' }} />
-                Офіційна гарантія
-              </div>
-              <div className="flex items-center gap-2 text-white text-sm font-bold">
-                <Check className="w-6 h-6" style={{ color: '#5cd915' }} />
-                Доставка по Європі
-              </div>
-            </div>
-
-            {/* Кнопки */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Link 
-                href="/uk/catalog" 
-                className="group inline-flex items-center gap-2 px-8 py-4 text-black font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105"
-                style={{ backgroundColor: '#5cd915' }}
-              >
-                {t("hero.cta")}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/uk/about" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white font-bold text-lg rounded-xl transition-all duration-300 hover:bg-white hover:text-black">
-                {t("hero.secondary")}
-              </Link>
-            </div>
-          </div>
+      <section className="relative h-[80vh] overflow-hidden bg-slate-900 text-white">
+        {/* Фонове зображення */}
+        <div className="absolute inset-0">
+          <Image
+            src="/hero-images/hero-bg.png"
+            alt={t("home.hero.backgroundAlt")}
+            fill
+            priority
+            className="object-fill object-center"
+          />
         </div>
 
-      </section>
+        {/* Абстрактний фон */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/60" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(125,211,252,0.25),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.18),transparent_40%)] mix-blend-screen" />
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_45%,rgba(125,211,252,0.15)_60%,rgba(255,255,255,0)_100%)] opacity-70" />
+        <div className="absolute inset-0 opacity-[0.07] mix-blend-soft-light [background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.18)_0px,rgba(255,255,255,0.18)_1px,rgba(255,255,255,0)_2px,rgba(255,255,255,0)_4px)]" />
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute -top-10 left-10 h-40 w-40 rounded-full border border-white/25" />
+          <div className="absolute top-10 right-16 h-28 w-28 rounded-full border border-white/15" />
+          <div className="absolute bottom-20 left-20 h-24 w-24 rounded-full border border-white/15" />
+          <div className="absolute top-20 left-1/2 h-64 w-[2px] bg-white/15" />
+          <div className="absolute bottom-10 right-1/3 h-[2px] w-48 bg-white/15" />
+        </div>
+        <div className="absolute -top-48 left-1/2 w-[720px] h-[720px] -translate-x-1/2 rounded-full bg-[#7dd3fc]/18 blur-3xl" />
+        <div className="absolute -bottom-48 right-[-10%] w-[520px] h-[520px] rounded-full bg-white/10 blur-3xl" />
+        
 
-      {/* Переваги - на границі hero секції */}
-      <section className="relative z-30 -mt-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-2xl p-6 text-center shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(92, 217, 21, 0.15)' }}>
-                <Award className="w-7 h-7" style={{ color: '#5cd915' }} />
+        <div className="relative z-10 container mx-auto px-4 pt-28 pb-8 lg:pt-32 lg:pb-10">
+          <div className="grid lg:grid-cols-[1fr] gap-10 lg:gap-16 items-center">
+            <div className="text-center lg:text-left lg:max-w-3xl">
+
+              <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-4 leading-[0.92] tracking-tight">
+                {t("hero.title")}
+              </h1>
+              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 tracking-tight gradient-text">
+                {t("hero.subtitle")}
+              </h2>
+              <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 mb-8 font-medium">
+                {t("hero.description")}
+              </p>
+
+              <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
+                <div className="group flex items-center gap-3 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-white/20 transition">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#7dd3fc]/20 border border-[#7dd3fc]/40">
+                    <Check className="w-4 h-4 text-[#7dd3fc]" />
+                  </span>
+                  {t("home.hero.bullets.original")}
+                </div>
+                <div className="group flex items-center gap-3 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-white/20 transition">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#7dd3fc]/20 border border-[#7dd3fc]/40">
+                    <Check className="w-4 h-4 text-[#7dd3fc]" />
+                  </span>
+                  {t("home.hero.bullets.warranty")}
+                </div>
+                <div className="group flex items-center gap-3 text-white text-sm font-semibold px-5 py-2.5 rounded-full border border-white/15 bg-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.25)] hover:bg-white/20 transition">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#7dd3fc]/20 border border-[#7dd3fc]/40">
+                    <Check className="w-4 h-4 text-[#7dd3fc]" />
+                  </span>
+                  {t("home.hero.bullets.delivery")}
+                </div>
               </div>
-              <h3 className="font-heading text-base text-gray-900">{t("features.quality.title")}</h3>
-              <p className="text-sm text-gray-500 mt-1">Тільки оригінал</p>
+
             </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(92, 217, 21, 0.15)' }}>
-                <Truck className="w-7 h-7" style={{ color: '#5cd915' }} />
-              </div>
-              <h3 className="font-heading text-base text-gray-900">{t("features.delivery.title")}</h3>
-              <p className="text-sm text-gray-500 mt-1">1-3 дні по Європі</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(92, 217, 21, 0.15)' }}>
-                <Headphones className="w-7 h-7" style={{ color: '#5cd915' }} />
-              </div>
-              <h3 className="font-heading text-base text-gray-900">{t("features.support.title")}</h3>
-              <p className="text-sm text-gray-500 mt-1">Завжди на зв&apos;язку</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(92, 217, 21, 0.15)' }}>
-                <Shield className="w-7 h-7" style={{ color: '#5cd915' }} />
-              </div>
-              <h3 className="font-heading text-base text-gray-900">{t("features.warranty.title")}</h3>
-              <p className="text-sm text-gray-500 mt-1">Офіційна гарантія</p>
-            </div>
+
           </div>
         </div>
       </section>
@@ -189,7 +154,7 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="font-heading text-3xl md:text-4xl text-slate-800 mb-8 italic">
-            Популярні категорії
+            {t("home.popular.title")}
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -219,7 +184,7 @@ export default function HomePage() {
                 </div>
                 
                 {/* Hover ефект */}
-                <div className="absolute inset-0 bg-[#5cd915]/0 group-hover:bg-[#5cd915]/20 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-[#7dd3fc]/0 group-hover:bg-[#7dd3fc]/20 transition-colors duration-300" />
               </Link>
             ))}
           </div>
@@ -233,13 +198,13 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
               <h2 className="font-heading text-3xl md:text-4xl text-slate-800">
-                Хіт продажів
+                {t("home.bestsellers.title")}
               </h2>
               <Link 
                 href="/uk/catalog/bestsellers" 
-                className="text-[#5cd915] font-semibold hover:underline flex items-center gap-1"
+                className="text-[#7dd3fc] font-semibold hover:underline flex items-center gap-1"
               >
-                Всі товари
+                {t("home.bestsellers.viewAll")}
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -258,15 +223,15 @@ export default function HomePage() {
             {/* Промо банер */}
             <div className="col-span-2 md:col-span-1 relative rounded-2xl overflow-hidden bg-gradient-to-b from-sky-300 to-sky-100 p-6 flex flex-col justify-between min-h-[320px]">
               <div>
-                <p className="font-heading text-2xl text-slate-800 leading-tight">
-                  ХОЧУ<br/>ТАКЕ<br/>САМЕ
+                <p className="font-heading text-2xl text-slate-800 leading-tight whitespace-pre-line">
+                  {t("home.bestsellers.promoTitle")}
                 </p>
               </div>
               <Link 
                 href="/uk/catalog" 
-                className="inline-flex items-center gap-2 bg-[#5cd915] text-white font-bold px-5 py-2.5 rounded-full w-fit hover:bg-[#4bc010] transition-colors"
+                className="inline-flex items-center gap-2 bg-[#7dd3fc] text-white font-bold px-5 py-2.5 rounded-full w-fit hover:bg-[#38bdf8] transition-colors"
               >
-                Більше
+                {t("home.bestsellers.more")}
                 <ArrowRight className="w-4 h-4" />
               </Link>
               {/* Декоративні елементи */}
@@ -274,51 +239,9 @@ export default function HomePage() {
               <div className="absolute bottom-20 right-8 w-20 h-20 bg-orange-500 rounded-full" />
             </div>
 
-            {/* Картки товарів */}
-            {[
-              { name: "Намет Carp Pro Diamond Dome 2 Man", oldPrice: 20250, price: 16200, discount: 20, image: "/category/namiot.jpg" },
-              { name: "Світлячки Flagman 4.5x39мм 2шт", oldPrice: 153, price: 115, discount: 25, image: "/category/baits.webp" },
-              { name: "Шатер карповий Carp Pro Maxi Shelter", oldPrice: 16848, price: 13478, discount: 20, image: "/category/namiot.jpg" },
-              { name: "Парасолька рибальська Flagman", oldPrice: 1700, price: 1275, discount: 25, image: "/category/namiot.jpg" },
-              { name: "Род-под Carp Pro на 3 вудки 123 DL", oldPrice: 4257, price: 3406, discount: 20, image: "/category/acsesoria.jpg" },
-            ].map((product, idx) => (
-              <div key={idx} className="relative bg-white rounded-2xl border border-gray-200 p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                {/* Бейдж ХІТ */}
-                <span className="absolute top-3 left-3 z-10 bg-[#5cd915] text-white text-xs font-bold px-2 py-1 rounded">
-                  ХІТ
-                </span>
-                
-                {/* Зображення */}
-                <div className="h-32 relative mb-4 rounded-lg overflow-hidden bg-gray-50">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="200px"
-                    className="object-contain p-2"
-                  />
-                </div>
-                
-                {/* Назва */}
-                <h3 className="text-sm text-gray-800 mb-3 line-clamp-2 min-h-[40px] font-medium">
-                  {product.name}
-                </h3>
-                
-                {/* Ціни */}
-                <div className="flex items-end justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-gray-400 line-through text-xs">{product.oldPrice}</span>
-                      <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">-{product.discount}%</span>
-                    </div>
-                    <span className="text-[#5cd915] font-bold text-base">{product.price} грн</span>
-                  </div>
-                  <button className="w-9 h-9 rounded-full border-2 border-[#5cd915] text-[#5cd915] flex items-center justify-center hover:bg-[#5cd915] hover:text-white transition-colors">
-                    <ShoppingCart className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
+            <div className="col-span-2 md:col-span-2 lg:col-span-5">
+              <BestsellersGrid products={bestsellers} />
+            </div>
           </div>
         </div>
       </section>
@@ -326,52 +249,51 @@ export default function HomePage() {
       {/* Банер партнерства */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="rounded-3xl overflow-hidden relative" style={{ backgroundColor: '#1a2e1a' }}>
+          <div className="rounded-3xl overflow-hidden relative" style={{ backgroundColor: "#0b1e2e" }}>
             {/* Декоративне зображення */}
             <div className="absolute top-0 right-0 w-1/3 h-full opacity-20 hidden lg:block">
               <Image src="/hero-images/5.jpg" alt="" fill className="object-cover" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1a] via-[#1a2e1a]/95 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0b1e2e] via-[#0b1e2e]/95 to-transparent" />
             
             <div className="relative z-10 p-8 md:p-12 lg:p-16">
               <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                 <div className="text-center lg:text-left max-w-2xl">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ backgroundColor: 'rgba(92, 217, 21, 0.2)', border: '1px solid rgba(92, 217, 21, 0.4)' }}>
-                    <BadgeCheck className="w-5 h-5" style={{ color: '#5cd915' }} />
-                    <span style={{ color: '#8cff47' }} className="text-sm font-semibold uppercase tracking-wider">Офіційний дистриб&apos;ютор</span>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ backgroundColor: "rgba(125, 211, 252, 0.2)", border: "1px solid rgba(125, 211, 252, 0.4)" }}>
+                    <BadgeCheck className="w-5 h-5" style={{ color: "#7dd3fc" }} />
+                    <span style={{ color: "#bae6fd" }} className="text-sm font-semibold uppercase tracking-wider">{t("home.partner.badge")}</span>
                   </div>
                   <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-white mb-4">
-                    CARP PRO — ЯКІСТЬ БЕЗ КОМПРОМІСІВ
+                    {t("home.partner.title")}
                   </h2>
                   <p className="text-white/80 text-lg max-w-xl mb-8">
-                    Ми є офіційним партнером компанії Carp Pro в Польщі. Гарантуємо 100% оригінальну продукцію, 
-                    офіційну гарантію та сервісне обслуговування.
+                    {t("home.partner.description")}
                   </p>
                   
                   {/* Переваги */}
                   <div className="grid grid-cols-3 gap-6">
                     <div className="text-center">
                       <div className="text-3xl font-heading text-white mb-1">100%</div>
-                      <div className="text-white/60 text-sm">Оригінал</div>
+                      <div className="text-white/60 text-sm">{t("home.partner.stats.original")}</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-heading text-white mb-1">24/7</div>
-                      <div className="text-white/60 text-sm">Підтримка</div>
+                      <div className="text-white/60 text-sm">{t("home.partner.stats.support")}</div>
                     </div>
                     <div className="text-center">
                       <div className="text-3xl font-heading text-white mb-1">2+</div>
-                      <div className="text-white/60 text-sm">Роки гарантії</div>
+                      <div className="text-white/60 text-sm">{t("home.partner.stats.warranty")}</div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex flex-col gap-4">
-                  <Link href="/uk/catalog" className="inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105" style={{ backgroundColor: '#5cd915', color: '#0f0f0f' }}>
-                    Переглянути каталог
+                  <Link href="/uk/catalog" className="inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105" style={{ backgroundColor: "#7dd3fc", color: "#0f0f0f" }}>
+                    {t("home.partner.primaryCta")}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                   <Link href="/uk/about" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 hover:border-white text-white font-bold text-lg rounded-xl transition-all duration-300 hover:bg-white/10">
-                    Про партнерство
+                    {t("home.partner.secondaryCta")}
                   </Link>
                 </div>
               </div>
@@ -383,22 +305,22 @@ export default function HomePage() {
       {/* Акційний банер */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <div className="rounded-2xl overflow-hidden relative" style={{ backgroundColor: '#5cd915' }}>
+          <div className="rounded-2xl overflow-hidden relative" style={{ backgroundColor: "#7dd3fc" }}>
             <div className="relative z-10 p-6 md:p-8 lg:p-10">
               <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div className="max-w-md text-center lg:text-left">
                   <span className="inline-block px-3 py-1.5 bg-black/20 rounded-full text-white text-xs font-semibold uppercase tracking-wider mb-4">
-                    🎣 Сезон відкрито
+                    {t("home.promo.badge")}
                   </span>
                   <h2 className="font-heading text-3xl md:text-4xl text-white mb-4 leading-tight">
-                    ГОТОВИЙ ДО СЕЗОНУ?
+                    {t("home.promo.title")}
                   </h2>
                   <p className="text-white/90 text-base mb-6 max-w-sm">
-                    Знижки до <span className="font-bold text-black">-30%</span> на топові бренди!
+                    {t("home.promo.discountPrefix")} <span className="font-bold text-black">-30%</span> {t("home.promo.discountSuffix")}
                   </p>
                   <div className="flex gap-3 justify-center lg:justify-start">
                     <Link href="/uk/catalog?sale=true" className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-bold rounded-xl hover:bg-gray-900 transition-all duration-300 hover:scale-105">
-                      Дивитись акції
+                      {t("home.promo.cta")}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
@@ -407,10 +329,10 @@ export default function HomePage() {
                 {/* Колаж товарів */}
                 <div className="flex gap-3">
                   {[
-                    { image: "/category/wendka.png", name: "Вудки", href: "/uk/catalog/rods" },
-                    { image: "/category/kolowrotek.webp", name: "Котушки", href: "/uk/catalog/reels" },
-                    { image: "/category/namiot.jpg", name: "Намети", href: "/uk/catalog/tents" },
-                    { image: "/category/baits.webp", name: "Приманки", href: "/uk/catalog/baits" },
+                    { image: "/category/wendka.png", name: t("categories.rods"), href: "/uk/catalog/rods" },
+                    { image: "/category/kolowrotek.webp", name: t("categories.reels"), href: "/uk/catalog/reels" },
+                    { image: "/category/namiot.jpg", name: t("categories.camping"), href: "/uk/catalog/tents" },
+                    { image: "/category/baits.webp", name: t("categories.bait"), href: "/uk/catalog/baits" },
                   ].map((item, idx) => (
                     <Link
                       key={idx}
