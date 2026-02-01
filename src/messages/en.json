@@ -86,7 +86,9 @@
     "loading": "Loading...",
     "changeLanguage": "Change language",
     "closeMenu": "Close menu",
-    "languageLabel": "Language"
+    "languageLabel": "Language",
+    "expand": "Expand",
+    "collapse": "Collapse"
   },
   "header": {
     "promotions": "Promotions",
@@ -179,20 +181,23 @@
     "itemsCount": "Items: {count}",
     "checkout": "Proceed",
     "checkoutWithTotal": "Proceed · {total} {currency}",
+    "payWithTotal": "Pay · {total} {currency}",
     "checkoutNote": "We will contact you to confirm after checkout.",
     "stepCart": "Cart",
     "stepCartNote": "Cart value",
     "stepDetails": "Your details",
     "stepDetailsNote": "Log in or provide details",
+    "detailsAuthedSubtitle": "Review and update your delivery address if needed.",
     "stepDelivery": "Delivery & payment",
     "stepDeliveryNote": "Choose a method",
     "stepConfirm": "Verification",
     "stepConfirmNote": "Review the order",
+    "stepDone": "Completed",
     "loginTitle": "Login",
     "loginSubtitle": "Log in to checkout faster.",
     "loginButton": "Log in",
     "newClientTitle": "New customer",
-    "newClientSubtitle": "Provide your details and place the order.",
+    "newClientSubtitle": "If you haven't created an account in our store before, you'll be asked to provide your details and delivery address.",
     "newClientBenefit1": "Order history",
     "newClientBenefit2": "Faster checkout",
     "newClientBenefit3": "Discounts and bonuses",
@@ -203,6 +208,12 @@
     "loginModalLogin": "Log in",
     "loginModalRegister": "Create account",
     "loginModalClose": "Close"
+  },
+  "payment": {
+    "title": "PayU",
+    "subtitle": "Choose a payment method",
+    "methods": "Payment methods",
+    "payWithTotal": "Pay · {total} {currency}"
   },
   "currency": {
     "uah": "€"

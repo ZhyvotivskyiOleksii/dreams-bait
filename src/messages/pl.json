@@ -87,7 +87,9 @@
     "loading": "Ładowanie...",
     "changeLanguage": "Zmień język",
     "closeMenu": "Zamknij menu",
-    "languageLabel": "Język"
+    "languageLabel": "Język",
+    "expand": "Rozwiń",
+    "collapse": "Zwiń"
   },
   "header": {
     "promotions": "Promocje",
@@ -180,20 +182,23 @@
     "itemsCount": "Produktów: {count}",
     "checkout": "Przejdź dalej",
     "checkoutWithTotal": "Przejdź dalej · {total} {currency}",
+    "payWithTotal": "Zapłać · {total} {currency}",
     "checkoutNote": "Po złożeniu zamówienia skontaktujemy się z Tobą.",
     "stepCart": "Koszyk",
     "stepCartNote": "Wartość koszyka",
     "stepDetails": "Twoje dane",
     "stepDetailsNote": "Zaloguj się lub podaj dane",
+    "detailsAuthedSubtitle": "Sprawdź i w razie potrzeby zmień adres dostawy.",
     "stepDelivery": "Dostawa i płatność",
     "stepDeliveryNote": "Wybierz sposób",
     "stepConfirm": "Weryfikacja",
     "stepConfirmNote": "Sprawdź zamówienie",
+    "stepDone": "Ukończono",
     "loginTitle": "Logowanie",
     "loginSubtitle": "Zaloguj się, aby szybciej złożyć zamówienie.",
     "loginButton": "Zaloguj się",
     "newClientTitle": "Nowy klient",
-    "newClientSubtitle": "Podaj dane i złóż zamówienie.",
+    "newClientSubtitle": "Jeśli wcześniej nie utworzyłeś konta w naszym sklepie, poprosimy o podanie danych i adresu dostawy.",
     "newClientBenefit1": "Historia zamówień",
     "newClientBenefit2": "Szybsze zakupy",
     "newClientBenefit3": "Rabaty i bonusy",
@@ -204,6 +209,12 @@
     "loginModalLogin": "Zaloguj się",
     "loginModalRegister": "Utwórz konto",
     "loginModalClose": "Zamknij"
+  },
+  "payment": {
+    "title": "PayU",
+    "subtitle": "Wybierz metodę płatności",
+    "methods": "Sposoby płatności",
+    "payWithTotal": "Zapłać · {total} {currency}"
   },
   "currency": {
     "uah": "€"

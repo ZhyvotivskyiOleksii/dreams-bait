@@ -86,7 +86,9 @@
     "loading": "Завантаження...",
     "changeLanguage": "Змінити мову",
     "closeMenu": "Закрити меню",
-    "languageLabel": "Мова"
+    "languageLabel": "Мова",
+    "expand": "Розгорнути",
+    "collapse": "Згорнути"
   },
   "header": {
     "promotions": "Акції",
@@ -179,20 +181,23 @@
     "itemsCount": "Товарів: {count}",
     "checkout": "Оформити замовлення",
     "checkoutWithTotal": "Перейти далі · {total} {currency}",
+    "payWithTotal": "Оплатити · {total} {currency}",
     "checkoutNote": "Після оформлення ми зв'яжемося з вами для підтвердження.",
     "stepCart": "Кошик",
     "stepCartNote": "Вартість кошика",
     "stepDetails": "Твої дані",
     "stepDetailsNote": "Увійдіть або введіть дані",
+    "detailsAuthedSubtitle": "Перевірте та за потреби змініть адресу доставки.",
     "stepDelivery": "Доставка і оплата",
     "stepDeliveryNote": "Обери спосіб",
     "stepConfirm": "Перевірка",
     "stepConfirmNote": "Підтверди замовлення",
+    "stepDone": "Пройдено",
     "loginTitle": "Вхід",
     "loginSubtitle": "Увійди, щоб швидше оформити замовлення.",
     "loginButton": "Увійти",
     "newClientTitle": "Новий клієнт",
-    "newClientSubtitle": "Введи дані та оформи замовлення.",
+    "newClientSubtitle": "Якщо ви раніше не створювали обліковий запис у нашому магазині, вас попросять надати свої дані та адресу доставки.",
     "newClientBenefit1": "Історія замовлень",
     "newClientBenefit2": "Швидке оформлення",
     "newClientBenefit3": "Знижки та бонуси",
@@ -203,6 +208,12 @@
     "loginModalLogin": "Увійти",
     "loginModalRegister": "Створити акаунт",
     "loginModalClose": "Закрити"
+  },
+  "payment": {
+    "title": "PayU",
+    "subtitle": "Оберіть спосіб оплати",
+    "methods": "Способи оплати",
+    "payWithTotal": "Оплатити · {total} {currency}"
   },
   "currency": {
     "uah": "€"

@@ -38,6 +38,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [userId, setUserId] = useState<string | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [toast, setToast] = useState<{ id: number; name: string } | null>(null);
+  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -64,13 +65,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!isReady || isAuthed) return;
+    if (!isReady || isAuthed || !hasLoadedStorage) return;
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
       // Ignore storage write errors
     }
-  }, [items, isAuthed, isReady]);
+  }, [items, isAuthed, isReady, hasLoadedStorage]);
 
   useEffect(() => {
     if (!isReady) return;
@@ -95,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const syncGuest = async () => {
         try {
-          const stored = sessionStorage.getItem(STORAGE_KEY);
+          const stored = localStorage.getItem(STORAGE_KEY);
           if (!stored) return;
           const parsed = JSON.parse(stored) as CartItem[];
           if (!Array.isArray(parsed) || parsed.length === 0) return;
@@ -110,7 +111,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           await supabase
             .from("cart_items")
             .upsert(payload, { onConflict: "user_id,product_id" });
-          sessionStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(STORAGE_KEY);
         } catch {
           // Ignore sync errors
         }
@@ -119,15 +120,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       syncGuest().then(loadFromDb);
     } else {
       try {
-        const stored = sessionStorage.getItem(STORAGE_KEY);
+        const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored) as CartItem[];
           if (Array.isArray(parsed)) {
             setItems(parsed);
           }
         }
+        setHasLoadedStorage(true);
       } catch {
         // Ignore storage parsing errors
+        setHasLoadedStorage(true);
       }
     }
   }, [isAuthed, isReady, userId]);
@@ -154,6 +157,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           },
           { onConflict: "user_id,product_id" }
         );
+      } else {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+          setHasLoadedStorage(true);
+        } catch {
+          // Ignore storage write errors
+        }
       }
       return next;
     });
@@ -212,7 +222,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       supabase.from("cart_items").delete().eq("user_id", userId);
     } else {
       try {
-        sessionStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEY);
       } catch {
         // Ignore storage errors
       }
@@ -229,7 +239,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider value={value}>
       {children}
       {toast && (
-        <div className="fixed top-6 right-6 z-[70] flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-xl">
+        <div className="fixed top-24 right-6 z-[70] flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-xl">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
             <CheckCircle2 className="h-5 w-5" />
           </span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Globe, ChevronDown } from "lucide-react";
 import clsx from "clsx";
@@ -18,10 +18,12 @@ export default function LanguageSwitcher({ isScrolled = false, variant = "header
   const commonT = useTranslations("common");
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleLocaleChange = (newLocale: Locale) => {
     const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
-    router.push(newPathname);
+    const query = searchParams.toString();
+    router.push(query ? `${newPathname}?${query}` : newPathname);
     setIsOpen(false);
   };
 

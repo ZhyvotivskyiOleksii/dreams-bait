@@ -69,13 +69,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           ) : (
             items.map((item) => (
               <div key={item.id} className="flex gap-3 border-b border-gray-100 pb-4">
-                <div className="w-16 h-16 relative rounded-lg overflow-hidden bg-gray-50 flex-shrink-0">
+                <div className="w-16 h-16 relative rounded-lg overflow-hidden bg-white flex-shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     sizes="64px"
-                    className="object-contain p-2"
+                    className="object-cover"
                   />
                 </div>
                 <div className="flex-1">
