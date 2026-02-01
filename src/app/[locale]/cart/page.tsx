@@ -61,8 +61,8 @@ export default function CartPage() {
             const steps = [
               { icon: ShoppingCart, title: t("cart.stepCart"), subtitle: t("cart.stepCartNote") },
               { icon: User, title: t("cart.stepDetails"), subtitle: t("cart.stepDetailsNote") },
-              { icon: Truck, title: t("cart.stepDelivery"), subtitle: t("cart.stepDeliveryNote") },
               { icon: CheckCircle2, title: t("cart.stepConfirm"), subtitle: t("cart.stepConfirmNote") },
+              { icon: Truck, title: t("cart.stepDelivery"), subtitle: t("cart.stepDeliveryNote") },
             ];
             const currentStep = 0;
             const progressPercent =

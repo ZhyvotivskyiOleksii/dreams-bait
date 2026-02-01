@@ -273,7 +273,7 @@ export default function CatalogClient({
             <p className="text-slate-600">{labels.empty}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-0.5 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0.5 sm:gap-4">
             {filteredProducts.map((product) => {
               const discount =
                 product.oldPrice && product.oldPrice > product.price
@@ -290,7 +290,7 @@ export default function CatalogClient({
               return (
                 <div
                   key={product.id}
-                  className="relative w-full max-w-[175px] sm:max-w-none bg-white rounded-2xl border border-slate-200 p-2.5 sm:p-3 hover:shadow-xl transition-all duration-300"
+                  className="relative w-full max-w-[175px] sm:max-w-none lg:max-w-[266px] bg-white rounded-2xl border border-slate-200 p-2.5 sm:p-3 hover:shadow-xl transition-all duration-300"
                 >
                   <div className="absolute top-2 left-2 z-10 flex flex-wrap items-center gap-1">
                     {product.badge && (

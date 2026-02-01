@@ -101,7 +101,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ]}
         />
 
-        <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_540px]">
           <div className="space-y-6">
             <ProductGallery
               images={galleryImages}
@@ -203,7 +203,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {paymentMethods.map((item) => (
                   <span
                     key={item.label}
-                    className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm"
+                    className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2"
                   >
                     <span className="relative h-7 w-16">
                       <Image
