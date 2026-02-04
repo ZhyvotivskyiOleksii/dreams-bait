@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { getProductBySlugOrId } from "@/lib/catalogData";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
+import type { Locale } from "@/i18n";
 
 type FavoriteItem = {
   id: string;
@@ -35,7 +36,7 @@ export default function AccountPage() {
   const commonT = useTranslations("common");
   const breadcrumbsT = useTranslations("breadcrumbs");
   const navT = useTranslations("nav");
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -268,7 +269,7 @@ export default function AccountPage() {
                         </Link>
                         <button
                           type="button"
-                          onClick={() => handleRemoveFavorite(item.slug, item.id)}
+                          onClick={() => handleRemoveFavorite(item.slug || item.id, item.id)}
                           className="rounded-full bg-[#7dd3fc] px-3 py-1 text-xs font-semibold text-black hover:bg-[#f5c542]"
                         >
                           {t("favoritesRemove")}

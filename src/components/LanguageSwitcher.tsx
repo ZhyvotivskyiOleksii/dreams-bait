@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Globe, ChevronDown } from "lucide-react";
 import clsx from "clsx";
-import { locales, localeNames, localeFlags, type Locale } from "@/i18n/request";
+import { locales, localeNames, localeFlags, type Locale } from "@/i18n";
 
 interface LanguageSwitcherProps {
   isScrolled?: boolean;

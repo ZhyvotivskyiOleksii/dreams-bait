@@ -1,23 +1,30 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { createTranslator } from "use-intl/core";
 import Image from "next/image";
 import {
   getCategoryBySlug,
   getProductsByCategory,
+  catalogSlugs,
 } from "@/lib/catalogData";
 import CatalogClient from "@/components/CatalogClient";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
-
-export const dynamic = "force-dynamic";
+import { locales, type Locale } from "@/i18n";
 
 type CatalogPageProps = {
-  params: { slug: string };
+  params: { slug: string; locale: Locale };
 };
 
+export function generateStaticParams() {
+  return locales.flatMap((locale) =>
+    catalogSlugs.map((slug) => ({ locale, slug }))
+  );
+}
+
 export default async function CatalogPage({ params }: CatalogPageProps) {
-  const { slug } = params;
-  const locale = (await getLocale()) as "uk" | "pl" | "en";
-  const t = await getTranslations();
+  const { slug, locale } = params;
+  const messages = (await import(`@/messages/${locale}.json`)).default;
+  const t = createTranslator({ locale, messages });
 
   const category = await getCategoryBySlug(slug);
   if (!category) {
@@ -68,35 +75,37 @@ export default async function CatalogPage({ params }: CatalogPageProps) {
           </div>
         </div>
 
-        <CatalogClient
-          locale={locale}
-          activeCategorySlug={slug}
-          categories={categories}
-          products={products}
-          labels={{
-            categoriesTitle: t("catalogPage.categoriesTitle"),
-            tagsTitle: t("catalogPage.tagsTitle"),
-            priceTitle: t("catalogPage.priceTitle"),
-            from: t("catalogPage.from"),
-            to: t("catalogPage.to"),
-            apply: t("catalogPage.apply"),
-            filterTitle: t("catalogPage.filterTitle"),
-            filterOpen: t("catalogPage.filterOpen"),
-            filterClose: t("catalogPage.filterClose"),
-            filterBack: t("catalogPage.filterBack"),
-            filterShow: t("catalogPage.filterShow"),
-            empty: t("catalogPage.empty"),
-            favorites: t("catalogPage.favorites"),
-            addToCart: t("catalogPage.addToCart"),
-            codeLabel: t("catalogPage.codeLabel"),
-            boughtLabel: t("catalogPage.boughtLabel"),
-            outOfStock: t("catalogPage.outOfStock"),
-            badgeHit: t("catalogPage.badges.hit"),
-            badgeSuper: t("catalogPage.badges.super"),
-            badgeNew: t("catalogPage.badges.new"),
-            currency: t("currency.uah"),
-          }}
-        />
+        <Suspense fallback={null}>
+          <CatalogClient
+            locale={locale}
+            activeCategorySlug={slug}
+            categories={categories}
+            products={products}
+            labels={{
+              categoriesTitle: t("catalogPage.categoriesTitle"),
+              tagsTitle: t("catalogPage.tagsTitle"),
+              priceTitle: t("catalogPage.priceTitle"),
+              from: t("catalogPage.from"),
+              to: t("catalogPage.to"),
+              apply: t("catalogPage.apply"),
+              filterTitle: t("catalogPage.filterTitle"),
+              filterOpen: t("catalogPage.filterOpen"),
+              filterClose: t("catalogPage.filterClose"),
+              filterBack: t("catalogPage.filterBack"),
+              filterShow: t("catalogPage.filterShow"),
+              empty: t("catalogPage.empty"),
+              favorites: t("catalogPage.favorites"),
+              addToCart: t("catalogPage.addToCart"),
+              codeLabel: t("catalogPage.codeLabel"),
+              boughtLabel: t("catalogPage.boughtLabel"),
+              outOfStock: t("catalogPage.outOfStock"),
+              badgeHit: t("catalogPage.badges.hit"),
+              badgeSuper: t("catalogPage.badges.super"),
+              badgeNew: t("catalogPage.badges.new"),
+              currency: t("currency.uah"),
+            }}
+          />
+        </Suspense>
       </div>
     </div>
   );

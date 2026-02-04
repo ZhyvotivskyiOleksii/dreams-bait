@@ -1,4 +1,6 @@
-import { useTranslations } from "next-intl";
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -13,9 +15,10 @@ import {
   Check
 } from "lucide-react";
 import BestsellersGrid from "@/components/BestsellersGrid";
-
 export default function HomePage() {
   const t = useTranslations();
+  const locale = useLocale();
+  const toLocalePath = (path: string) => `/${locale}${path}`;
 
   const categories = [
     {
@@ -71,7 +74,7 @@ export default function HomePage() {
   ];
 
   const bestsellers = [
-    { id: "hit-1", name: t("home.bestsellers.items.hit1"), oldPrice: 20250, price: 16200, discount: 20, image: "/category/namiot.jpg" },
+    { id: "hit-1", name: t("home.bestsellers.items.hit1"), oldPrice: 20250, price: 16200, discount: 20, image: "/category/camping.webp" },
     { id: "hit-2", name: t("home.bestsellers.items.hit2"), oldPrice: 153, price: 115, discount: 25, image: "/category/zenety.jpg" },
     { id: "hit-3", name: t("home.bestsellers.items.hit3"), oldPrice: 16848, price: 13478, discount: 20, image: "/category/camping.webp" },
     { id: "hit-4", name: t("home.bestsellers.items.hit4"), oldPrice: 1700, price: 1275, discount: 25, image: "/category/camping.webp" },
@@ -161,7 +164,7 @@ export default function HomePage() {
             {categories.map((category) => (
               <Link
                 key={category.id}
-                href={`/uk/catalog/${category.id}`}
+                href={toLocalePath(`/catalog/${category.id}`)}
                 className="group relative aspect-square rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
               >
                 {/* Фонове зображення */}
@@ -201,7 +204,7 @@ export default function HomePage() {
                 {t("home.bestsellers.title")}
               </h2>
               <Link 
-                href="/uk/catalog/bestsellers" 
+                href={toLocalePath("/catalog/bestsellers")} 
                 className="text-[#7dd3fc] font-semibold hover:underline flex items-center gap-1"
               >
                 {t("home.bestsellers.viewAll")}
@@ -228,7 +231,7 @@ export default function HomePage() {
                 </p>
               </div>
               <Link 
-                href="/uk/catalog" 
+                href={toLocalePath("/catalog")} 
                 className="inline-flex items-center gap-2 bg-[#7dd3fc] text-white font-bold px-5 py-2.5 rounded-full w-fit hover:bg-[#38bdf8] transition-colors"
               >
                 {t("home.bestsellers.more")}
@@ -288,11 +291,11 @@ export default function HomePage() {
                 </div>
                 
                 <div className="flex flex-col gap-4">
-                  <Link href="/uk/catalog" className="inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105" style={{ backgroundColor: "#7dd3fc", color: "#0f0f0f" }}>
+                  <Link href={toLocalePath("/catalog")} className="inline-flex items-center justify-center gap-2 px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105" style={{ backgroundColor: "#7dd3fc", color: "#0f0f0f" }}>
                     {t("home.partner.primaryCta")}
                     <ArrowRight className="w-5 h-5" />
                   </Link>
-                  <Link href="/uk/about" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 hover:border-white text-white font-bold text-lg rounded-xl transition-all duration-300 hover:bg-white/10">
+                  <Link href={toLocalePath("/about")} className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 hover:border-white text-white font-bold text-lg rounded-xl transition-all duration-300 hover:bg-white/10">
                     {t("home.partner.secondaryCta")}
                   </Link>
                 </div>
@@ -319,7 +322,7 @@ export default function HomePage() {
                     {t("home.promo.discountPrefix")} <span className="font-bold text-black">-30%</span> {t("home.promo.discountSuffix")}
                   </p>
                   <div className="flex gap-3 justify-center lg:justify-start">
-                    <Link href="/uk/catalog?sale=true" className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-bold rounded-xl hover:bg-gray-900 transition-all duration-300 hover:scale-105">
+                    <Link href={toLocalePath("/catalog?sale=true")} className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-bold rounded-xl hover:bg-gray-900 transition-all duration-300 hover:scale-105">
                       {t("home.promo.cta")}
                       <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -329,10 +332,10 @@ export default function HomePage() {
                 {/* Колаж товарів */}
                 <div className="flex gap-3">
                   {[
-                    { image: "/category/wendka.png", name: t("categories.rods"), href: "/uk/catalog/rods" },
-                    { image: "/category/kolowrotek.webp", name: t("categories.reels"), href: "/uk/catalog/reels" },
-                    { image: "/category/namiot.jpg", name: t("categories.camping"), href: "/uk/catalog/tents" },
-                    { image: "/category/baits.webp", name: t("categories.bait"), href: "/uk/catalog/baits" },
+                    { image: "/category/wendka.webp", name: t("categories.rods"), href: toLocalePath("/catalog/rods") },
+                    { image: "/category/kolowrotek.webp", name: t("categories.reels"), href: toLocalePath("/catalog/reels") },
+                    { image: "/category/camping.webp", name: t("categories.camping"), href: toLocalePath("/catalog/tents") },
+                    { image: "/category/zenety.jpg", name: t("categories.bait"), href: toLocalePath("/catalog/baits") },
                   ].map((item, idx) => (
                     <Link
                       key={idx}

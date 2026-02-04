@@ -18,6 +18,8 @@ type Category = {
 
 type Product = {
   id: string;
+  slug?: string | null;
+  code?: string | null;
   category_id: string | null;
   name_uk: string;
   name_pl: string;
@@ -32,6 +34,7 @@ type Product = {
   is_active: boolean;
   purchased_count: number | null;
   stock_count: number | null;
+  badge?: string | null;
 };
 
 const defaultCategories = [
@@ -183,25 +186,25 @@ export default function AdminPage() {
     () => categories.find((cat) => cat.id === activeCategoryId) || null,
     [categories, activeCategoryId]
   );
-  const subcategoryLabels = useMemo(
+  const subcategoryLabels = useMemo<Record<string, string>>(
     () => ({
-      "carp-rods": t("megaMenu.subcategories.carpRods"),
-      "feeder-rods": t("megaMenu.subcategories.feederRods"),
-      "carp-reels": t("megaMenu.subcategories.carpReels"),
-      "feeder-reels": t("megaMenu.subcategories.feederReels"),
-      mono: t("megaMenu.subcategories.mono"),
-      braided: t("megaMenu.subcategories.braided"),
-      fluoro: t("megaMenu.subcategories.fluoro"),
-      leadcore: t("megaMenu.subcategories.leadcore"),
-      "nozzles-liquids": t("megaMenu.subcategories.nozzlesLiquids"),
-      "liquids-components": t("megaMenu.subcategories.liquidsComponents"),
-      "all-for-fishing": t("megaMenu.subcategories.allForFishing"),
-      tents: t("megaMenu.subcategories.tents"),
-      bedchairs: t("megaMenu.subcategories.bedchairs"),
-      "sleeping-bags": t("megaMenu.subcategories.sleepingBags"),
-      chairs: t("megaMenu.subcategories.chairs"),
+      "carp-rods": rootT("megaMenu.subcategories.carpRods"),
+      "feeder-rods": rootT("megaMenu.subcategories.feederRods"),
+      "carp-reels": rootT("megaMenu.subcategories.carpReels"),
+      "feeder-reels": rootT("megaMenu.subcategories.feederReels"),
+      mono: rootT("megaMenu.subcategories.mono"),
+      braided: rootT("megaMenu.subcategories.braided"),
+      fluoro: rootT("megaMenu.subcategories.fluoro"),
+      leadcore: rootT("megaMenu.subcategories.leadcore"),
+      "nozzles-liquids": rootT("megaMenu.subcategories.nozzlesLiquids"),
+      "liquids-components": rootT("megaMenu.subcategories.liquidsComponents"),
+      "all-for-fishing": rootT("megaMenu.subcategories.allForFishing"),
+      tents: rootT("megaMenu.subcategories.tents"),
+      bedchairs: rootT("megaMenu.subcategories.bedchairs"),
+      "sleeping-bags": rootT("megaMenu.subcategories.sleepingBags"),
+      chairs: rootT("megaMenu.subcategories.chairs"),
     }),
-    [t]
+    [rootT]
   );
 
   const fetchCategories = async () => {
@@ -1131,26 +1134,30 @@ export default function AdminPage() {
                     {t("deleteAll")}
                   </button>
                 </div>
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                   {!activeCategoryId ? (
                     <p className="text-sm text-slate-500">{t("selectCategory")}</p>
                   ) : (
                   products.map((product) => (
-                  <div key={product.id} className="border border-gray-100 rounded-xl p-4 space-y-3">
+                  <div key={product.id} className="border border-gray-100 rounded-xl p-3 space-y-2">
                     {product.image_url && (
-                      <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-50">
+                      <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-50">
                         <Image src={product.image_url} alt={product.name_en} fill className="object-cover" />
                       </div>
                     )}
                     <div>
-                      <p className="font-semibold text-slate-800">{product[`name_${locale}` as keyof Product]}</p>
-                      <p className="text-xs text-black">{product.price} {rootT("currency.uah")}</p>
+                      <p className="font-semibold text-slate-800 text-sm line-clamp-2">
+                        {product[`name_${locale}` as keyof Product]}
+                      </p>
+                      <p className="text-xs text-black mt-1">
+                        {product.price} {rootT("currency.uah")}
+                      </p>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center justify-between text-xs">
                       <span className={product.is_active ? "text-green-600" : "text-slate-400"}>
                         {product.is_active ? t("statusActive") : t("statusInactive")}
                       </span>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEditProduct(product)}
                           className="text-slate-500 hover:text-slate-700"

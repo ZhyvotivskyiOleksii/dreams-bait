@@ -4,13 +4,52 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useCart } from "@/components/CartProvider";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
+import { useEffect, useState } from "react";
 
 export default function PaymentPage() {
   const t = useTranslations();
   const breadcrumbsT = useTranslations("breadcrumbs");
   const navT = useTranslations("nav");
   const locale = useLocale();
-  const { total } = useCart();
+  const { total, items } = useCart();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+    const startPayment = async () => {
+      if (items.length === 0 || isSubmitting) return;
+      setIsSubmitting(true);
+      try {
+        const response = await fetch("/api/payu/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            locale,
+            items: items.map((item) => ({
+              name: item.name,
+              price: item.price,
+              qty: item.qty,
+            })),
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok || !data?.redirectUri) {
+          if (isActive) setError(t("payment.error"));
+        } else {
+          window.location.href = data.redirectUri;
+        }
+      } catch {
+        if (isActive) setError(t("payment.error"));
+      } finally {
+        if (isActive) setIsSubmitting(false);
+      }
+    };
+    startPayment();
+    return () => {
+      isActive = false;
+    };
+  }, [items, locale, isSubmitting, t]);
 
   const paymentMethods = [
     { label: "Visa", src: "/paymant/visa.svg" },
@@ -51,11 +90,51 @@ export default function PaymentPage() {
             </div>
           </div>
 
+          {error && (
+            <div className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
           <button
             type="button"
-            className="mt-6 w-full inline-flex items-center justify-center rounded-2xl bg-[#7dd3fc] text-black px-6 py-4 text-lg font-semibold hover:bg-[#f5c542] transition-colors"
+            disabled={isSubmitting}
+            onClick={async () => {
+              setError(null);
+              if (items.length === 0) {
+                setError(t("cart.empty"));
+                return;
+              }
+              setIsSubmitting(true);
+              try {
+                const response = await fetch("/api/payu/create", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    locale,
+                    items: items.map((item) => ({
+                      name: item.name,
+                      price: item.price,
+                      qty: item.qty,
+                    })),
+                  }),
+                });
+                const data = await response.json();
+                if (!response.ok || !data?.redirectUri) {
+                  setError(t("payment.error"));
+                } else {
+                  window.location.href = data.redirectUri;
+                }
+              } catch {
+                setError(t("payment.error"));
+              } finally {
+                setIsSubmitting(false);
+              }
+            }}
+            className="mt-6 w-full inline-flex items-center justify-center rounded-2xl bg-[#7dd3fc] text-black px-6 py-4 text-lg font-semibold hover:bg-[#f5c542] transition-colors disabled:opacity-70"
           >
-            {t("payment.payWithTotal", { total, currency: t("currency.uah") })}
+            {isSubmitting
+              ? t("payment.processing")
+              : t("payment.payWithTotal", { total, currency: "PLN" })}
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
@@ -132,11 +132,12 @@ export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProp
           {/* Перемикач мови */}
           <div className="p-4 border-t border-sand-200 bg-sand-50">
             <p className="text-sm text-earth-500 mb-3 font-medium">{commonT("languageLabel")}</p>
-            <LanguageSwitcher variant="mobile" />
+            <Suspense fallback={null}>
+              <LanguageSwitcher variant="mobile" />
+            </Suspense>
           </div>
         </div>
       </div>
     </>
   );
 }
-

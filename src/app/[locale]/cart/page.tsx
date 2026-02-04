@@ -8,9 +8,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
 import { supabase } from "@/lib/supabaseClient";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
-export default function CartPage() {
+function CartPageContent() {
   const locale = useLocale();
   const breadcrumbsT = useTranslations("breadcrumbs");
   const navT = useTranslations("nav");
@@ -24,6 +24,8 @@ export default function CartPage() {
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
   const [profileForm, setProfileForm] = useState({
     firstName: "",
@@ -554,21 +556,49 @@ export default function CartPage() {
               </div>
               <button
                 type="button"
-                onClick={() => {
+                onClick={async () => {
+                  setPayError(null);
                   if (!isAuthed) {
                     router.push(`/${locale}/cart?step=details`);
                     return;
                   }
                   if (isConfirmStep) {
-                    router.push(`/${locale}/payment`);
+                    if (items.length === 0 || isPaying) return;
+                    setIsPaying(true);
+                    try {
+                      const response = await fetch("/api/payu/create", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          locale,
+                          items: items.map((item) => ({
+                            name: item.name,
+                            price: item.price,
+                            qty: item.qty,
+                          })),
+                        }),
+                      });
+                      const data = await response.json();
+                      if (!response.ok || !data?.redirectUri) {
+                        setPayError(t("payment.error"));
+                      } else {
+                        window.location.href = data.redirectUri;
+                      }
+                    } catch {
+                      setPayError(t("payment.error"));
+                    } finally {
+                      setIsPaying(false);
+                    }
                     return;
                   }
                   router.push(`/${locale}/cart?step=confirm`);
                 }}
                 className="w-full inline-flex items-center justify-center px-4 py-3 rounded-xl bg-[#7dd3fc] text-black font-bold hover:bg-[#f5c542] transition-colors disabled:opacity-60"
-                disabled={items.length === 0}
+                disabled={items.length === 0 || isPaying}
               >
-                {isConfirmStep
+                {isConfirmStep && isPaying
+                  ? t("payment.processing")
+                  : isConfirmStep
                   ? t("cart.payWithTotal", {
                       total,
                       currency: t("currency.uah"),
@@ -580,6 +610,11 @@ export default function CartPage() {
                     })
                   : t("cart.checkout")}
               </button>
+              {payError && (
+                <div className="mt-3 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+                  {payError}
+                </div>
+              )}
               <div className="mt-3 grid grid-cols-5 gap-2">
                 {paymentMethods.map((method) => (
                   <span
@@ -604,5 +639,13 @@ export default function CartPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function CartPage() {
+  return (
+    <Suspense fallback={null}>
+      <CartPageContent />
+    </Suspense>
   );
 }

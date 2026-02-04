@@ -213,7 +213,9 @@
     "title": "PayU",
     "subtitle": "Choose a payment method",
     "methods": "Payment methods",
-    "payWithTotal": "Pay · {total} {currency}"
+    "payWithTotal": "Pay · {total} {currency}",
+    "processing": "Redirecting to PayU...",
+    "error": "Failed to start payment. Please try again."
   },
   "currency": {
     "uah": "€"

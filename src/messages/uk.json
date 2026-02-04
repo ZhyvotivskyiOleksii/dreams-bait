@@ -213,7 +213,9 @@
     "title": "PayU",
     "subtitle": "Оберіть спосіб оплати",
     "methods": "Способи оплати",
-    "payWithTotal": "Оплатити · {total} {currency}"
+    "payWithTotal": "Оплатити · {total} {currency}",
+    "processing": "Переадресація на PayU...",
+    "error": "Не вдалося розпочати оплату. Спробуйте ще раз."
   },
   "currency": {
     "uah": "€"

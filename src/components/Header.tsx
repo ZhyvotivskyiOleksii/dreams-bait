@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -146,7 +146,9 @@ export default function Header() {
               </div>
 
               {/* Перемикач мови */}
-              <LanguageSwitcher isScrolled={false} />
+              <Suspense fallback={null}>
+                <LanguageSwitcher isScrolled={false} />
+              </Suspense>
 
               {isLoggedIn ? (
                 <div className="hidden lg:flex items-center gap-2">

@@ -245,16 +245,15 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mediaQuery = window.matchMedia("(max-width: 639px)");
-    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
-      setIsMobile("matches" in event ? event.matches : event.matches);
-    };
-    handleChange(mediaQuery);
-    if ("addEventListener" in mediaQuery) {
-      mediaQuery.addEventListener("change", handleChange);
-      return () => mediaQuery.removeEventListener("change", handleChange);
+    const update = (mql: MediaQueryList) => setIsMobile(mql.matches);
+    update(mediaQuery);
+    const handler = (event: MediaQueryListEvent) => setIsMobile(event.matches);
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handler);
+      return () => mediaQuery.removeEventListener("change", handler);
     }
-    mediaQuery.addListener(handleChange);
-    return () => mediaQuery.removeListener(handleChange);
+    mediaQuery.addListener(handler);
+    return () => mediaQuery.removeListener(handler);
   }, []);
 
   const activeData = categories.find((category) => category.id === activeCategory);
@@ -318,7 +317,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
               const isActive = activeCategory === category.id;
               const content = (
                 <>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start gap-3 min-w-0">
                     <div className="w-10 h-10 rounded-xl overflow-hidden bg-white border border-slate-200 flex-shrink-0">
                       <Image
                         src={category.image}
@@ -328,7 +327,9 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="font-semibold text-sm">{category.name}</span>
+                    <span className="flex-1 min-w-0 font-semibold text-sm leading-tight text-left break-words">
+                      {category.name}
+                    </span>
                   </div>
                   <ChevronRight
                     className={clsx("w-4 h-4 transition-transform", isActive ? "translate-x-1" : "")}

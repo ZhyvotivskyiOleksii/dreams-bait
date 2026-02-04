@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Russo_One, Montserrat } from "next/font/google";
-import { getLocale } from "next-intl/server";
 import "./globals.css";
 
 const russoOne = Russo_One({
@@ -21,20 +20,22 @@ export const metadata: Metadata = {
   title: "Dreams Bait - Professional Carp Fishing Equipment",
   description:
     "The best selection of carp fishing gear. Rods, reels, bait and accessories from leading brands.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { locale?: string };
 }) {
-  const locale = await getLocale();
+  const locale = params.locale ?? "en";
 
   return (
-    <html
-      lang={locale}
-      className={`${russoOne.variable} ${montserrat.variable}`}
-    >
+    <html lang={locale} className={`${russoOne.variable} ${montserrat.variable}`}>
       <body className="min-h-screen flex flex-col">{children}</body>
     </html>
   );

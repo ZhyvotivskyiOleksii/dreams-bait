@@ -1,27 +1,15 @@
-import { notFound } from 'next/navigation';
-import { getRequestConfig } from 'next-intl/server';
+import { notFound } from "next/navigation";
+import { getRequestConfig } from "next-intl/server";
+import { locales, type Locale } from "../i18n";
 
-export const locales = ['uk', 'pl', 'en'] as const;
-export type Locale = (typeof locales)[number];
-
-export const localeNames: Record<Locale, string> = {
-  uk: 'Українська',
-  pl: 'Polski',
-  en: 'English',
-};
-
-export const localeFlags: Record<Locale, string> = {
-  uk: '🇺🇦',
-  pl: '🇵🇱',
-  en: '🇬🇧',
-};
-
-export default getRequestConfig(async ({ locale }) => {
-  if (!locales.includes(locale as Locale)) notFound();
+export default getRequestConfig(async ({ requestLocale }) => {
+  const locale = await requestLocale;
+  if (!locale || !locales.includes(locale as Locale)) {
+    notFound();
+  }
 
   return {
     locale,
     messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
-

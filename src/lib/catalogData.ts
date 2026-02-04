@@ -26,7 +26,7 @@ export type CatalogProduct = {
   gallery: string[];
 };
 
-type ProductRow = {
+type ProductRowBase = {
   id: string;
   slug: string | null;
   code: string | null;
@@ -39,11 +39,14 @@ type ProductRow = {
   price: number;
   old_price: number | null;
   badge: string | null;
-  purchased_count: number | null;
-  stock_count: number | null;
   image_url: string | null;
   gallery: unknown;
-  category: { slug: string | null } | null;
+  category: { slug: string | null }[];
+};
+
+type ProductRow = ProductRowBase & {
+  purchased_count: number | null;
+  stock_count: number | null;
 };
 
 const categoryMeta: Record<
@@ -160,10 +163,12 @@ const categoryMeta: Record<
   },
 };
 
+export const catalogSlugs = Object.keys(categoryMeta);
+
 const mapProduct = (row: ProductRow): CatalogProduct => ({
   id: row.id,
   slug: row.slug ?? row.id,
-  categorySlug: row.category?.slug ?? "",
+  categorySlug: row.category?.[0]?.slug ?? "",
   name: {
     uk: row.name_uk,
     pl: row.name_pl,
@@ -225,6 +230,12 @@ const baseProductSelect =
 
 const productSelectWithCount = `${baseProductSelect}, purchased_count, stock_count`;
 
+const withCountDefaults = (row: ProductRowBase): ProductRow => ({
+  ...row,
+  purchased_count: null,
+  stock_count: null,
+});
+
 const shouldRetryWithoutCount = (error: { message?: string } | null) =>
   Boolean(
     error?.message &&
@@ -248,8 +259,8 @@ export const getProductsByCategory = async (slug: string) => {
       .eq("is_active", true)
       .eq("category_id", category.id)
       .order("created_at", { ascending: false });
-    data = retry.data;
-    error = retry.error;
+    if (retry.error || !retry.data) return [];
+    return retry.data.map((row) => mapProduct(withCountDefaults(row)));
   }
   if (error || !data) return [];
   return data.map(mapProduct);
@@ -269,8 +280,9 @@ export const getProductBySlugOrId = async (slugOrId: string) => {
       .eq("is_active", true)
       .or(`slug.eq.${slugOrId},id.eq.${slugOrId}`)
       .maybeSingle();
-    data = retry.data;
-    error = retry.error;
+    if (!retry.error && retry.data) {
+      return mapProduct(withCountDefaults(retry.data));
+    }
   }
   if (!error && data) {
     return mapProduct(data);
@@ -289,7 +301,7 @@ export const getProductBySlugOrId = async (slugOrId: string) => {
       .eq("is_active", true)
       .like("slug", `${slugOrId}%`)
       .limit(10);
-    fallbackData = retry.data;
+    fallbackData = retry.data?.map(withCountDefaults) ?? null;
     fallbackError = retry.error;
   }
 
@@ -301,5 +313,19 @@ export const getProductBySlugOrId = async (slugOrId: string) => {
       .sort((a, b) => (b.slug?.length ?? 0) - (a.slug?.length ?? 0))[0] ??
     fallbackData[0];
 
-  return mapProduct(match as ProductRow);
+  return mapProduct(match);
+};
+
+export const getProductSlugs = async () => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("slug")
+    .eq("is_active", true)
+    .not("slug", "is", null);
+  if (error || !data) {
+    return [];
+  }
+  return data
+    .map((row) => row.slug)
+    .filter((slug): slug is string => Boolean(slug));
 };

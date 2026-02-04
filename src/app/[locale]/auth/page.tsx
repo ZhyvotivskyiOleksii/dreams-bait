@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -8,7 +8,7 @@ import { Eye, EyeOff, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
 
-export default function AuthPage() {
+function AuthPageContent() {
   const t = useTranslations("auth");
   const commonT = useTranslations("common");
   const breadcrumbsT = useTranslations("breadcrumbs");
@@ -379,5 +379,13 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={null}>
+      <AuthPageContent />
+    </Suspense>
   );
 }

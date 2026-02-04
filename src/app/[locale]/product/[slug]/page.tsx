@@ -1,12 +1,14 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { createTranslator } from "use-intl/core";
 import { CheckCircle2, ShieldCheck, Truck } from "lucide-react";
 import Image from "next/image";
 import {
   getCategoryBySlug,
   getProductBySlugOrId,
   getProductsByCategory,
+  getProductSlugs,
 } from "@/lib/catalogData";
 import ProductGallery from "@/components/ProductGallery";
 import FavoriteButton from "@/components/FavoriteButton";
@@ -14,16 +16,23 @@ import ProductDescription from "@/components/ProductDescription";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
 import ShareButton from "@/components/ShareButton";
 import ProductPurchaseActions from "@/components/ProductPurchaseActions";
-
-export const dynamic = "force-dynamic";
+import { locales, type Locale } from "@/i18n";
 
 type ProductPageProps = {
-  params: { slug: string };
+  params: { slug: string; locale: Locale };
 };
 
+export async function generateStaticParams() {
+  const slugs = await getProductSlugs();
+  return locales.flatMap((locale) =>
+    slugs.map((slug) => ({ locale, slug }))
+  );
+}
+
 export default async function ProductPage({ params }: ProductPageProps) {
-  const locale = (await getLocale()) as "uk" | "pl" | "en";
-  const t = await getTranslations();
+  const { locale } = params;
+  const messages = (await import(`@/messages/${locale}.json`)).default;
+  const t = createTranslator({ locale, messages });
   const product = await getProductBySlugOrId(params.slug);
 
   if (!product) {
@@ -120,9 +129,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           <div className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4">
-              <h1 className="text-2xl font-heading text-slate-900">
-                {product.name[locale]}
-              </h1>
+            <h1 className="text-2xl font-heading text-slate-900">
+              {product.name[locale]}
+            </h1>
+            <Suspense fallback={null}>
               <FavoriteButton
                 ariaLabel={t("productPage.favorites")}
                 item={{
@@ -136,6 +146,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 className="w-10 h-10 rounded-full border-0 bg-transparent shadow-none flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors pointer-events-auto cursor-pointer"
                 iconClassName="w-5 h-5 mx-auto"
               />
+            </Suspense>
             </div>
 
             <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">

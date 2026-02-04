@@ -1,7 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { locales, type Locale } from "@/i18n/request";
+import { locales, type Locale } from "@/i18n";
 
 import ClientProviders from "@/components/ClientProviders";
 import LayoutShell from "@/components/LayoutShell";
@@ -21,15 +20,19 @@ export default async function RootLayout({
     notFound();
   }
 
-  setRequestLocale(locale);
-  const messages = await getMessages();
+  const messages = (
+    await import(`@/messages/${locale}.json`)
+  ).default;
 
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone="Europe/Kyiv"
+    >
       <ClientProviders>
         <LayoutShell>{children}</LayoutShell>
       </ClientProviders>
     </NextIntlClientProvider>
   );
 }
-
