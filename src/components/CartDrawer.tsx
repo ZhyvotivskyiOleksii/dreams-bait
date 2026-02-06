@@ -43,7 +43,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     <>
       <div
         className={clsx(
-          "fixed inset-0 bg-black/50 z-50 transition-opacity duration-300",
+          "fixed inset-0 bg-black/50 z-[60] transition-opacity duration-300",
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
         onClick={onClose}
@@ -51,7 +51,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
       <aside
         className={clsx(
-          "fixed top-0 right-0 h-full w-full sm:max-w-md bg-white z-50 transition-transform duration-300 ease-out flex flex-col rounded-none sm:rounded-l-2xl",
+          "fixed top-0 right-0 h-full w-full sm:max-w-md bg-white z-[60] transition-transform duration-300 ease-out flex flex-col rounded-none sm:rounded-l-2xl",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
         aria-label={t("cart.drawerLabel")}
@@ -88,7 +88,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             </div>
           ) : (
             items.map((item) => (
-              <div key={item.id} className="flex gap-3 border-b border-gray-100 pb-4">
+              <div key={item.lineId} className="flex gap-3 border-b border-gray-100 pb-4">
                 <div className="w-16 h-16 relative rounded-lg overflow-hidden bg-white flex-shrink-0">
                   <Image
                     src={item.image}
@@ -102,7 +102,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-sm font-semibold text-slate-800 line-clamp-2 min-w-0">{item.name}</p>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        removeItem(item.lineId);
+                      }}
                       className="p-1 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
                       aria-label={t("cart.remove")}
                     >
@@ -116,7 +121,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     </span>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <button
-                        onClick={() => updateQty(item.id, item.qty - 1)}
+                        type="button"
+                        onClick={() => updateQty(item.lineId, item.qty - 1)}
                         className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                         aria-label={t("cart.decrease")}
                       >
@@ -126,7 +132,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         {item.qty}
                       </span>
                       <button
-                        onClick={() => updateQty(item.id, item.qty + 1)}
+                        type="button"
+                        onClick={() => updateQty(item.lineId, item.qty + 1)}
                         className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                         aria-label={t("cart.increase")}
                       >

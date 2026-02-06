@@ -448,7 +448,7 @@ function CartPageContent() {
                 <div className="space-y-3 max-h-[50vh] overflow-y-auto no-scrollbar">
                   {items.map((item) => (
                     <div
-                      key={item.id}
+                      key={item.lineId}
                       className="flex flex-col gap-2 border border-slate-200 rounded-2xl p-3"
                     >
                       <div className="flex items-start gap-3">
@@ -470,7 +470,7 @@ function CartPageContent() {
                           </p>
                         </div>
                         <button
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => removeItem(item.lineId)}
                           className="p-1.5 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
                           aria-label={t("cart.remove")}
                         >
@@ -479,7 +479,7 @@ function CartPageContent() {
                       </div>
                       <div className="flex items-center justify-end gap-1.5">
                           <button
-                            onClick={() => updateQty(item.id, item.qty - 1)}
+                            onClick={() => updateQty(item.lineId, item.qty - 1)}
                             className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                             aria-label="Decrease quantity"
                           >
@@ -489,7 +489,7 @@ function CartPageContent() {
                             {item.qty}
                           </span>
                           <button
-                            onClick={() => updateQty(item.id, item.qty + 1)}
+                            onClick={() => updateQty(item.lineId, item.qty + 1)}
                             className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                             aria-label="Increase quantity"
                           >

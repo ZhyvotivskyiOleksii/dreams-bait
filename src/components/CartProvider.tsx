@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { supabase } from "@/lib/supabaseClient";
 
 export type CartItem = {
+  lineId: string;
   id: string;
   name: string;
   price: number;
@@ -13,18 +14,24 @@ export type CartItem = {
   qty: number;
 };
 
+function genLineId() {
+  return `line-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+}
+
 type CartContextValue = {
   items: CartItem[];
   itemCount: number;
   total: number;
-  addItem: (item: Omit<CartItem, "qty">, qty?: number) => void;
-  removeItem: (id: string) => void;
-  updateQty: (id: string, qty: number) => void;
+  addItem: (item: Omit<CartItem, "qty" | "lineId">, qty?: number) => void;
+  removeItem: (lineId: string) => void;
+  updateQty: (lineId: string, qty: number) => void;
   clear: () => void;
 };
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 const STORAGE_KEY = "dreams-bait-cart";
+/** Таблиця кошика в Supabase — саме з неї видаляємо/оновлюємо рядки для авторизованих */
+const CART_TABLE = "cart_items";
 
 const isUuid = (value: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
@@ -40,6 +47,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [toast, setToast] = useState<{ id: number; name: string } | null>(null);
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const itemsRef = useRef<CartItem[]>([]);
+  itemsRef.current = items;
 
   useEffect(() => {
     let isActive = true;
@@ -79,12 +88,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const loadFromDb = async () => {
         if (!userId) return;
         const { data, error } = await supabase
-          .from("cart_items")
-          .select("product_id, name, image_url, price, qty")
+          .from(CART_TABLE)
+          .select("id, product_id, name, image_url, price, qty")
           .eq("user_id", userId)
           .order("created_at", { ascending: false });
         if (error || !data) return;
-        const mapped = data.map((row) => ({
+        const mapped = data.map((row: { id: string; product_id: string | null; name: string; image_url: string | null; price: number; qty: number }) => ({
+          lineId: row.id,
           id: String(row.product_id ?? row.name ?? ""),
           name: row.name,
           price: Number(row.price),
@@ -100,7 +110,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           if (!stored) return;
           const parsed = JSON.parse(stored) as CartItem[];
           if (!Array.isArray(parsed) || parsed.length === 0) return;
-          const payload = parsed.map((item) => ({
+          const payload = parsed.map((item: CartItem) => ({
             user_id: userId,
             product_id: isUuid(item.id) ? item.id : null,
             name: item.name,
@@ -109,7 +119,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             qty: item.qty,
           }));
           await supabase
-            .from("cart_items")
+            .from(CART_TABLE)
             .upsert(payload, { onConflict: "user_id,product_id" });
           localStorage.removeItem(STORAGE_KEY);
         } catch {
@@ -122,9 +132,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
-          const parsed = JSON.parse(stored) as CartItem[];
+          const parsed = JSON.parse(stored) as (CartItem & { lineId?: string })[];
           if (Array.isArray(parsed)) {
-            setItems(parsed);
+            setItems(
+              parsed.map((item, idx) => ({
+                ...item,
+                lineId: item.lineId ?? genLineId(),
+              }))
+            );
           }
         }
         setHasLoadedStorage(true);
@@ -143,11 +158,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ? prev.map((entry) =>
             String(entry.id) === itemId ? { ...entry, qty: entry.qty + qty } : entry
           )
-        : [...prev, { ...item, qty }];
+        : [...prev, { ...item, lineId: genLineId(), qty }];
 
       if (isAuthed && userId) {
         const nextQty = existing ? existing.qty + qty : qty;
-        supabase.from("cart_items").upsert(
+        supabase.from(CART_TABLE).upsert(
           {
             user_id: userId,
             product_id: isUuid(item.id) ? item.id : null,
@@ -179,50 +194,82 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }, 2200);
   };
 
-  const removeItem: CartContextValue["removeItem"] = (id) => {
-    setItems((prev) => {
-      const idStr = String(id);
-      const next = prev.filter((entry) => String(entry.id) !== idStr);
-      if (isAuthed && userId) {
-        supabase
-          .from("cart_items")
+  const removeItem: CartContextValue["removeItem"] = async (lineId) => {
+    if (isAuthed && userId) {
+      if (isUuid(lineId)) {
+        const { error } = await supabase.from(CART_TABLE).delete().eq("id", lineId);
+        if (error) return;
+      } else {
+        const prev = itemsRef.current;
+        const found = prev.find((entry) => entry.lineId === lineId);
+        if (!found) return;
+        const { error } = await supabase
+          .from(CART_TABLE)
           .delete()
           .eq("user_id", userId)
-          .eq("product_id", isUuid(id) ? id : null);
+          .eq("product_id", isUuid(found.id) ? found.id : null)
+          .eq("name", found.name)
+          .eq("price", found.price);
+        if (error) return;
       }
-      return next;
-    });
-  };
-
-  const updateQty: CartContextValue["updateQty"] = (id, qty) => {
-    const idStr = String(id);
+    }
     setItems((prev) => {
-      const next = prev
-        .map((entry) => (String(entry.id) === idStr ? { ...entry, qty: Number(qty) || 1 } : entry))
-        .filter((entry) => entry.qty > 0);
-      if (isAuthed && userId) {
-        if (qty <= 0) {
-          supabase
-            .from("cart_items")
-            .delete()
-            .eq("user_id", userId)
-            .eq("product_id", isUuid(id) ? id : null);
-        } else {
-          supabase
-            .from("cart_items")
-            .update({ qty })
-            .eq("user_id", userId)
-            .eq("product_id", isUuid(id) ? id : null);
+      const next = prev.filter((entry) => entry.lineId !== lineId);
+      if (!isAuthed) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        } catch {
+          // ignore
         }
       }
       return next;
     });
   };
 
-  const clear = () => {
-    setItems([]);
+  const updateQty: CartContextValue["updateQty"] = async (lineId, qty) => {
+    const qtyNum = Number(qty) || 1;
     if (isAuthed && userId) {
-      supabase.from("cart_items").delete().eq("user_id", userId);
+      const entry = itemsRef.current.find((e) => e.lineId === lineId);
+      if (entry) {
+        if (qtyNum <= 0) {
+          if (isUuid(lineId)) {
+            const { error } = await supabase.from(CART_TABLE).delete().eq("id", lineId);
+            if (error) return;
+          } else {
+            const { error } = await supabase
+              .from(CART_TABLE)
+              .delete()
+              .eq("user_id", userId)
+              .eq("product_id", isUuid(entry.id) ? entry.id : null);
+            if (error) return;
+          }
+        } else {
+          if (isUuid(lineId)) {
+            const { error } = await supabase.from(CART_TABLE).update({ qty: qtyNum }).eq("id", lineId);
+            if (error) return;
+          } else {
+            const { error } = await supabase
+              .from(CART_TABLE)
+              .update({ qty: qtyNum })
+              .eq("user_id", userId)
+              .eq("product_id", isUuid(entry.id) ? entry.id : null);
+            if (error) return;
+          }
+        }
+      }
+    }
+    setItems((prev) => {
+      const next = prev
+        .map((e) => (e.lineId === lineId ? { ...e, qty: qtyNum } : e))
+        .filter((e) => e.qty > 0);
+      return next;
+    });
+  };
+
+  const clear = async () => {
+    if (isAuthed && userId) {
+      const { error } = await supabase.from(CART_TABLE).delete().eq("user_id", userId);
+      if (error) return;
     } else {
       try {
         localStorage.removeItem(STORAGE_KEY);
@@ -230,6 +277,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         // Ignore storage errors
       }
     }
+    setItems([]);
   };
 
   const value = useMemo<CartContextValue>(() => {

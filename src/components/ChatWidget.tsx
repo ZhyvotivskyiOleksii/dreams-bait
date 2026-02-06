@@ -16,7 +16,7 @@ export default function ChatWidget() {
   const telegramUrl = `https://t.me/${TELEGRAM_USERNAME}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+    <div className="fixed bottom-6 right-6 z-30 flex flex-col items-end gap-4">
       {/* Месенджери: плавно з’являються зверху вниз */}
       <div
         className="flex flex-col items-end gap-3 transition-all duration-300 ease-out"
