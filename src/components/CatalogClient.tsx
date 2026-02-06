@@ -81,7 +81,7 @@ export default function CatalogClient({
   };
 
   const renderTagsFilter = () => (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
       <div className="text-xs sm:text-sm font-semibold text-slate-900 mb-3">
         {labels.tagsTitle}
       </div>
@@ -132,7 +132,7 @@ export default function CatalogClient({
   );
 
   const renderPriceFilter = (showApplyButton: boolean) => (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
       <div className="text-xs sm:text-sm font-semibold text-slate-900 mb-3 sm:mb-4">
         {labels.priceTitle}
       </div>
@@ -242,7 +242,7 @@ export default function CatalogClient({
       </div>
 
       <aside className="hidden lg:block space-y-5 lg:space-y-6 lg:sticky lg:top-32 lg:self-start">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
           <div className="text-xs sm:text-sm font-semibold text-slate-900 mb-3">
             {labels.categoriesTitle}
           </div>
@@ -273,7 +273,7 @@ export default function CatalogClient({
             <p className="text-slate-600">{labels.empty}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0.5 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
             {filteredProducts.map((product) => {
               const discount =
                 product.oldPrice && product.oldPrice > product.price
@@ -282,18 +282,20 @@ export default function CatalogClient({
                     )
                   : 0;
 
-              const isOutOfStock =
-                typeof product.stockCount === "number" &&
-                typeof product.purchasedCount === "number" &&
-                product.purchasedCount >= product.stockCount;
+              const availableQty =
+                typeof product.stockCount === "number"
+                  ? product.stockCount - (typeof product.purchasedCount === "number" ? product.purchasedCount : 0)
+                  : null;
+              const isOutOfStock = availableQty !== null && availableQty <= 0;
 
               return (
                 <div
                   key={product.id}
-                  className="relative w-full max-w-[175px] sm:max-w-none lg:max-w-[266px] bg-white rounded-2xl border border-slate-200 p-2.5 sm:p-3 hover:shadow-xl transition-all duration-300"
+                  className="relative w-full bg-white rounded-2xl border border-slate-200 p-2.5 sm:p-3 flex flex-col"
                 >
-                  <div className="absolute top-2 left-2 z-10 flex flex-wrap items-center gap-1">
-                    {product.badge && (
+                  {/* Фіксована висота для бейджів — однаковий вигляд у всіх карток */}
+                  <div className="absolute top-2 left-2 z-10 flex flex-wrap items-center gap-1 min-h-[26px]">
+                    {product.badge ? (
                       <span
                         className={`text-[9px] font-bold px-2 py-1 rounded-full ${
                           product.badge === "super-price"
@@ -309,6 +311,8 @@ export default function CatalogClient({
                           ? labels.badgeNew
                           : labels.badgeHit}
                       </span>
+                    ) : (
+                      <span className="invisible text-[9px] font-bold px-2 py-1 rounded-full">&#8203;</span>
                     )}
                     {typeof product.purchasedCount === "number" && product.purchasedCount > 0 && (
                       <span className="text-[9px] font-semibold px-2 py-1 rounded-full bg-white border border-slate-200 text-slate-500">
@@ -326,11 +330,11 @@ export default function CatalogClient({
                       price: product.price,
                       categorySlug: product.categorySlug,
                     }}
-                    className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/90 border border-slate-200 shadow-sm flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors pointer-events-auto cursor-pointer"
+                    className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-white/90 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors pointer-events-auto cursor-pointer"
                     iconClassName="w-4 h-4 mx-auto"
                   />
 
-                  <Link href={`/${locale}/product/${product.slug}`} className="block">
+                  <Link href={`/${locale}/product/${product.slug}`} className="block flex-shrink-0">
                     <div className="relative h-36 sm:h-48 overflow-hidden rounded-xl bg-slate-50 mb-2">
                       <Image
                         src={product.image}
@@ -340,17 +344,17 @@ export default function CatalogClient({
                         className="object-cover"
                       />
                     </div>
-                    <div className="hidden sm:flex items-center justify-end text-[10px] font-semibold text-slate-400">
+                    <div className="flex items-center justify-end text-[10px] font-semibold text-slate-400 min-h-[14px]">
                       {labels.codeLabel} {product.code}
                     </div>
-                    <h3 className="mt-1 text-[12px] leading-snug text-slate-700 font-semibold line-clamp-3">
+                    <h3 className="mt-1 text-[12px] leading-snug text-slate-700 font-semibold line-clamp-3 min-h-[2.5rem] sm:min-h-[2.75rem]">
                       {product.name[locale]}
                     </h3>
                   </Link>
 
-                  <div className="flex items-end justify-between mt-2">
-                    <div>
-                      {product.oldPrice && (
+                  <div className="flex items-end justify-between mt-2 min-h-[44px]">
+                    <div className="min-w-0">
+                      {product.oldPrice && product.oldPrice > product.price ? (
                         <div className="flex items-center gap-1 mb-1">
                           <span className="text-slate-400 line-through text-[10px]">
                             {product.oldPrice} {labels.currency}
@@ -361,8 +365,8 @@ export default function CatalogClient({
                             </span>
                           )}
                         </div>
-                      )}
-                      <span className="text-black font-bold text-[14px]">
+                      ) : null}
+                      <span className="text-black font-bold text-[14px] block">
                         {product.price} {labels.currency}
                       </span>
                       {isOutOfStock && (

@@ -33,6 +33,21 @@ values
   ('camping', 'ТУРИЗМ, КЕМПІНГ', 'TURYSTYKA, CAMPING', 'TOURISM & CAMPING')
 on conflict (slug) do nothing;
 
+-- Головна категорія "Інгредієнти для бойлів" (поруч із Прикормки та насадки)
+insert into public.categories (slug, name_uk, name_pl, name_en, image_url)
+values (
+  'boilie-ingredients',
+  'ІНГРЕДІЄНТИ ДЛЯ БОЙЛІВ',
+  'SKŁADNIKI DO BOILI',
+  'BOILIE INGREDIENTS',
+  '/category/carp_boilies.png'
+)
+on conflict (slug) do update set
+  name_uk = excluded.name_uk,
+  name_pl = excluded.name_pl,
+  name_en = excluded.name_en,
+  image_url = excluded.image_url;
+
 create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),
   category_id uuid references public.categories(id) on delete set null,
@@ -51,6 +66,8 @@ create table if not exists public.products (
   badge text,
   gallery jsonb not null default '[]'::jsonb,
   is_active boolean not null default true,
+  purchased_count integer not null default 0,
+  stock_count integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

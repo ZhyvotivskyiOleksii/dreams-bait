@@ -29,30 +29,33 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-2">
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="flex sm:flex-col gap-2">
-          {gallery.map((image, index) => (
-            <button
-              key={`${image}-${index}`}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={`relative w-16 h-16 rounded-lg border ${
-                index === activeIndex ? "border-[#7dd3fc]" : "border-slate-200"
-              } bg-white overflow-hidden`}
-            >
-              <Image src={image} alt={alt} fill className="object-contain p-1" />
-            </button>
-          ))}
+    <div className="rounded-xl sm:rounded-2xl lg:rounded-3xl border border-slate-200 bg-white p-2 min-w-0 overflow-hidden">
+      <div className="flex flex-col sm:flex-row gap-4 min-w-0">
+        {/* На мобільному — горизонтальний скрол мініатюр; на sm+ — вертикальний ряд */}
+        <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-x-visible overflow-y-hidden sm:overflow-y-visible no-scrollbar pb-1 sm:pb-0 flex-shrink-0 sm:flex-shrink">
+          <div className="flex flex-nowrap sm:flex-col gap-2 min-w-0 sm:min-w-[64px]">
+            {gallery.map((image, index) => (
+              <button
+                key={`${image}-${index}`}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                className={`relative w-16 h-16 flex-shrink-0 rounded-lg border ${
+                  index === activeIndex ? "border-[#7dd3fc]" : "border-slate-200"
+                } bg-white overflow-hidden`}
+              >
+                <Image src={image} alt={alt} fill className="object-contain p-1" sizes="64px" />
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="w-full">
-          <div className="relative h-[520px] w-full rounded-2xl bg-white overflow-hidden">
+        <div className="w-full min-w-0">
+          <div className="relative h-[280px] sm:h-[360px] md:h-[440px] lg:h-[520px] w-full max-w-full rounded-lg sm:rounded-xl lg:rounded-2xl bg-white overflow-hidden">
             <div
               ref={containerRef}
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
               onMouseMove={handleMouseMove}
-              className="relative h-full w-full rounded-2xl overflow-hidden"
+              className="relative h-full w-full rounded-lg sm:rounded-xl lg:rounded-2xl overflow-hidden"
               style={{
                 backgroundImage: activeImage ? `url(${activeImage})` : "none",
                 backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,

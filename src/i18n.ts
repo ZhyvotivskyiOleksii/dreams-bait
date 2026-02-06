@@ -13,3 +13,9 @@ export const localeFlags: Record<Locale, string> = {
   en: '🇬🇧',
 };
 
+export const localeInitials: Record<Locale, string> = {
+  uk: 'UA',
+  pl: 'PL',
+  en: 'EN',
+};
+

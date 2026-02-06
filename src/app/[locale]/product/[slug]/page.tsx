@@ -39,10 +39,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const category = await getCategoryBySlug(product.categorySlug);
-  const related = (await getProductsByCategory(product.categorySlug)).filter(
-    (item) => item.id !== product.id
-  );
+  const [category, categoryProducts] = await Promise.all([
+    getCategoryBySlug(product.categorySlug),
+    getProductsByCategory(product.categorySlug),
+  ]);
+  const related = (categoryProducts ?? []).filter((item) => item.id !== product.id);
   const gallery = product.gallery.length
     ? product.gallery
     : [product.image];
@@ -70,11 +71,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     en: "Show less",
   } as const;
   const productDescription = product.description?.[locale];
-  const inStock =
-    typeof product.stockCount === "number" &&
-    typeof product.purchasedCount === "number"
-      ? product.purchasedCount < product.stockCount
-      : true;
+  const availableQty =
+    typeof product.stockCount === "number"
+      ? product.stockCount - (typeof product.purchasedCount === "number" ? product.purchasedCount : 0)
+      : null;
+  const inStock = availableQty === null || availableQty > 0;
   const paymentMethods = [
     { label: "Visa", src: "/paymant/visa.svg" },
     { label: "Mastercard", src: "/paymant/mastercard.svg" },
@@ -84,8 +85,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-14 sm:pt-28 pb-16">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-slate-50 pt-0 pb-16 min-w-0 overflow-x-hidden">
+      <div className="container mx-auto px-4 w-full max-w-[100vw] min-w-0">
         <BreadcrumbsBar
           items={[
             {
@@ -110,8 +111,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ]}
         />
 
-        <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_540px]">
-          <div className="space-y-6">
+        <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] min-w-0">
+          <div className="space-y-6 min-w-0">
             <ProductGallery
               images={galleryImages}
               alt={product.name[locale]}
@@ -127,9 +128,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             )}
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
-            <div className="flex items-start justify-between gap-4">
-            <h1 className="text-2xl font-heading text-slate-900">
+          <div className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 min-w-0">
+            <div className="flex items-start justify-between gap-3 min-w-0">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-heading text-slate-900 break-words min-w-0 flex-1">
               {product.name[locale]}
             </h1>
             <Suspense fallback={null}>
@@ -143,7 +144,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   price: product.price,
                   categorySlug: product.categorySlug,
                 }}
-                className="w-10 h-10 rounded-full border-0 bg-transparent shadow-none flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors pointer-events-auto cursor-pointer"
+                className="w-10 h-10 rounded-full border-0 bg-transparent flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors pointer-events-auto cursor-pointer"
                 iconClassName="w-5 h-5 mx-auto"
               />
             </Suspense>
@@ -210,18 +211,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <div className="text-sm font-semibold text-slate-800">
                 {t("productPage.paymentTitle")}
               </div>
-              <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+              <div className="mt-3 flex flex-nowrap items-center justify-between gap-1 sm:gap-2">
                 {paymentMethods.map((item) => (
                   <span
                     key={item.label}
-                    className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2"
+                    className="flex-1 min-w-0 flex items-center justify-center rounded-full bg-white py-1.5 px-1 sm:py-2 sm:px-3"
                   >
-                    <span className="relative h-7 w-16">
+                    <span className="relative h-5 w-9 sm:h-6 sm:w-11 lg:h-7 lg:w-14">
                       <Image
                         src={item.src}
                         alt={item.label}
                         fill
-                        sizes="64px"
+                        sizes="(max-width: 640px) 36px, (max-width: 1024px) 44px, 56px"
                         className="object-contain"
                       />
                     </span>
@@ -267,7 +268,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <Link
                   key={item.id}
                   href={`/${locale}/product/${item.slug}`}
-                  className="bg-white rounded-2xl border border-slate-200 p-4 hover:shadow-xl transition-all"
+                  className="bg-white rounded-2xl border border-slate-200 p-4 transition-all"
                 >
                   <div className="relative h-40 rounded-xl bg-slate-50 overflow-hidden mb-3">
                     <Image

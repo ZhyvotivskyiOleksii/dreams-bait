@@ -15,42 +15,63 @@ type BreadcrumbsBarProps = {
   className?: string;
 };
 
+const HEADER_HEIGHT = 64; // fixed header height (top-16)
+const BAR_HEIGHT = 40;   // breadcrumbs bar height
+
 export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps) {
   return (
-    <div
-      className={clsx(
-        "sm:sticky sm:top-16 z-40 -mx-4 bg-slate-50 px-2 pt-2 pb-3 sm:pt-5 sm:pb-5 mb-3 sm:mb-6",
-        className
-      )}
-    >
-      <nav className="flex flex-wrap items-center gap-2 text-[13px] font-medium text-[#3e3e3e]">
+    <>
+      {/* Фіксована смуга одразу під хедером, без відступу */}
+      <div
+        className={clsx(
+          "fixed left-0 right-0 z-40 bg-white border-b border-slate-200 min-w-0 overflow-hidden",
+          className
+        )}
+        style={{ top: HEADER_HEIGHT }}
+      >
+        <div className="container mx-auto px-4 pt-2 pb-3 sm:pt-3 sm:pb-3 min-h-[40px] flex items-center">
+          <nav className="flex flex-nowrap items-center gap-2 text-[13px] font-medium text-slate-900 min-w-0 overflow-hidden">
         {items.map((item, index) => {
           const isFirst = index === 0;
           const content = item.isHome ? (
-            <span className="inline-flex items-center gap-1">
-              <Home className="h-4 w-4" />
+            <span className="inline-flex items-center gap-1 flex-shrink-0">
+              <Home className="h-4 w-4 text-slate-700" />
               <span className="hidden sm:inline">{item.label}</span>
             </span>
           ) : (
             <span>{item.label}</span>
           );
 
+          const isLast = index === items.length - 1;
           return (
-            <span key={`${item.label}-${index}`} className="flex items-center gap-2">
-              {!isFirst && <ChevronRight className="h-4 w-4 text-slate-400" />}
+            <span
+              key={`${item.label}-${index}`}
+              className={clsx(
+                "flex items-center gap-2 flex-shrink-0",
+                isLast && "min-w-0 flex-shrink overflow-hidden"
+              )}
+            >
+              {!isFirst && <ChevronRight className="h-4 w-4 text-slate-600 flex-shrink-0" />}
               {item.href ? (
-                <Link href={item.href} className="hover:text-slate-700 transition-colors">
+                <Link href={item.href} className="text-slate-800 hover:text-slate-950 transition-colors">
                   {content}
                 </Link>
               ) : (
-                <span className={index === items.length - 1 ? "text-slate-700" : undefined}>
+                <span
+                  className={clsx(isLast && "block truncate min-w-0 text-slate-950 font-semibold")}
+                  title={isLast ? item.label : undefined}
+                >
                   {content}
                 </span>
               )}
             </span>
           );
         })}
-      </nav>
-    </div>
+          </nav>
+        </div>
+      </div>
+      {/* Spacer щоб контент не заходив під фіксовані хедер і крошки */}
+      <div className="min-w-0 overflow-hidden mb-3 sm:mb-6" style={{ height: HEADER_HEIGHT + BAR_HEIGHT }} aria-hidden />
+    </>
   );
 }

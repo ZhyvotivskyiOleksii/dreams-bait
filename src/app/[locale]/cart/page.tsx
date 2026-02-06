@@ -433,93 +433,71 @@ function CartPageContent() {
                   {t("cart.browseCatalog")}
                 </Link>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {items.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex flex-col sm:flex-row gap-4 border border-gray-200 rounded-2xl p-4"
-                  >
-                    <div className="w-24 h-24 relative rounded-xl overflow-hidden bg-white flex-shrink-0">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        sizes="96px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-4">
-                      <div className="flex-1">
-                        <p className="text-slate-800 font-semibold">{item.name}</p>
-                        <p className="text-sm text-black">
-                          {item.price} {t("currency.uah")}
-                        </p>
-                      </div>
+            ) : null}
+          </div>
 
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-2">
+          <aside className="w-full lg:w-[360px]">
+            <div className="sticky top-24 rounded-3xl border border-slate-200 bg-white p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="font-heading text-xl text-slate-900">{t("cart.summaryTitle")}</h2>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+                  {t("cart.itemsCount", { count: totalItems })}
+                </span>
+              </div>
+              {items.length > 0 && (
+                <div className="space-y-3 max-h-[50vh] overflow-y-auto no-scrollbar">
+                  {items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex flex-col gap-2 border border-slate-200 rounded-2xl p-3"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 relative rounded-xl overflow-hidden bg-white flex-shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            sizes="80px"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-slate-800 line-clamp-2">
+                            {item.name}
+                          </p>
+                          <p className="mt-0.5 text-sm font-bold text-black">
+                            {item.price} {t("currency.uah")}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          className="p-1.5 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
+                          aria-label={t("cart.remove")}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => updateQty(item.id, item.qty - 1)}
-                            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                             aria-label="Decrease quantity"
                           >
-                            <Minus className="w-4 h-4" />
+                            <Minus className="w-3.5 h-3.5" />
                           </button>
-                          <span className="min-w-[32px] text-center font-semibold text-slate-700">
+                          <span className="min-w-[24px] text-center text-sm font-semibold text-slate-700">
                             {item.qty}
                           </span>
                           <button
                             onClick={() => updateQty(item.id, item.qty + 1)}
-                            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
                             aria-label="Increase quantity"
                           >
-                            <Plus className="w-4 h-4" />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
-                        </div>
-                        <button
-                          onClick={() => removeItem(item.id)}
-                          className="p-2 text-slate-400 hover:text-red-500 transition-colors"
-                          aria-label="Remove item"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <aside className="w-full lg:w-[360px]">
-            <div className="border border-gray-200 rounded-2xl p-6 space-y-4 sticky top-24">
-              <h2 className="font-heading text-xl text-slate-900">{t("cart.summaryTitle")}</h2>
-              {items.length > 0 && (
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="relative h-16 w-16 rounded-xl overflow-hidden bg-white flex-shrink-0">
-                      <Image
-                        src={items[0].image}
-                        alt={items[0].name}
-                        fill
-                        sizes="64px"
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <div>
-                        <p className="text-sm font-semibold text-slate-900 line-clamp-2">
-                          {items[0].name}
-                        </p>
-                        {!isUuid(items[0].id) && items[0].id.length <= 24 && (
-                          <p className="mt-2 text-xs text-slate-500">
-                            {t("cart.codeLabel")} {items[0].id}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               )}
               <div className="rounded-2xl border border-slate-200 bg-white p-4">
@@ -535,24 +513,26 @@ function CartPageContent() {
                       })
                     : t("cart.freeDeliveryUnlocked")}
                 </div>
-                <div className="mt-3 h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div className="mt-3 h-2.5 rounded-full bg-slate-100 overflow-hidden">
                   <div
                     className="h-full rounded-full bg-[#0ea5e9] transition-all"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
-              <div className="flex items-center justify-between text-sm text-slate-600">
-                <span>{t("cart.totalLabel")}</span>
-                <span className="font-semibold text-slate-900">
-                  {total} {t("currency.uah")}
-                </span>
-              </div>
-              <div className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600 flex items-center justify-between">
-                <span>{t("cart.itemsCount", { count: totalItems })}</span>
-                <span className="font-semibold text-slate-900">
-                  {total} {t("currency.uah")}
-                </span>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+                <div className="flex items-center justify-between">
+                  <span>{t("cart.totalLabel")}</span>
+                  <span className="font-semibold text-slate-900">
+                    {total} {t("currency.uah")}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
+                  <span>{t("cart.itemsCount", { count: totalItems })}</span>
+                  <span className="font-semibold text-slate-700">
+                    {total} {t("currency.uah")}
+                  </span>
+                </div>
               </div>
               <button
                 type="button"
@@ -615,11 +595,14 @@ function CartPageContent() {
                   {payError}
                 </div>
               )}
-              <div className="mt-3 grid grid-cols-5 gap-2">
+              <div className="mt-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {t("payment.methods")}
+              </div>
+              <div className="grid grid-cols-5 gap-2">
                 {paymentMethods.map((method) => (
                   <span
                     key={method.label}
-                    className="inline-flex items-center justify-center rounded-full bg-white px-2 py-1.5"
+                    className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-2 py-1.5"
                   >
                     <span className="relative h-6 w-12">
                       <Image

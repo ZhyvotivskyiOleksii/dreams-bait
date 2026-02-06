@@ -21,7 +21,7 @@ export default function ProductDescription({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6">
       {showTitle && (
         <h2 className="text-lg font-heading text-slate-900">{title}</h2>
       )}

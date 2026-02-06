@@ -85,11 +85,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           .order("created_at", { ascending: false });
         if (error || !data) return;
         const mapped = data.map((row) => ({
-          id: row.product_id ?? row.name,
+          id: String(row.product_id ?? row.name ?? ""),
           name: row.name,
           price: Number(row.price),
           image: row.image_url ?? "",
-          qty: row.qty,
+          qty: Number(row.qty) || 1,
         }));
         setItems(mapped);
       };
@@ -137,10 +137,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem: CartContextValue["addItem"] = (item, qty = 1) => {
     setItems((prev) => {
-      const existing = prev.find((entry) => entry.id === item.id);
+      const itemId = String(item.id);
+      const existing = prev.find((entry) => String(entry.id) === itemId);
       const next = existing
         ? prev.map((entry) =>
-            entry.id === item.id ? { ...entry, qty: entry.qty + qty } : entry
+            String(entry.id) === itemId ? { ...entry, qty: entry.qty + qty } : entry
           )
         : [...prev, { ...item, qty }];
 
@@ -180,7 +181,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeItem: CartContextValue["removeItem"] = (id) => {
     setItems((prev) => {
-      const next = prev.filter((entry) => entry.id !== id);
+      const idStr = String(id);
+      const next = prev.filter((entry) => String(entry.id) !== idStr);
       if (isAuthed && userId) {
         supabase
           .from("cart_items")
@@ -193,9 +195,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQty: CartContextValue["updateQty"] = (id, qty) => {
+    const idStr = String(id);
     setItems((prev) => {
       const next = prev
-        .map((entry) => (entry.id === id ? { ...entry, qty } : entry))
+        .map((entry) => (String(entry.id) === idStr ? { ...entry, qty: Number(qty) || 1 } : entry))
         .filter((entry) => entry.qty > 0);
       if (isAuthed && userId) {
         if (qty <= 0) {
@@ -239,7 +242,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider value={value}>
       {children}
       {toast && (
-        <div className="fixed top-24 right-6 z-[70] flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-xl">
+        <div className="fixed top-24 right-6 z-[70] flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
             <CheckCircle2 className="h-5 w-5" />
           </span>

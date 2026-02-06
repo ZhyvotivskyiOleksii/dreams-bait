@@ -10,6 +10,14 @@
   background-clip: text;
 }
 
+/* Наш градієнт: #7dd3fc (from) → #38bdf8 (to) */
+.gradient-our {
+  background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+}
+.gradient-our-h {
+  background: linear-gradient(90deg, #7dd3fc 0%, #38bdf8 100%);
+}
+
 .price-range {
   -webkit-appearance: none;
   appearance: none;
@@ -23,7 +31,6 @@
   border-radius: 9999px;
   background: #f59e0b;
   border: 2px solid #fff;
-  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
   cursor: pointer;
 }
 
@@ -33,7 +40,6 @@
   border-radius: 9999px;
   background: #f59e0b;
   border: 2px solid #fff;
-  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
   cursor: pointer;
 }
 
@@ -55,14 +61,25 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
-    @apply font-body text-gray-800 bg-white;
+    @apply font-body text-gray-800;
+    background-color: #f2f4f8;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-wide;
+  }
+
+  /* Мінімум 16px — інакше на iOS Safari при фокусі на input сторінка зуміться */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 
@@ -72,7 +89,6 @@
            bg-forest-700 text-white font-bold text-lg
            rounded-lg hover:bg-forest-600 
            transition-all duration-300 ease-out
-           hover:shadow-lg hover:shadow-forest-900/20
            active:scale-[0.98];
   }
 
@@ -113,9 +129,9 @@
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden
+    @apply bg-white rounded-lg overflow-hidden
            transition-all duration-300 ease-out
-           hover:shadow-xl hover:-translate-y-1;
+           hover:-translate-y-1;
   }
 
   .glass {
@@ -147,13 +163,19 @@
     background-color: #ffffff !important;
   }
 
+  /* No shadows anywhere on the site */
+  *,
   .shadow,
   .shadow-sm,
   .shadow-md,
   .shadow-lg,
   .shadow-xl,
-  .shadow-2xl {
+  .shadow-2xl,
+  [class*="shadow"] {
     box-shadow: none !important;
+  }
+  [class*="drop-shadow"] {
+    filter: none !important;
   }
 
   .text-balance {

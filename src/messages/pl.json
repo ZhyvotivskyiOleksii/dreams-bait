@@ -13,6 +13,7 @@
     "about": "O nas",
     "contact": "Kontakt",
     "cart": "Koszyk",
+    "regulamin": "Regulamin",
     "admin": "Admin",
     "search": "Szukaj..."
   },
@@ -21,11 +22,12 @@
     "catalog": "Katalog"
   },
   "hero": {
-    "title": "TWOJE WĘDKARSTWO",
-    "subtitle": "NA NOWYM POZIOMIE",
-    "description": "Profesjonalny sprzęt dla prawdziwych karpiarzy. Tylko sprawdzone marki i najlepsza jakość.",
-    "cta": "Zobacz katalog",
-    "secondary": "Dowiedz się więcej"
+    "cta": "Do katalogu",
+    "slide1": "Wędki",
+    "slide2": "Kołowrotki",
+    "slide3": "Zanęty",
+    "slide4": "Akcesoria",
+    "slide5": "Nowości sezonu"
   },
   "features": {
     "title": "Dlaczego my",
@@ -75,13 +77,17 @@
     "returns": "Zwroty",
     "warranty": "Gwarancja",
     "privacy": "Polityka prywatności",
+    "regulamin": "Regulamin",
+    "cookies": "Polityka cookies",
     "contacts": "Kontakt",
-    "address": "Warszawa, ul. Rybacka 15",
+    "address": "Im Buchenhain 3a, 49740 Haselünne, Deutschland",
+    "phone": "+49 173 3673099",
+    "email": "bigdreamsbait2025@gmail.com",
     "workHours": "Pn-Pt: 9:00-18:00",
     "copyright": "Wszelkie prawa zastrzeżone"
   },
   "common": {
-    "logoAlt": "Logo Dreams Bait",
+    "logoAlt": "Logo Iarosław Romanevich: Big dreams bait",
     "officialPartner": "Oficjalny partner",
     "madeInUkraine": "Wyprodukowano na Ukrainie",
     "loading": "Ładowanie...",
@@ -89,7 +95,10 @@
     "closeMenu": "Zamknij menu",
     "languageLabel": "Język",
     "expand": "Rozwiń",
-    "collapse": "Zwiń"
+    "collapse": "Zwiń",
+    "chatTitle": "Napisz do nas",
+    "chatWhatsApp": "WhatsApp",
+    "chatTelegram": "Telegram"
   },
   "header": {
     "promotions": "Promocje",
@@ -145,16 +154,16 @@
       "cta": "Zobacz promocje"
     },
     "partner": {
-      "badge": "Oficjalny dystrybutor",
-      "title": "DREAMS BAIT — JAKOŚĆ BEZ KOMPROMISÓW",
-      "description": "Jesteśmy oficjalnym partnerem Dreams Bait w Polsce. Gwarantujemy 100% oryginalne produkty, oficjalną gwarancję i serwis.",
+      "badge": "Własny producent boili i zanęt",
+      "title": "BIG DREAMS BAIT — JAKOŚĆ BEZ KOMPROMISÓW",
+      "description": "Jesteśmy własnym producentem boili i zanęt. Tworzymy receptury i produkujemy wyroby pod marką Big dreams bait. Gwarantujemy jakość, oficjalną gwarancję i wsparcie.",
       "stats": {
         "original": "Oryginał",
         "support": "Wsparcie",
         "warranty": "Lata gwarancji"
       },
       "primaryCta": "Zobacz katalog",
-      "secondaryCta": "O partnerstwie"
+      "secondaryCta": "O nas"
     }
   },
   "cart": {
@@ -225,6 +234,7 @@
     "title": "KATALOG",
     "subtitle": "PRODUKTÓW",
     "topSales": "Top sprzedaży",
+    "topProductsInCategory": "Top produktów w tej kategorii",
     "categories": {
       "rods": "Wędki",
       "reels": "Kołowrotki",
@@ -245,6 +255,8 @@
       "nozzlesLiquids": "Przynęty i liquidy",
       "liquidsComponents": "Płyny i komponenty",
       "allForFishing": "Wszystko dla wędkarza",
+      "ingredients": "Składniki",
+      "boilieIngredients": "Składniki do boili",
       "landingNets": "Podbieraki",
       "rodPods": "Rodpody",
       "biteAlarms": "Sygnalizatory",
@@ -268,17 +280,20 @@
       "lines": {
         "item1": "Carp Pro Line 0.30mm",
         "item2": "Fox Camotex 25lb",
-        "item3": "Korda Touchdown"
+        "item3": "Korda Touchdown",
+        "item4": "Żyłki (katalog)"
       },
       "bait": {
         "item1": "Starbaits SK30 20mm",
         "item2": "CCMoore Live System",
-        "item3": "Dynamite Baits"
+        "item3": "Dynamite Baits",
+        "item4": "Zanęty (katalog)"
       },
       "accessories": {
         "item1": "Fox RX+ 3 Rod Set",
         "item2": "Carp Pro Landing Net",
-        "item3": "Nash Siren S5R"
+        "item3": "Nash Siren S5R",
+        "item4": "Carp Pro Bait Box"
       },
       "camping": {
         "item1": "Carp Pro Diamond Dome",
@@ -341,6 +356,11 @@
     "descriptionEn": "Opis (EN)",
     "slug": "Slug",
     "code": "Kod",
+    "category": "Kategoria",
+    "helpCategory": "Tylko kategorie z menu (jak na stronie).",
+    "subcategory": "Podkategoria",
+    "helpSubcategory": "Opcjonalnie wybierz podkategorię.",
+    "subcategoryUseMain": "— główna kategoria",
     "price": "Cena",
     "oldPrice": "Stara cena",
     "discount": "Rabat %",
@@ -401,7 +421,8 @@
     "noProducts": "Brak produktów.",
     "categoryPlaceholder": "Wybierz kategorię",
     "statusActive": "Aktywny",
-    "statusInactive": "Ukryty"
+    "statusInactive": "Ukryty",
+    "moveToCategory": "Przenieś do kategorii"
   }
   ,
   "auth": {
@@ -519,7 +540,12 @@
     "title": "Wyprzedaż",
     "description": "Na razie nie ma aktywnych ofert."
   },
+  "aboutPage": {
+    "title": "O nas",
+    "comingSoon": "Informacje pojawią się wkrótce."
+  },
   "catalogPage": {
+    "intro": "Wybierz kategorię i przeglądaj produkty wędkarskie.",
     "empty": "Produkty w tej kategorii pojawią się wkrótce.",
     "favorites": "Dodaj do ulubionych",
     "addToCart": "Dodaj do koszyka",

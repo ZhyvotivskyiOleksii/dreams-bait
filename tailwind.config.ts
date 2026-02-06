@@ -79,6 +79,9 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'hero-pattern': 'linear-gradient(135deg, rgba(18, 25, 18, 0.9) 0%, rgba(9, 28, 33, 0.8) 100%)',
+        /* Наш градієнт: #7dd3fc → #38bdf8 */
+        'gradient-our': 'linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%)',
+        'gradient-our-h': 'linear-gradient(90deg, #7dd3fc 0%, #38bdf8 100%)',
       },
     },
   },

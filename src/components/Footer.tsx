@@ -10,7 +10,6 @@ import {
   Clock,
   Facebook,
   Instagram,
-  Youtube,
   Send
 } from "lucide-react";
 
@@ -29,29 +28,28 @@ export default function Footer() {
   ];
 
   const infoLinks = [
-    { href: `/${locale}/delivery`, label: t("footer.delivery") },
-    { href: `/${locale}/returns`, label: t("footer.returns") },
-    { href: `/${locale}/warranty`, label: t("footer.warranty") },
+    { href: `/${locale}/regulamin`, label: t("footer.regulamin") },
     { href: `/${locale}/privacy`, label: t("footer.privacy") },
+    { href: `/${locale}/cookies`, label: t("footer.cookies") },
   ];
 
   return (
     <footer className="bg-black text-white">
       {/* Newsletter секція */}
-      <div className="border-b border-gray-800">
+      <div className="border-b border-slate-200 bg-[#f2f4f8] text-slate-900">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="font-heading text-3xl md:text-4xl mb-3 text-white">
+            <h3 className="font-heading text-3xl md:text-4xl mb-3 text-slate-900">
               {t("newsletter.title")}
             </h3>
-            <p className="text-gray-400 mb-6 max-w-xl mx-auto">
+            <p className="text-slate-600 mb-6 max-w-xl mx-auto">
               {t("newsletter.description")}
             </p>
             <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
               <input
                 type="email"
                 placeholder={t("newsletter.placeholder")}
-                className="flex-1 px-5 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] focus:border-transparent"
+                className="flex-1 px-5 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] focus:border-transparent"
               />
               <button
                 type="submit"
@@ -67,53 +65,58 @@ export default function Footer() {
 
       {/* Основний контент */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
           {/* Про компанію */}
-          <div className="lg:col-span-1">
-            <Link href={`/${locale}`} className="flex items-center gap-3 mb-5">
+          <div className="lg:col-span-1 flex flex-col items-center">
+            <Link href={`/${locale}`} className="flex items-center gap-3 mb-5 justify-center">
               <div className="w-14 h-14 rounded-full flex items-center justify-center overflow-hidden">
                 <Image src="/logo.png" alt={commonT("logoAlt")} width={40} height={40} />
               </div>
               <div>
-                <span className="font-heading text-2xl tracking-wider text-white">DREAMS BAIT</span>
+                <span className="font-heading text-2xl tracking-wider text-white">BIG DREAMS BAIT</span>
                 <div className="text-xs tracking-widest uppercase text-[#7dd3fc] font-bold">
                   {commonT("officialPartner")}
                 </div>
               </div>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
               {t("footer.description")}
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-center">
               <a
-                href="https://facebook.com"
+                href="https://tiktok.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
+                aria-label="TikTok"
               >
-                <Facebook className="w-6 h-6 text-black" />
+                <svg className="w-6 h-6 text-black" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                </svg>
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
+                aria-label="Instagram"
               >
                 <Instagram className="w-6 h-6 text-black" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 bg-[#7dd3fc] rounded-full flex items-center justify-center hover:bg-[#f5c542] transition-colors"
+                aria-label="Facebook"
               >
-                <Youtube className="w-6 h-6 text-black" />
+                <Facebook className="w-6 h-6 text-black" />
               </a>
             </div>
           </div>
 
           {/* Категорії */}
-          <div>
+          <div className="flex flex-col items-center">
             <h4 className="font-heading text-xl tracking-wide mb-5 text-white">
               {t("footer.categories")}
             </h4>
@@ -132,7 +135,7 @@ export default function Footer() {
           </div>
 
           {/* Інформація */}
-          <div>
+          <div className="flex flex-col items-center">
             <h4 className="font-heading text-xl tracking-wide mb-5 text-white">
               {t("footer.information")}
             </h4>
@@ -151,31 +154,31 @@ export default function Footer() {
           </div>
 
           {/* Контакти */}
-          <div>
+          <div className="flex flex-col items-center">
             <h4 className="font-heading text-xl tracking-wide mb-5 text-white">
               {t("footer.contacts")}
             </h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
+            <ul className="space-y-4 flex flex-col items-center">
+              <li className="flex items-start gap-3 max-w-xs">
                 <MapPin className="w-5 h-5 text-[#7dd3fc] flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400 text-sm">{t("footer.address")}</span>
+                <span className="text-gray-400 text-sm text-left">{t("footer.address")}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#7dd3fc] flex-shrink-0" />
                 <a
-                  href="tel:+380991234567"
+                  href="tel:+491733673099"
                   className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                 >
-                  +38 (099) 123-45-67
+                  {t("footer.phone")}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#7dd3fc] flex-shrink-0" />
                 <a
-                  href="mailto:info@carppro.ua"
+                  href="mailto:bigdreamsbait2025@gmail.com"
                   className="text-gray-400 hover:text-[#7dd3fc] transition-colors text-sm"
                 >
-                  info@carppro.ua
+                  {t("footer.email")}
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -190,9 +193,9 @@ export default function Footer() {
       {/* Копірайт */}
       <div className="border-t border-gray-800">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-gray-500 text-center">
             <p>
-              © {new Date().getFullYear()} Dreams Bait. {t("footer.copyright")}
+              © {new Date().getFullYear()} Iarosław Romanevich: Big dreams bait. {t("footer.copyright")}
             </p>
             <div className="flex items-center gap-6">
               <span>🇺🇦 {commonT("madeInUkraine")}</span>

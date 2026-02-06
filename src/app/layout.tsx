@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Dreams Bait - Professional Carp Fishing Equipment",
+  title: "Iarosław Romanevich: Big dreams bait - Professional Carp Fishing Equipment",
   description:
     "The best selection of carp fishing gear. Rods, reels, bait and accessories from leading brands.",
   icons: {
@@ -36,7 +36,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${russoOne.variable} ${montserrat.variable}`}>
-      <body className="min-h-screen flex flex-col">{children}</body>
+      <body className="min-h-screen flex flex-col overflow-x-hidden w-full max-w-[100vw]">{children}</body>
     </html>
   );
 }

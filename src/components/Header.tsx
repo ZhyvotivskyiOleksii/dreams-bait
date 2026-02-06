@@ -67,79 +67,82 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-md shadow-lg py-3 transition-all duration-300">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between gap-3 flex-wrap lg:flex-nowrap">
-            {/* Ліва частина - Кнопка меню */}
-            <div className="flex items-center gap-3 flex-wrap">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md transition-all duration-300 px-4 py-2 sm:px-6 sm:py-2.5 lg:px-10 lg:py-3 xl:px-[40px]">
+        <div className="mx-auto w-full max-w-[100vw] min-w-0">
+          {/* На мобільному: сітка [меню | лого по центру | мова+кошик] */}
+          <div className="flex items-center justify-between gap-3 min-w-0 lg:gap-4">
+            {/* Ліва частина: Каталог (моб) / Каталог + пошук + лого (десктоп) */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 lg:flex-initial">
               <button
                 onClick={() => setIsMegaMenuOpen(true)}
-                className="group flex items-center gap-3 px-5 py-3 rounded-lg transition-all duration-300 hover:scale-105"
+                className="group flex items-center justify-center gap-1 sm:gap-2.5 h-8 w-9 lg:h-9 lg:min-w-[130px] lg:px-4 lg:py-2 sm:min-w-0 sm:px-3 sm:py-1.5 rounded-lg transition-all duration-200 hover:brightness-110 flex-shrink-0"
                 style={{ backgroundColor: "#7dd3fc" }}
               >
-                <div className="flex flex-col gap-1">
-                  <span className="w-5 h-0.5 bg-black rounded-full transition-all group-hover:w-6"></span>
-                  <span className="w-6 h-0.5 bg-black rounded-full"></span>
-                  <span className="w-4 h-0.5 bg-black rounded-full transition-all group-hover:w-6"></span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="w-2.5 h-0.5 sm:w-3.5 lg:w-4 bg-black rounded-full transition-all group-hover:w-4"></span>
+                  <span className="w-3 h-0.5 sm:w-4 lg:w-5 bg-black rounded-full"></span>
+                  <span className="w-2 h-0.5 sm:w-2.5 lg:w-3 bg-black rounded-full transition-all group-hover:w-4"></span>
                 </div>
-                <span className="hidden sm:block text-black font-bold uppercase tracking-wider text-sm">
+                <span className="hidden sm:block text-black font-bold uppercase tracking-wider text-[10px] lg:text-sm whitespace-nowrap">
                   {t("catalog")}
                 </span>
               </button>
 
-              {/* Пошук */}
-              <div className="hidden lg:flex items-center">
-                <div className="relative">
+              {/* Пошук — тільки десктоп */}
+              <div className="hidden lg:flex items-center flex-shrink-0">
+                <div className="relative h-9">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/70" />
                   <input
                     type="text"
                     placeholder={t("search")}
-                    className="w-44 xl:w-56 pl-9 pr-3 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] focus:border-transparent"
+                    className="h-9 w-40 xl:w-48 pl-9 pr-3 rounded-full bg-white/10 text-white text-sm placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] transition-colors"
                   />
                 </div>
               </div>
+
+              {/* Лого + назва: на мобільному по центру, на десктопі зліва */}
+              <Link
+                href={`/${locale}`}
+                className="flex items-center justify-center gap-2 flex-1 min-w-0 lg:flex-initial lg:justify-start lg:ml-1"
+              >
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white/10">
+                  <Image src="/logo.png" alt={commonT("logoAlt")} width={40} height={40} className="w-full h-full object-cover" />
+                </div>
+                <div className="min-w-0 flex flex-col justify-center">
+                  <span className="font-heading text-xs sm:text-base lg:text-lg text-white tracking-wide truncate block">
+                    BIG DREAMS BAIT
+                  </span>
+                  <div
+                    className="text-[9px] sm:text-[10px] lg:text-xs tracking-widest uppercase font-bold hidden sm:block"
+                    style={{ color: "#7dd3fc" }}
+                  >
+                    {commonT("officialPartner")}
+                  </div>
+                </div>
+              </Link>
             </div>
 
-            {/* Центр - Логотип */}
-            <Link href={`/${locale}`} className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3 group">
-              <div 
-                className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg overflow-hidden"
-                style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
-              >
-                <Image src="/logo.png" alt={commonT("logoAlt")} width={40} height={40} />
-              </div>
-              <div className="hidden sm:block">
-                <span className="font-heading text-2xl text-white tracking-wide">
-                  DREAMS BAIT
-                </span>
-                <div
-                  className="text-xs tracking-widest uppercase font-bold"
-                  style={{ color: "#7dd3fc" }}
-                >
-                  {commonT("officialPartner")}
-                </div>
-              </div>
-            </Link>
-
-            {/* Права частина */}
-            <div className="flex items-center gap-2 flex-wrap justify-end">
-              {/* Акції / Розпродаж */}
-              <div className="hidden xl:flex items-center gap-3">
+            {/* Права частина: мова + кошик */}
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              {/* Акції / Розпродаж — тільки на xl */}
+              <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
                 <Link
                   href={`/${locale}/promotions`}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e22b2b] text-white text-xs font-bold shadow-lg shadow-[#e22b2b]/40 hover:brightness-110 transition-all"
+className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-bold hover:brightness-110 transition-all"
+                  style={{ background: "linear-gradient(90deg, #fb232e, #750e12)" }}
                 >
                   <span>{headerT("promotions")}</span>
-                  <span className="w-5 h-5 -mr-2 rounded-full bg-white text-[#e22b2b] text-[10px] font-bold flex items-center justify-center shadow-md">
+                  <span className="w-6 h-6 -mr-2 rounded-full bg-white text-[#750e12] text-xs font-bold flex items-center justify-center">
                     0
                   </span>
                 </Link>
                 <Link
                   href={`/${locale}/sale`}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff8a00] text-white text-xs font-bold shadow-lg shadow-[#ff8a00]/40 hover:brightness-110 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-bold hover:brightness-110 transition-all"
+                  style={{ background: "linear-gradient(90deg, #ff9130, #df4604)" }}
                 >
-                  <span className="inline-flex w-5 h-5 -ml-2 rounded-full bg-white/20 items-center justify-center shadow-md">
-                    <Percent className="w-3 h-3 text-white" />
+                  <span className="inline-flex w-6 h-6 -ml-2 rounded-full bg-white/20 items-center justify-center">
+                    <Percent className="w-3.5 h-3.5 text-white" />
                   </span>
                   <span>{headerT("sale")}</span>
                 </Link>
@@ -154,7 +157,7 @@ export default function Header() {
                 <div className="hidden lg:flex items-center gap-2">
                   <Link
                     href={`/${locale}/${isAdmin ? "admin" : "account"}`}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center gap-2 h-9 px-4 rounded-full text-white text-sm font-semibold hover:bg-white/10 transition-colors"
                   >
                     <User className="w-4 h-4" />
                     {isAdmin ? headerT("admin") : headerT("account")}
@@ -162,7 +165,7 @@ export default function Header() {
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white hover:bg-white/10 transition-colors"
                     aria-label={headerT("logout")}
                   >
                     <LogOut className="w-4 h-4" />
@@ -171,7 +174,7 @@ export default function Header() {
               ) : (
                 <Link
                   href={`/${locale}/auth`}
-                  className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/30 text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                  className="hidden lg:inline-flex items-center gap-2 h-9 px-4 rounded-full text-white text-sm font-semibold hover:bg-white/10 transition-colors"
                 >
                   <User className="w-4 h-4" />
                   {headerT("auth")}
@@ -182,15 +185,17 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-3 rounded-full text-white hover:bg-white/10 transition-all duration-200"
+                className="relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full text-white hover:bg-white/10 transition-all duration-200"
                 aria-label={t("cart")}
               >
-                <ShoppingCart className="w-6 h-6" />
-                <span 
-                  className="absolute -top-1 -right-1 min-w-[24px] h-[24px] text-black text-xs font-bold rounded-full flex items-center justify-center border-2 border-black"
-                  style={{ backgroundColor: "#7dd3fc" }}
-                >
-                  {itemCount}
+                <span className="relative inline-flex">
+                  <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" strokeWidth={2} />
+                  <span
+                    className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] sm:min-w-[16px] sm:h-[16px] lg:min-w-[18px] lg:h-[18px] text-black text-[9px] sm:text-[10px] lg:text-xs font-bold rounded-full flex items-center justify-center border border-white"
+                    style={{ backgroundColor: "#7dd3fc" }}
+                  >
+                    {itemCount}
+                  </span>
                 </span>
               </button>
             </div>

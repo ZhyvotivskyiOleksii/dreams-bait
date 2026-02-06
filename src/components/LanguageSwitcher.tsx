@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Globe, ChevronDown } from "lucide-react";
 import clsx from "clsx";
-import { locales, localeNames, localeFlags, type Locale } from "@/i18n";
+import { locales, localeFlags, localeInitials, type Locale } from "@/i18n";
 
 interface LanguageSwitcherProps {
   isScrolled?: boolean;
@@ -35,14 +35,14 @@ export default function LanguageSwitcher({ isScrolled = false, variant = "header
             key={loc}
             onClick={() => handleLocaleChange(loc)}
             className={clsx(
-              "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+              "w-full flex items-center gap-2 px-4 py-3 rounded-lg transition-colors",
               locale === loc
-                ? "bg-carp-100 text-carp-700"
-                : "text-earth-600 hover:bg-sand-100"
+                ? "bg-water-100 text-water-700"
+                : "text-earth-600"
             )}
           >
             <span className="text-xl">{localeFlags[loc]}</span>
-            <span className="font-medium">{localeNames[loc]}</span>
+            <span className="font-medium">{localeInitials[loc]}</span>
           </button>
         ))}
       </div>
@@ -54,16 +54,17 @@ export default function LanguageSwitcher({ isScrolled = false, variant = "header
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
-          "flex items-center gap-1 p-2 rounded-full transition-all duration-200",
+          "flex items-center justify-center gap-1.5 sm:gap-2 h-9 w-10 lg:h-9 lg:w-auto lg:px-3 sm:px-2.5 rounded-lg transition-all duration-200",
           isScrolled
-            ? "text-earth-600 hover:bg-sand-200"
-            : "text-white hover:bg-white/20"
+            ? "text-earth-600"
+            : "text-white"
         )}
         aria-label={commonT("changeLanguage")}
       >
-        <span className="text-lg">{localeFlags[locale]}</span>
+        <span className="text-lg sm:text-xl leading-none">{localeFlags[locale]}</span>
+        <span className="font-semibold text-sm hidden sm:inline">{localeInitials[locale]}</span>
         <ChevronDown className={clsx(
-          "w-4 h-4 transition-transform",
+          "w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80 transition-transform flex-shrink-0 hidden sm:block",
           isOpen && "rotate-180"
         )} />
       </button>
@@ -75,20 +76,20 @@ export default function LanguageSwitcher({ isScrolled = false, variant = "header
             onClick={() => setIsOpen(false)}
           />
           <div className="absolute right-0 top-full mt-2 z-50 animate-slide-down">
-            <div className="bg-white rounded-lg shadow-xl border border-sand-200 py-2 min-w-[160px]">
+            <div className="bg-white rounded-lg py-2 w-max min-w-0">
               {locales.map((loc) => (
                 <button
                   key={loc}
                   onClick={() => handleLocaleChange(loc)}
                   className={clsx(
-                    "w-full flex items-center gap-3 px-4 py-2 text-left transition-colors",
+                    "w-full flex items-center gap-2 px-3 py-2 text-left",
                     locale === loc
-                      ? "bg-carp-50 text-carp-700"
-                      : "text-earth-700 hover:bg-sand-100"
+                      ? "bg-water-50 text-water-700"
+                      : "text-earth-700"
                   )}
                 >
                   <span className="text-lg">{localeFlags[loc]}</span>
-                  <span className="font-medium">{localeNames[loc]}</span>
+                  <span className="font-medium">{localeInitials[loc]}</span>
                 </button>
               ))}
             </div>

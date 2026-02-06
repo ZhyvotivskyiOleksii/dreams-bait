@@ -66,7 +66,6 @@ export async function POST(request: Request) {
   );
 
   const baseUrl = getBaseUrl(request);
-  const continueUrl = baseUrl ? `${baseUrl}/${locale}/payment?status=success` : undefined;
   const notifyUrl = baseUrl ? `${baseUrl}/api/payu/notify` : undefined;
 
   const tokenResponse = await fetch(
@@ -91,24 +90,25 @@ export async function POST(request: Request) {
   }
 
   const orderPayload = {
-    notifyUrl,
-    continueUrl,
+    ...(notifyUrl ? { notifyUrl } : {}),
     customerIp: getClientIp(request),
     merchantPosId: config.posId,
     description: "Dreams Bait order",
     currencyCode: config.currency,
     totalAmount: totalAmount.toString(),
-    extOrderId: `db-${Date.now()}`,
+    extOrderId: `db-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     products: sanitized.map((item) => ({
       name: item.name,
       unitPrice: item.unitPrice.toString(),
       quantity: item.quantity.toString(),
     })),
-    ...(buyerEmail ? { buyer: { email: buyerEmail } } : {}),
+    ...(buyerEmail ? { buyer: { email: buyerEmail, language: locale === "pl" ? "pl" : "en" } } : {}),
   };
 
+  // PayU przy udanym zamówieniu zwraca 302 z redirectUri w JSON — nie podążamy za przekierowaniem
   const orderResponse = await fetch(`${config.baseUrl}/api/v2_1/orders`, {
     method: "POST",
+    redirect: "manual",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${tokenData.access_token}`,
@@ -117,9 +117,16 @@ export async function POST(request: Request) {
   });
 
   const orderData = await orderResponse.json().catch(() => null);
-  if (!orderResponse.ok || !orderData?.redirectUri) {
+  const successStatuses = [200, 201, 302];
+  const isSuccess = successStatuses.includes(orderResponse.status) && orderData?.redirectUri;
+
+  if (!isSuccess) {
     return NextResponse.json(
-      { error: "PAYU_ORDER_FAILED", details: orderData },
+      {
+        error: "PAYU_ORDER_FAILED",
+        details: orderData,
+        status: orderResponse.status,
+      },
       { status: 502 }
     );
   }

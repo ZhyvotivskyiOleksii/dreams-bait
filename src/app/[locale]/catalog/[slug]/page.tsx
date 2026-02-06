@@ -26,19 +26,24 @@ export default async function CatalogPage({ params }: CatalogPageProps) {
   const messages = (await import(`@/messages/${locale}.json`)).default;
   const t = createTranslator({ locale, messages });
 
-  const category = await getCategoryBySlug(slug);
+  const [category, products] = await Promise.all([
+    getCategoryBySlug(slug),
+    getProductsByCategory(slug),
+  ]);
   if (!category) {
     notFound();
   }
-
-  const products = await getProductsByCategory(slug);
-  const categories = [
-    { slug: "carp-rods", label: t("megaMenu.subcategories.carpRods") },
-    { slug: "feeder-rods", label: t("megaMenu.subcategories.feederRods") },
-  ];
+  const categoryFilters: { slug: string; label: string }[] =
+    slug === "carp-rods" || slug === "feeder-rods" || slug === "rods"
+      ? [
+          { slug: "carp-rods", label: t("megaMenu.subcategories.carpRods") },
+          { slug: "feeder-rods", label: t("megaMenu.subcategories.feederRods") },
+        ]
+      : [];
+  const categories = categoryFilters;
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-0 pb-16">
       <div className="container mx-auto px-[14px] sm:px-4">
         <BreadcrumbsBar
           items={[
@@ -56,7 +61,7 @@ export default async function CatalogPage({ params }: CatalogPageProps) {
           ]}
         />
 
-        <div className="-mx-4 overflow-hidden rounded-none border border-slate-200 bg-white shadow-sm sm:mx-0 sm:rounded-3xl">
+        <div className="-mx-4 overflow-hidden rounded-none border border-slate-200 bg-white sm:mx-0 sm:rounded-3xl">
           <div className="relative h-36 w-full">
             <Image
               src={category.image}
@@ -68,7 +73,7 @@ export default async function CatalogPage({ params }: CatalogPageProps) {
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/55 via-slate-900/25 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-white" />
             <div className="absolute inset-0 flex items-center px-8">
-              <h1 className="text-3xl font-heading text-white drop-shadow-md">
+              <h1 className="text-3xl font-heading text-white">
                 {t(category.titleKey)}
               </h1>
             </div>

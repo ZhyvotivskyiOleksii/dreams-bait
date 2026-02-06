@@ -13,6 +13,7 @@
     "about": "About",
     "contact": "Contact",
     "cart": "Cart",
+    "regulamin": "Terms",
     "search": "Search..."
   },
   "breadcrumbs": {
@@ -20,11 +21,12 @@
     "catalog": "Catalog"
   },
   "hero": {
-    "title": "YOUR FISHING",
-    "subtitle": "ON A NEW LEVEL",
-    "description": "Professional equipment for true carp anglers. Only trusted brands and top quality.",
-    "cta": "View Catalog",
-    "secondary": "Learn More"
+    "cta": "To catalog",
+    "slide1": "Rods",
+    "slide2": "Reels",
+    "slide3": "Bait",
+    "slide4": "Accessories",
+    "slide5": "Season new arrivals"
   },
   "features": {
     "title": "Why Choose Us",
@@ -74,13 +76,17 @@
     "returns": "Returns",
     "warranty": "Warranty",
     "privacy": "Privacy Policy",
+    "regulamin": "Terms of Service",
+    "cookies": "Cookie Policy",
     "contacts": "Contact",
-    "address": "Kyiv, 15 Fisherman St.",
+    "address": "Im Buchenhain 3a, 49740 Haselünne, Deutschland",
+    "phone": "+49 173 3673099",
+    "email": "bigdreamsbait2025@gmail.com",
     "workHours": "Mon-Fri: 9:00-18:00",
     "copyright": "All rights reserved"
   },
   "common": {
-    "logoAlt": "Dreams Bait logo",
+    "logoAlt": "Iarosław Romanevich: Big dreams bait logo",
     "officialPartner": "Official Partner",
     "madeInUkraine": "Made in Ukraine",
     "loading": "Loading...",
@@ -88,7 +94,10 @@
     "closeMenu": "Close menu",
     "languageLabel": "Language",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "chatTitle": "Contact us",
+    "chatWhatsApp": "WhatsApp",
+    "chatTelegram": "Telegram"
   },
   "header": {
     "promotions": "Promotions",
@@ -144,16 +153,16 @@
       "cta": "View deals"
     },
     "partner": {
-      "badge": "Official distributor",
-      "title": "DREAMS BAIT — QUALITY WITHOUT COMPROMISE",
-      "description": "We are the official partner of Dreams Bait in Poland. We guarantee 100% original products, official warranty and service.",
+      "badge": "Own developer of boilies and bait",
+      "title": "BIG DREAMS BAIT — QUALITY WITHOUT COMPROMISE",
+      "description": "We are the own developer of boilies and bait. We create recipes and manufacture products under the Big dreams bait brand. We guarantee quality, official warranty and support.",
       "stats": {
         "original": "Original",
         "support": "Support",
         "warranty": "Warranty years"
       },
       "primaryCta": "View catalog",
-      "secondaryCta": "About partnership"
+      "secondaryCta": "About us"
     }
   },
   "cart": {
@@ -224,6 +233,7 @@
     "title": "CATALOG",
     "subtitle": "PRODUCTS",
     "topSales": "Top sales",
+    "topProductsInCategory": "Top products in this category",
     "categories": {
       "rods": "Rods",
       "reels": "Reels",
@@ -244,6 +254,8 @@
       "nozzlesLiquids": "Nozzles & liquids",
       "liquidsComponents": "Liquids & components",
       "allForFishing": "All for fishing",
+      "ingredients": "Ingredients",
+      "boilieIngredients": "Boilie ingredients",
       "landingNets": "Landing nets",
       "rodPods": "Rod pods",
       "biteAlarms": "Bite alarms",
@@ -267,17 +279,20 @@
       "lines": {
         "item1": "Carp Pro Line 0.30mm",
         "item2": "Fox Camotex 25lb",
-        "item3": "Korda Touchdown"
+        "item3": "Korda Touchdown",
+        "item4": "Lines (catalog)"
       },
       "bait": {
         "item1": "Starbaits SK30 20mm",
         "item2": "CCMoore Live System",
-        "item3": "Dynamite Baits"
+        "item3": "Dynamite Baits",
+        "item4": "Baits (catalog)"
       },
       "accessories": {
         "item1": "Fox RX+ 3 Rod Set",
         "item2": "Carp Pro Landing Net",
-        "item3": "Nash Siren S5R"
+        "item3": "Nash Siren S5R",
+        "item4": "Carp Pro Bait Box"
       },
       "camping": {
         "item1": "Carp Pro Diamond Dome",
@@ -317,6 +332,11 @@
     "descriptionEn": "Description (EN)",
     "slug": "Slug",
     "code": "Code",
+    "category": "Category",
+    "helpCategory": "Only categories from the menu (same as on site).",
+    "subcategory": "Subcategory",
+    "helpSubcategory": "Optionally choose a subcategory.",
+    "subcategoryUseMain": "— main category",
     "price": "Price",
     "oldPrice": "Old price",
     "discount": "Discount %",
@@ -377,7 +397,8 @@
     "noProducts": "No products yet.",
     "categoryPlaceholder": "Select category",
     "statusActive": "Active",
-    "statusInactive": "Hidden"
+    "statusInactive": "Hidden",
+    "moveToCategory": "Move to category"
   }
   ,
   "auth": {
@@ -495,7 +516,12 @@
     "title": "Sale",
     "description": "There are no active offers right now."
   },
+  "aboutPage": {
+    "title": "About us",
+    "comingSoon": "Information will appear here soon."
+  },
   "catalogPage": {
+    "intro": "Choose a category and browse fishing products.",
     "empty": "Products for this category will appear here soon.",
     "favorites": "Add to favorites",
     "addToCart": "Add to cart",

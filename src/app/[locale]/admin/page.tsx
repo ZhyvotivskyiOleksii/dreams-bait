@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { supabase } from "@/lib/supabaseClient";
 import BreadcrumbsBar from "@/components/BreadcrumbsBar";
-import { CheckCircle2, AlertTriangle, X, PlusCircle, List, Fish, Waves, Eye } from "lucide-react";
+import { CheckCircle2, AlertTriangle, X, PlusCircle, List, Fish, Waves, Eye, Pencil, Trash2 } from "lucide-react";
 
 type Category = {
   id: string;
@@ -58,6 +58,8 @@ const defaultCategories = [
   { slug: "nozzles-liquids", name_uk: "НАСАДКИ I ЛІКВІДИ", name_pl: "PRZYNĘTY I LIQUIDY", name_en: "NOZZLES & LIQUIDS", image_url: "/category/zenety.jpg" },
   { slug: "liquids-components", name_uk: "РІДИНИ I КОМПОНЕНТИ", name_pl: "PŁYNY I KOMPONENTY", name_en: "LIQUIDS & COMPONENTS", image_url: "/category/zenety.jpg" },
   { slug: "all-for-fishing", name_uk: "ВСЕ ДЛЯ РИБАЛКИ", name_pl: "WSZYSTKO DLA WĘDKARZA", name_en: "ALL FOR FISHING", image_url: "/category/zenety.jpg" },
+  { slug: "ingredients", name_uk: "ІНГРЕДІЄНТИ", name_pl: "SKŁADNIKI", name_en: "INGREDIENTS", image_url: "/category/zenety.jpg" },
+  { slug: "boilie-ingredients", name_uk: "ІНГРЕДІЄНТИ ДЛЯ БОЙЛІВ", name_pl: "SKŁADNIKI DO BOILI", name_en: "BOILIE INGREDIENTS", image_url: "/category/carp_boilies.png" },
   { slug: "tents", name_uk: "НАМЕТИ", name_pl: "NAMOTY", name_en: "TENTS", image_url: "/category/camping.webp" },
   { slug: "bedchairs", name_uk: "РОЗКЛАДАЧКИ", name_pl: "ŁÓŻKA POLOWE", name_en: "BEDCHAIRS", image_url: "/category/camping.webp" },
   { slug: "sleeping-bags", name_uk: "СПАЛЬНИКИ", name_pl: "ŚPIWORY", name_en: "SLEEPING BAGS", image_url: "/category/camping.webp" },
@@ -85,6 +87,8 @@ const categoryImageBySlug: Record<string, string> = {
   "nozzles-liquids": "/category/zenety.jpg",
   "liquids-components": "/category/zenety.jpg",
   "all-for-fishing": "/category/zenety.jpg",
+  ingredients: "/category/zenety.jpg",
+  "boilie-ingredients": "/category/carp_boilies.png",
   tents: "/category/camping.webp",
   bedchairs: "/category/camping.webp",
   "sleeping-bags": "/category/camping.webp",
@@ -96,6 +100,7 @@ const menuCategoryOrder = [
   "reels",
   "lines",
   "bait",
+  "boilie-ingredients",
   "accessories",
   "landing-nets",
   "rod-pods",
@@ -106,10 +111,11 @@ const menuCategoryOrder = [
 const subcategoryByMenuSlug: Record<string, string[]> = {
   rods: ["carp-rods", "feeder-rods"],
   reels: ["carp-reels", "feeder-reels"],
-  lines: ["mono", "braided", "fluoro", "leadcore"],
-  bait: ["nozzles-liquids", "liquids-components", "all-for-fishing"],
   camping: ["tents", "bedchairs", "sleeping-bags", "chairs"],
 };
+/** Колишні підкатегорії — у формі показуємо як головну категорію без підкатегорії */
+const legacyLinesSubcategorySlugs = ["mono", "braided", "fluoro", "leadcore"];
+const legacyBaitSubcategorySlugs = ["nozzles-liquids", "liquids-components", "all-for-fishing", "ingredients"];
 
 export default function AdminPage() {
   const t = useTranslations("admin");
@@ -199,6 +205,8 @@ export default function AdminPage() {
       "nozzles-liquids": rootT("megaMenu.subcategories.nozzlesLiquids"),
       "liquids-components": rootT("megaMenu.subcategories.liquidsComponents"),
       "all-for-fishing": rootT("megaMenu.subcategories.allForFishing"),
+      ingredients: rootT("megaMenu.subcategories.ingredients"),
+      "boilie-ingredients": rootT("megaMenu.subcategories.boilieIngredients"),
       tents: rootT("megaMenu.subcategories.tents"),
       bedchairs: rootT("megaMenu.subcategories.bedchairs"),
       "sleeping-bags": rootT("megaMenu.subcategories.sleepingBags"),
@@ -466,7 +474,7 @@ export default function AdminPage() {
       price: Number(productForm.price || 0),
       old_price: productForm.old_price ? Number(productForm.old_price) : null,
       discount: productForm.discount ? Number(productForm.discount) : null,
-      category_id: activeCategoryId,
+      category_id: productForm.category_id || null,
       image_url: imageUrl,
       badge: productForm.badge || null,
       gallery: mergedGallery,
@@ -501,10 +509,12 @@ export default function AdminPage() {
         error = retry.error;
       }
       if (!error) {
+        const savedCategoryId = productForm.category_id || null;
         setShowUpdated(true);
         setEditingProductId(null);
-        setProductForm({ ...getEmptyForm(), category_id: activeCategoryId ?? "" });
-        fetchProducts(activeCategoryId);
+        setProductForm({ ...getEmptyForm(), category_id: savedCategoryId ?? "" });
+        setActiveCategoryId(savedCategoryId);
+        fetchProducts(savedCategoryId);
       } else {
         setProductForm((prev) => ({ ...prev, code: nextCode }));
       }
@@ -520,8 +530,10 @@ export default function AdminPage() {
       error = retry.error;
     }
     if (!error) {
-      setProductForm({ ...getEmptyForm(), category_id: activeCategoryId ?? "" });
-      fetchProducts(activeCategoryId);
+      const savedCategoryId = productForm.category_id || null;
+      setProductForm({ ...getEmptyForm(), category_id: savedCategoryId ?? "" });
+      setActiveCategoryId(savedCategoryId);
+      fetchProducts(savedCategoryId);
       setShowSuccess(true);
     } else {
       setProductForm((prev) => ({ ...prev, code: nextCode }));
@@ -570,13 +582,54 @@ export default function AdminPage() {
     fetchProducts(activeCategoryId);
   };
 
+  const handleMoveProductToCategory = async (productId: string, newCategoryId: string) => {
+    const { error } = await supabase
+      .from("products")
+      .update({ category_id: newCategoryId })
+      .eq("id", productId);
+    if (!error) {
+      fetchProducts(activeCategoryId);
+      const oldSlug = allCategories.find((c) => c.id === activeCategoryId)?.slug;
+      const newSlug = allCategories.find((c) => c.id === newCategoryId)?.slug;
+      const slugs = [oldSlug, newSlug].filter(Boolean) as string[];
+      if (slugs.length > 0) {
+        try {
+          await fetch("/api/revalidate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slugs }),
+          });
+        } catch (_) {}
+      }
+    }
+  };
+
+  const moveCategoryOptions = useMemo(() => {
+    const mainSlugs = [...menuCategoryOrder];
+    const out: { id: string; label: string }[] = [];
+    for (const slug of mainSlugs) {
+      const cat = allCategories.find((c) => c.slug === slug);
+      if (!cat) continue;
+      const subs = subcategoryByMenuSlug[slug];
+      if (subs?.length) {
+        for (const subSlug of subs) {
+          const sub = allCategories.find((c) => c.slug === subSlug);
+          if (sub) out.push({ id: sub.id, label: (sub[`name_${locale}` as keyof Category] as string) || sub.slug });
+        }
+      } else {
+        out.push({ id: cat.id, label: (cat[`name_${locale}` as keyof Category] as string) || cat.slug });
+      }
+    }
+    return out;
+  }, [allCategories, locale]);
+
   if (loading) {
     return <div className="container mx-auto px-4 py-16 text-center text-slate-600">{commonT("loading")}</div>;
   }
 
   if (!sessionEmail) {
     return (
-      <div className="min-h-screen bg-slate-50 pt-28 pb-16">
+      <div className="min-h-screen bg-slate-50 pt-0 pb-16">
         <div className="container mx-auto px-4 max-w-lg">
           <BreadcrumbsBar
             items={[
@@ -591,7 +644,7 @@ export default function AdminPage() {
             ]}
           />
           <h1 className="text-2xl font-heading mb-6">{t("loginTitle")}</h1>
-          <form onSubmit={handleSignIn} className="space-y-4 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+          <form onSubmit={handleSignIn} className="space-y-4 bg-white border border-gray-200 rounded-xl p-6">
             <label className="block text-sm font-medium text-slate-700">
               {t("email")}
               <input
@@ -624,7 +677,7 @@ export default function AdminPage() {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-slate-50 pt-28 pb-16">
+      <div className="min-h-screen bg-slate-50 pt-0 pb-16">
         <div className="container mx-auto px-4 text-center">
           <BreadcrumbsBar
             items={[
@@ -671,10 +724,9 @@ export default function AdminPage() {
       : null;
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-10 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-0 pb-16">
       <div className="container mx-auto px-4 space-y-4">
         <BreadcrumbsBar
-          className="top-0 z-40"
           items={[
             {
               label: breadcrumbsT("home"),
@@ -686,7 +738,7 @@ export default function AdminPage() {
             },
           ]}
         />
-        <div className="sticky top-16 z-30 -mx-4 bg-slate-50 px-4 py-3 shadow-sm">
+        <div className="sticky top-16 z-30 -mx-4 bg-slate-50 px-4 py-3">
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl font-heading">{t("dashboardTitle")}</h1>
             <p className="text-sm text-slate-500">{t("signedInAs", { email: sessionEmail })}</p>
@@ -694,7 +746,7 @@ export default function AdminPage() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)] h-[calc(100vh-220px)]">
-          <aside className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm h-full overflow-y-auto no-scrollbar">
+          <aside className="rounded-2xl border border-gray-200 bg-white p-4 h-full overflow-y-auto no-scrollbar">
             <h2 className="text-lg font-heading mb-2">{t("categoriesTitle")}</h2>
             {categories.length === 0 ? (
               <div className="flex flex-col gap-3">
@@ -718,8 +770,8 @@ export default function AdminPage() {
                       key={category.id}
                       className={`rounded-2xl border transition-all ${
                         isOpen
-                          ? "border-[#7dd3fc] bg-[#e6f6fe] text-slate-900 shadow-[0_8px_18px_rgba(14,165,233,0.12)]"
-                          : "border-slate-200 bg-white text-slate-800 shadow-sm hover:border-slate-300"
+                          ? "border-[#7dd3fc] bg-[#e6f6fe] text-slate-900"
+                          : "border-slate-200 bg-white text-slate-800 hover:border-slate-300"
                       }`}
                     >
                       <div className="flex items-center gap-3 px-3 py-2">
@@ -759,9 +811,9 @@ export default function AdminPage() {
             )}
           </aside>
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm h-full overflow-y-auto no-scrollbar">
+          <section className="rounded-2xl border border-gray-200 bg-white p-5 h-full overflow-y-auto no-scrollbar">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 p-1.5 shadow-sm">
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 p-1.5">
                 <button
                   type="button"
                   onClick={() => setActiveProductTab("form")}
@@ -796,7 +848,7 @@ export default function AdminPage() {
                 {t("previewOpen")}
               </button>
             </div>
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-800">
                 {activeCategory
                   ? t("activeCategory", { name: activeCategory[`name_${locale}` as keyof Category] })
@@ -880,6 +932,93 @@ export default function AdminPage() {
                 />
                 <span className="mt-1 block text-xs text-slate-400">{t("helpCode")}</span>
               </label>
+
+              {/* Категорія — тільки з меню (як на сайті); підкатегорія з’являється, коли є підкатегорії */}
+              {(() => {
+                const mainCategories = allCategories
+                  .filter((c) => menuCategoryOrder.includes(c.slug))
+                  .sort(
+                    (a, b) =>
+                      menuCategoryOrder.indexOf(a.slug) - menuCategoryOrder.indexOf(b.slug)
+                  );
+                const selectedCat = allCategories.find((c) => c.id === productForm.category_id);
+                const selectedMainSlug = selectedCat
+                  ? menuCategoryOrder.includes(selectedCat.slug)
+                    ? selectedCat.slug
+                    : (Object.keys(subcategoryByMenuSlug).find((m) =>
+                        subcategoryByMenuSlug[m]?.includes(selectedCat.slug)
+                      ) ?? (legacyLinesSubcategorySlugs.includes(selectedCat.slug) ? "lines" : legacyBaitSubcategorySlugs.includes(selectedCat.slug) ? "bait" : null))
+                  : null;
+                const selectedSubSlug =
+                  selectedCat &&
+                  selectedMainSlug &&
+                  subcategoryByMenuSlug[selectedMainSlug]?.includes(selectedCat.slug)
+                    ? selectedCat.slug
+                    : "";
+                const mainCategoryId = selectedMainSlug
+                  ? allCategories.find((c) => c.slug === selectedMainSlug)?.id ?? ""
+                  : "";
+                const subcategorySlugs = selectedMainSlug
+                  ? subcategoryByMenuSlug[selectedMainSlug] ?? []
+                  : [];
+                return (
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap gap-4 items-end">
+                      <label className="flex-1 min-w-[180px] text-sm font-medium text-slate-700">
+                        {t("category")}
+                        <select
+                          value={mainCategoryId}
+                          onChange={(e) => {
+                            const id = e.target.value || "";
+                            const mainCat = allCategories.find((c) => c.id === id);
+                            const newMainSlug = mainCat?.slug ?? null;
+                            const newCategoryId = id || "";
+                            setProductForm((prev) => ({ ...prev, category_id: newCategoryId }));
+                            if (newCategoryId) setActiveCategoryId(newCategoryId);
+                          }}
+                          className="mt-2 w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                        >
+                          <option value="">—</option>
+                          {mainCategories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                              {cat[`name_${locale}` as keyof Category] as string} ({cat.slug})
+                            </option>
+                          ))}
+                        </select>
+                        <span className="mt-1 block text-xs text-slate-400">{t("helpCategory")}</span>
+                      </label>
+                      {subcategorySlugs.length > 0 && (
+                        <label className="flex-1 min-w-[180px] text-sm font-medium text-slate-700">
+                          {t("subcategory")}
+                          <select
+                            value={selectedSubSlug ? productForm.category_id : ""}
+                            onChange={(e) => {
+                              const id = e.target.value || "";
+                              const mainId = allCategories.find((c) => c.slug === selectedMainSlug)?.id;
+                              const finalId = id || mainId || "";
+                              setProductForm((prev) => ({ ...prev, category_id: finalId }));
+                              if (finalId) setActiveCategoryId(finalId);
+                            }}
+                            className="mt-2 w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                          >
+                            <option value="">{t("subcategoryUseMain")}</option>
+                            {subcategorySlugs.map((subSlug) => {
+                              const subCat = allCategories.find((c) => c.slug === subSlug);
+                              if (!subCat) return null;
+                              return (
+                                <option key={subCat.id} value={subCat.id}>
+                                  {subCat[`name_${locale}` as keyof Category] as string} ({subCat.slug})
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <span className="mt-1 block text-xs text-slate-400">{t("helpSubcategory")}</span>
+                        </label>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <label className="text-sm font-medium text-slate-700">
                 {t("nameUk")}
@@ -1095,7 +1234,7 @@ export default function AdminPage() {
               </label>
               </div>
               </div>
-              <div className="flex flex-wrap justify-end gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+              <div className="flex flex-wrap justify-end gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                 {editingProductId && (
                   <button
                     type="button"
@@ -1110,7 +1249,7 @@ export default function AdminPage() {
                 )}
                 <button
                   type="submit"
-                  className="rounded-full bg-[#7dd3fc] px-6 py-2.5 text-xs font-semibold text-slate-900 shadow-[0_10px_24px_rgba(14,165,233,0.25)] hover:bg-[#5cc4f7] disabled:opacity-60"
+                  className="rounded-full bg-[#7dd3fc] px-6 py-2.5 text-xs font-semibold text-slate-900 hover:bg-[#5cc4f7] disabled:opacity-60"
                   disabled={!activeCategoryId}
                 >
                   {editingProductId ? t("updateProduct") : t("addProduct")}
@@ -1139,36 +1278,75 @@ export default function AdminPage() {
                     <p className="text-sm text-slate-500">{t("selectCategory")}</p>
                   ) : (
                   products.map((product) => (
-                  <div key={product.id} className="border border-gray-100 rounded-xl p-3 space-y-2">
-                    {product.image_url && (
-                      <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-50">
-                        <Image src={product.image_url} alt={product.name_en} fill className="object-cover" />
+                  <div
+                    key={product.id}
+                    className="border border-gray-200 rounded-xl p-3 space-y-2 bg-white hover:border-slate-300 transition-all"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleEditProduct(product)}
+                      className="w-full text-left block rounded-lg overflow-hidden focus:outline-none focus:ring-2 focus:ring-[#0ea5e9] focus:ring-inset"
+                    >
+                      {product.image_url && (
+                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-gray-50">
+                          <Image src={product.image_url} alt={product.name_en} fill className="object-cover" />
+                        </div>
+                      )}
+                      <div className="mt-2">
+                        <p className="font-semibold text-slate-800 text-sm line-clamp-2">
+                          {product[`name_${locale}` as keyof Product]}
+                        </p>
+                        <p className="text-xs text-slate-600 mt-1">
+                          {product.price} {rootT("currency.uah")}
+                        </p>
                       </div>
-                    )}
-                    <div>
-                      <p className="font-semibold text-slate-800 text-sm line-clamp-2">
-                        {product[`name_${locale}` as keyof Product]}
-                      </p>
-                      <p className="text-xs text-black mt-1">
-                        {product.price} {rootT("currency.uah")}
-                      </p>
+                    </button>
+                    <div className="space-y-2 pt-1 border-t border-slate-100">
+                      <label className="block text-[11px] font-medium text-slate-500">
+                        {t("moveToCategory")}
+                      </label>
+                      <select
+                        value=""
+                        onChange={(e) => {
+                          const id = e.target.value;
+                          if (id) {
+                            handleMoveProductToCategory(product.id, id);
+                            e.target.value = "";
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-slate-700 bg-white"
+                      >
+                        <option value="">—</option>
+                        {moveCategoryOptions
+                          .filter((opt) => opt.id !== product.category_id)
+                          .map((opt) => (
+                            <option key={opt.id} value={opt.id}>
+                              {opt.label}
+                            </option>
+                          ))}
+                      </select>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className={product.is_active ? "text-green-600" : "text-slate-400"}>
+                    <div className="flex items-center justify-between gap-1 text-[11px] pt-1 min-w-0">
+                      <span className={`flex-shrink-0 truncate ${product.is_active ? "text-green-600" : "text-slate-400"}`}>
                         {product.is_active ? t("statusActive") : t("statusInactive")}
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 flex-shrink-0">
                         <button
+                          type="button"
+                          title={t("edit")}
                           onClick={() => handleEditProduct(product)}
-                          className="text-slate-500 hover:text-slate-700"
+                          className="rounded border border-slate-200 bg-slate-50 p-1.5 text-slate-600 hover:bg-[#e0f2fe] hover:border-[#7dd3fc] hover:text-slate-900"
                         >
-                          {t("edit")}
+                          <Pencil className="h-3.5 w-3.5" />
                         </button>
                         <button
+                          type="button"
+                          title={t("delete")}
                           onClick={() => setConfirmAction({ type: "deleteOne", productId: product.id })}
-                          className="text-red-500 hover:text-red-600"
+                          className="rounded p-1.5 text-red-500 hover:text-red-600 hover:bg-red-50"
                         >
-                          {t("delete")}
+                          <Trash2 className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>
@@ -1190,7 +1368,7 @@ export default function AdminPage() {
               className="absolute inset-0 bg-slate-950/40"
               onClick={() => setConfirmAction(null)}
             />
-            <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
+            <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-red-50 text-red-600">
@@ -1244,7 +1422,7 @@ export default function AdminPage() {
         )}
 
         {(showSuccess || showUpdated) && (
-          <div className="fixed right-6 top-24 z-50 flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-semibold text-emerald-700 shadow-lg">
+          <div className="fixed right-6 top-24 z-50 flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-semibold text-emerald-700">
             <CheckCircle2 className="h-4 w-4" />
             <span>{showUpdated ? t("productUpdated") : t("productAdded")}</span>
           </div>
@@ -1256,7 +1434,7 @@ export default function AdminPage() {
               className="absolute inset-0 bg-slate-950/40"
               onClick={() => setShowPreview(false)}
             />
-            <div className="relative w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div className="relative w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-heading">{t("previewTitle")}</h3>
                 <button

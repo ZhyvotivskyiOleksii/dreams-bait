@@ -208,7 +208,7 @@ function AuthPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-28 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-0 pb-16">
       <div className="container mx-auto px-4">
         <BreadcrumbsBar
           items={[
@@ -249,7 +249,7 @@ function AuthPageContent() {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-4 bg-white border border-gray-200 rounded-2xl p-6">
             {mode === "register" && (
               <>
                 <label className="block text-sm font-medium text-slate-700">

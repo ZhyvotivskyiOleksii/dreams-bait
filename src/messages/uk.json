@@ -1,18 +1,19 @@
 {
   "meta": {
     "title": "Carp Pro - Професійне спорядження для карпової риболовлі",
-    "description": "Найкращий вибір товарів для карпової риболовлі в Україні. Вудки, котушки, прикормки та аксесуари від провідних брендів."
+    "description": "Найкращий вибір товарів для карпової риболовлі в Україні. Вудилища, котушки, прикормки та аксесуари від провідних брендів."
   },
   "nav": {
     "home": "Головна",
     "catalog": "Каталог",
-    "rods": "Вудки",
+    "rods": "Вудилища",
     "reels": "Котушки",
     "bait": "Прикормки",
     "accessories": "Аксесуари",
     "about": "Про нас",
     "contact": "Контакти",
     "cart": "Кошик",
+    "regulamin": "Регламент",
     "search": "Пошук..."
   },
   "breadcrumbs": {
@@ -20,11 +21,12 @@
     "catalog": "Каталог"
   },
   "hero": {
-    "title": "ТВОЯ РИБОЛОВЛЯ",
-    "subtitle": "НА НОВОМУ РІВНІ",
-    "description": "Професійне спорядження для справжніх карпятників. Тільки перевірені бренди та найкраща якість.",
-    "cta": "Переглянути каталог",
-    "secondary": "Дізнатись більше"
+    "cta": "В каталог",
+    "slide1": "Вудилища",
+    "slide2": "Котушки",
+    "slide3": "Прикормки",
+    "slide4": "Аксесуари",
+    "slide5": "Новинки сезону"
   },
   "features": {
     "title": "Чому обирають нас",
@@ -51,7 +53,7 @@
   },
   "categories": {
     "title": "Категорії товарів",
-    "rods": "Вудки",
+    "rods": "Вудилища",
     "reels": "Котушки",
     "lines": "Волосінь та шнури",
     "bait": "Прикормки та насадки",
@@ -74,13 +76,17 @@
     "returns": "Повернення товару",
     "warranty": "Гарантія",
     "privacy": "Політика конфіденційності",
+    "regulamin": "Регламент",
+    "cookies": "Політика cookies",
     "contacts": "Контакти",
-    "address": "м. Київ, вул. Рибальська, 15",
+    "address": "Im Buchenhain 3a, 49740 Haselünne, Deutschland",
+    "phone": "+49 173 3673099",
+    "email": "bigdreamsbait2025@gmail.com",
     "workHours": "Пн-Пт: 9:00-18:00",
     "copyright": "Всі права захищені"
   },
   "common": {
-    "logoAlt": "Логотип Dreams Bait",
+    "logoAlt": "Логотип Iarosław Romanevich: Big dreams bait",
     "officialPartner": "Офіційний партнер",
     "madeInUkraine": "Зроблено в Україні",
     "loading": "Завантаження...",
@@ -88,7 +94,10 @@
     "closeMenu": "Закрити меню",
     "languageLabel": "Мова",
     "expand": "Розгорнути",
-    "collapse": "Згорнути"
+    "collapse": "Згорнути",
+    "chatTitle": "Написати нам",
+    "chatWhatsApp": "WhatsApp",
+    "chatTelegram": "Telegram"
   },
   "header": {
     "promotions": "Акції",
@@ -108,9 +117,9 @@
       }
     },
     "categories": {
-      "carpRods": "КОРОПОВІ ВУДКИ",
+      "carpRods": "КОРОПОВІ ВУДИЛИЩА",
       "carpReels": "КАРПОВІ КОТУШКИ",
-      "feederRods": "ФІДЕРНІ ВУДКИ",
+      "feederRods": "ФІДЕРНІ ВУДИЛИЩА",
       "feederReels": "ФІДЕРНІ КОТУШКИ",
       "lines": "ЛЕСКИ, ШНУРИ",
       "hooks": "ГАЧКИ",
@@ -133,7 +142,7 @@
         "hit2": "Світлячки Flagman 4.5x39мм 2шт",
         "hit3": "Шатер карповий Carp Pro Maxi Shelter",
         "hit4": "Парасолька рибальська Flagman",
-        "hit5": "Род-под Carp Pro на 3 вудки 123 DL"
+        "hit5": "Род-под Carp Pro на 3 вудилища 123 DL"
       }
     },
     "promo": {
@@ -144,16 +153,16 @@
       "cta": "Дивитись акції"
     },
     "partner": {
-      "badge": "Офіційний дистриб&apos;ютор",
-      "title": "DREAMS BAIT — ЯКІСТЬ БЕЗ КОМПРОМІСІВ",
-      "description": "Ми є офіційним партнером компанії Dreams Bait в Польщі. Гарантуємо 100% оригінальну продукцію, офіційну гарантію та сервісне обслуговування.",
+      "badge": "Власний розробник бойлів та прикормки",
+      "title": "BIG DREAMS BAIT — ЯКІСТЬ БЕЗ КОМПРОМІСІВ",
+      "description": "Ми — власний розробник бойлів та прикормки. Створюємо рецептури та виробляємо продукцію під брендом Big dreams bait. Гарантуємо якість, офіційну гарантію та підтримку.",
       "stats": {
         "original": "Оригінал",
         "support": "Підтримка",
         "warranty": "Роки гарантії"
       },
       "primaryCta": "Переглянути каталог",
-      "secondaryCta": "Про партнерство"
+      "secondaryCta": "Про нас"
     }
   },
   "cart": {
@@ -224,8 +233,9 @@
     "title": "КАТАЛОГ",
     "subtitle": "ТОВАРІВ",
     "topSales": "Топ продажів",
+    "topProductsInCategory": "Топ товарів у цій категорії",
     "categories": {
-      "rods": "Вудки",
+      "rods": "Вудилища",
       "reels": "Котушки",
       "lines": "Волосінь та шнури",
       "bait": "Прикормки та насадки",
@@ -233,8 +243,8 @@
       "camping": "Кемпінг"
     },
     "subcategories": {
-      "carpRods": "Коропові вудки",
-      "feederRods": "Фідерні вудки",
+      "carpRods": "Коропові вудилища",
+      "feederRods": "Фідерні вудилища",
       "carpReels": "Карпові котушки",
       "feederReels": "Фідерні котушки",
       "mono": "Монофільна волосінь",
@@ -244,6 +254,8 @@
       "nozzlesLiquids": "Насадки і ліквіди",
       "liquidsComponents": "Рідини і компоненти",
       "allForFishing": "Все для рибалки",
+      "ingredients": "Інгредієнти",
+      "boilieIngredients": "Інгредієнти для бойлів",
       "landingNets": "Підсаки",
       "rodPods": "Родподи",
       "biteAlarms": "Сигналізатори",
@@ -267,17 +279,20 @@
       "lines": {
         "item1": "Carp Pro Line 0.30mm",
         "item2": "Fox Camotex 25lb",
-        "item3": "Korda Touchdown"
+        "item3": "Korda Touchdown",
+        "item4": "Волосінь (каталог)"
       },
       "bait": {
         "item1": "Starbaits SK30 20mm",
         "item2": "CCMoore Live System",
-        "item3": "Dynamite Baits"
+        "item3": "Dynamite Baits",
+        "item4": "Прикормки (каталог)"
       },
       "accessories": {
         "item1": "Fox RX+ 3 Rod Set",
         "item2": "Carp Pro Landing Net",
-        "item3": "Nash Siren S5R"
+        "item3": "Nash Siren S5R",
+        "item4": "Carp Pro Bait Box"
       },
       "camping": {
         "item1": "Carp Pro Diamond Dome",
@@ -317,6 +332,11 @@
     "descriptionEn": "Опис (англ)",
     "slug": "Slug",
     "code": "Код",
+    "category": "Категорія",
+    "helpCategory": "Тільки категорії з меню (як на сайті).",
+    "subcategory": "Підкатегорія",
+    "helpSubcategory": "За потреби оберіть підкатегорію.",
+    "subcategoryUseMain": "— головна категорія",
     "price": "Ціна",
     "oldPrice": "Стара ціна",
     "discount": "Знижка %",
@@ -377,7 +397,8 @@
     "noProducts": "Товарів ще немає.",
     "categoryPlaceholder": "Оберіть категорію",
     "statusActive": "Активний",
-    "statusInactive": "Прихований"
+    "statusInactive": "Прихований",
+    "moveToCategory": "Перенести в категорію"
   }
   ,
   "auth": {
@@ -495,7 +516,12 @@
     "title": "Розпродаж",
     "description": "Наразі немає активних пропозицій."
   },
+  "aboutPage": {
+    "title": "Про нас",
+    "comingSoon": "Інформація скоро з'явиться."
+  },
   "catalogPage": {
+    "intro": "Оберіть категорію та перегляньте товари для риболовлі.",
     "empty": "Товари в цій категорії скоро з’являться.",
     "favorites": "Додати до обраного",
     "addToCart": "Додати до кошика",

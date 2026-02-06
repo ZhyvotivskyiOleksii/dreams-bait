@@ -137,7 +137,7 @@ export default function AccountPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-28 pb-16">
+    <div className="min-h-screen bg-slate-50 pt-0 pb-16">
       <div className="container mx-auto px-4">
         <BreadcrumbsBar
           items={[
@@ -191,7 +191,7 @@ export default function AccountPage() {
           </div>
 
           {activeTab === "profile" ? (
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm grid gap-4 sm:grid-cols-2">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 grid gap-4 sm:grid-cols-2">
               <div>
                 <p className="text-xs uppercase text-slate-400">{t("fields.firstName")}</p>
                 <p className="text-sm text-slate-800">{profile?.first_name || "-"}</p>
@@ -226,7 +226,7 @@ export default function AccountPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6">
               <h2 className="text-lg font-semibold text-slate-900 mb-4">
                 {t("favoritesTitle")}
               </h2>

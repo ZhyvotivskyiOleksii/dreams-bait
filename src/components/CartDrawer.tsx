@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
@@ -19,6 +20,25 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const freeShippingThreshold = 200;
   const remainingToFree = Math.max(freeShippingThreshold - total, 0);
 
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      return () => {
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
+
   return (
     <>
       <div
@@ -31,7 +51,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
       <aside
         className={clsx(
-          "fixed top-0 right-0 h-full w-full max-w-sm sm:max-w-md bg-white z-50 shadow-2xl transition-transform duration-300 ease-out flex flex-col rounded-l-2xl rounded-r-none",
+          "fixed top-0 right-0 h-full w-full sm:max-w-md bg-white z-50 transition-transform duration-300 ease-out flex flex-col rounded-none sm:rounded-l-2xl",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
         aria-label={t("cart.drawerLabel")}
@@ -47,7 +67,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4 space-y-4 no-scrollbar">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center text-slate-500 px-6 py-6">
               <div className="relative h-52 w-52 sm:h-60 sm:w-60">
@@ -78,41 +98,41 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     className="object-cover"
                   />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-800">{item.name}</p>
-                      <p className="text-xs text-black">
-                        {item.price} {t("currency.uah")}
-                      </p>
-                    </div>
+                    <p className="text-sm font-semibold text-slate-800 line-clamp-2 min-w-0">{item.name}</p>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="p-1 text-slate-400 hover:text-red-500 transition-colors"
+                      className="p-1 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
                       aria-label={t("cart.remove")}
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-2 mt-2">
-                    <button
-                      onClick={() => updateQty(item.id, item.qty - 1)}
-                      className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                      aria-label={t("cart.decrease")}
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="min-w-[24px] text-center text-sm font-semibold text-slate-700">
-                      {item.qty}
+                  <div className="flex items-center justify-between gap-3 mt-2">
+                    <span className="text-base sm:text-lg font-bold text-black">
+                      {item.price} {t("currency.uah")}
                     </span>
-                    <button
-                      onClick={() => updateQty(item.id, item.qty + 1)}
-                      className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                      aria-label={t("cart.increase")}
-                    >
-                      <Plus className="w-3 h-3" />
-                    </button>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <button
+                        onClick={() => updateQty(item.id, item.qty - 1)}
+                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                        aria-label={t("cart.decrease")}
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="min-w-[24px] text-center text-sm font-semibold text-slate-700">
+                        {item.qty}
+                      </span>
+                      <button
+                        onClick={() => updateQty(item.id, item.qty + 1)}
+                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                        aria-label={t("cart.increase")}
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

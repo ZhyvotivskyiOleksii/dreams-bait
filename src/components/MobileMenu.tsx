@@ -51,7 +51,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProp
       {/* Панель меню */}
       <div
         className={clsx(
-          "fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 shadow-2xl transition-transform duration-300 ease-out lg:hidden",
+          "fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 transition-transform duration-300 ease-out lg:hidden",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -62,7 +62,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProp
               <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
                 <Image src="/logo.png" alt={commonT("logoAlt")} width={28} height={28} />
               </div>
-              <span className="font-heading text-xl text-forest-800">DREAMS BAIT</span>
+              <span className="font-heading text-xl text-forest-800">BIG DREAMS BAIT</span>
             </div>
             <button
               onClick={onClose}

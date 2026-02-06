@@ -112,12 +112,16 @@ export default function FavoriteButton({
       return;
     }
 
+    const nextActive = !isActive;
+    setIsActive(nextActive);
     setIsSaving(true);
+
     const { data: userData } = await supabase.auth.getUser();
     const userId = userData.user?.id;
     if (!userId) {
       setIsAuthed(false);
       setIsOpen(true);
+      setIsActive(isActive);
       setIsSaving(false);
       return;
     }
@@ -129,6 +133,7 @@ export default function FavoriteButton({
       .maybeSingle();
 
     if (error) {
+      setIsActive(isActive);
       setIsSaving(false);
       return;
     }
@@ -140,12 +145,13 @@ export default function FavoriteButton({
     const exists = currentFavorites.some(
       (fav) => fav.slug === item.slug || fav.id === item.id
     );
-    setIsActive(!exists);
-    const nextFavorites = exists
-      ? currentFavorites.filter(
+    const nextFavorites = nextActive
+      ? exists
+        ? currentFavorites
+        : [...currentFavorites, item]
+      : currentFavorites.filter(
           (fav) => fav.slug !== item.slug && fav.id !== item.id
-        )
-      : [...currentFavorites, item];
+        );
 
     const { data: existingProfile } = await supabase
       .from("profiles")
@@ -153,17 +159,18 @@ export default function FavoriteButton({
       .eq("id", userId)
       .maybeSingle();
 
-    if (existingProfile?.id) {
-      await supabase
-        .from("profiles")
-        .update({ favorites: nextFavorites })
-        .eq("id", userId);
-    } else {
-      await supabase
-        .from("profiles")
-        .upsert({ id: userId, favorites: nextFavorites }, { onConflict: "id" });
-    }
+    const { error: updateError } = existingProfile?.id
+      ? await supabase
+          .from("profiles")
+          .update({ favorites: nextFavorites })
+          .eq("id", userId)
+      : await supabase
+          .from("profiles")
+          .upsert({ id: userId, favorites: nextFavorites }, { onConflict: "id" });
 
+    if (updateError) {
+      setIsActive((prev) => !prev);
+    }
     setIsSaving(false);
   };
 
@@ -185,8 +192,8 @@ export default function FavoriteButton({
         aria-pressed={isActive}
       >
         <Heart
-          className={`${iconClassName} ${
-            isActive ? "text-rose-500 fill-rose-500" : ""
+          className={`${iconClassName} transition-colors duration-200 ease-out ${
+            isActive ? "text-rose-500 fill-rose-500" : "text-current"
           }`}
         />
       </button>
@@ -199,7 +206,7 @@ export default function FavoriteButton({
           aria-modal="true"
         >
           <div
-            className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl"
+            className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center"
             onClick={(event) => event.stopPropagation()}
           >
             <button

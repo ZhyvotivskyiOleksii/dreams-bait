@@ -1,4 +1,7 @@
+import { unstable_cache } from "next/cache";
 import { supabase } from "./supabaseClient";
+
+const CACHE_REVALIDATE = 60;
 
 export type Locale = "uk" | "pl" | "en";
 
@@ -145,6 +148,14 @@ const categoryMeta: Record<
     titleKey: "megaMenu.subcategories.allForFishing",
     image: "/category/zenety.jpg",
   },
+  ingredients: {
+    titleKey: "megaMenu.subcategories.ingredients",
+    image: "/category/zenety.jpg",
+  },
+  "boilie-ingredients": {
+    titleKey: "megaMenu.subcategories.boilieIngredients",
+    image: "/category/carp_boilies.png",
+  },
   tents: {
     titleKey: "megaMenu.subcategories.tents",
     image: "/category/camping.webp",
@@ -199,15 +210,13 @@ const mapProduct = (row: ProductRow): CatalogProduct => ({
   gallery: Array.isArray(row.gallery) ? (row.gallery as string[]) : [],
 });
 
-export const getCategoryBySlug = async (slug: string) => {
+async function getCategoryBySlugUncached(slug: string) {
   const { data, error } = await supabase
     .from("categories")
     .select("id, slug, name_uk, name_pl, name_en, image_url")
     .eq("slug", slug)
     .maybeSingle();
-  if (error || !data) {
-    return null;
-  }
+  if (error || !data) return null;
   const meta = categoryMeta[slug] ?? {
     titleKey: "breadcrumbs.catalog",
     image: "/category/wendka.webp",
@@ -223,7 +232,14 @@ export const getCategoryBySlug = async (slug: string) => {
       en: data.name_en,
     },
   } as CatalogCategory;
-};
+}
+
+export const getCategoryBySlug = (slug: string) =>
+  unstable_cache(
+    () => getCategoryBySlugUncached(slug),
+    ["catalog", "category", slug],
+    { revalidate: CACHE_REVALIDATE }
+  )();
 
 const baseProductSelect =
   "id, slug, code, name_uk, name_pl, name_en, description_uk, description_pl, description_en, price, old_price, badge, image_url, gallery, category:categories(slug)";
@@ -243,21 +259,38 @@ const shouldRetryWithoutCount = (error: { message?: string } | null) =>
         error.message.includes("stock_count"))
   );
 
-export const getProductsByCategory = async (slug: string) => {
-  const category = await getCategoryBySlug(slug);
-  if (!category) return [];
+const parentCategorySlugs: Record<string, string[]> = {
+  rods: ["carp-rods", "feeder-rods"],
+  reels: ["carp-reels", "feeder-reels"],
+  lines: ["lines"],
+  bait: ["bait"],
+  "boilie-ingredients": ["boilie-ingredients"],
+  camping: ["tents", "bedchairs", "sleeping-bags", "chairs"],
+};
+
+const getCategoryIdsBySlugs = async (slugs: string[]) => {
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, slug")
+    .in("slug", slugs);
+  if (error || !data) return [];
+  return data.map((row) => row.id);
+};
+
+const getProductsByCategoryIds = async (categoryIds: string[]) => {
+  if (categoryIds.length === 0) return [];
   let { data, error } = await supabase
     .from("products")
     .select(productSelectWithCount)
     .eq("is_active", true)
-    .eq("category_id", category.id)
+    .in("category_id", categoryIds)
     .order("created_at", { ascending: false });
   if (error && shouldRetryWithoutCount(error)) {
     const retry = await supabase
       .from("products")
       .select(baseProductSelect)
       .eq("is_active", true)
-      .eq("category_id", category.id)
+      .in("category_id", categoryIds)
       .order("created_at", { ascending: false });
     if (retry.error || !retry.data) return [];
     return retry.data.map((row) => mapProduct(withCountDefaults(row)));
@@ -266,7 +299,20 @@ export const getProductsByCategory = async (slug: string) => {
   return data.map(mapProduct);
 };
 
-export const getProductBySlugOrId = async (slugOrId: string) => {
+async function getProductsByCategoryUncached(slug: string) {
+  const targetSlugs = parentCategorySlugs[slug] ?? [slug];
+  const categoryIds = await getCategoryIdsBySlugs(targetSlugs);
+  return getProductsByCategoryIds(categoryIds);
+}
+
+export const getProductsByCategory = (slug: string) =>
+  unstable_cache(
+    () => getProductsByCategoryUncached(slug),
+    ["catalog", "products-by-cat", slug],
+    { revalidate: CACHE_REVALIDATE }
+  )();
+
+async function getProductBySlugOrIdUncached(slugOrId: string) {
   let { data, error } = await supabase
     .from("products")
     .select(productSelectWithCount)
@@ -314,18 +360,128 @@ export const getProductBySlugOrId = async (slugOrId: string) => {
     fallbackData[0];
 
   return mapProduct(match);
-};
+}
 
-export const getProductSlugs = async () => {
+export const getProductBySlugOrId = (slugOrId: string) =>
+  unstable_cache(
+    () => getProductBySlugOrIdUncached(slugOrId),
+    ["catalog", "product", slugOrId],
+    { revalidate: CACHE_REVALIDATE }
+  )();
+
+async function getProductSlugsUncached() {
   const { data, error } = await supabase
     .from("products")
     .select("slug")
     .eq("is_active", true)
     .not("slug", "is", null);
-  if (error || !data) {
-    return [];
-  }
+  if (error || !data) return [];
   return data
     .map((row) => row.slug)
     .filter((slug): slug is string => Boolean(slug));
+}
+
+export const getProductSlugs = () =>
+  unstable_cache(
+    getProductSlugsUncached,
+    ["catalog", "product-slugs"],
+    { revalidate: CACHE_REVALIDATE }
+  )();
+
+/** Пріоритет категорій для хітів: палатка (camping), родпод, прикормки, вудки */
+const BESTSELLERS_CATEGORY_PRIORITY = [
+  "camping",
+  "tents",
+  "bedchairs",
+  "sleeping-bags",
+  "chairs",
+  "rod-pods",
+  "bait",
+  "baits",
+  "boilie-ingredients",
+  "carp-rods",
+  "feeder-rods",
+];
+
+export type BestsellerItem = {
+  id: string;
+  slug: string;
+  categorySlug: string;
+  name: string;
+  oldPrice: number;
+  price: number;
+  discount: number;
+  image: string;
+  badge: "hit";
 };
+
+async function getBestsellersHitProductsUncached(locale: Locale): Promise<BestsellerItem[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select(baseProductSelect)
+    .eq("is_active", true)
+    .eq("badge", "hit")
+    .order("created_at", { ascending: false });
+  if (error || !data) return [];
+  const products = data.map((row) => {
+    const rawRow = withCountDefaults(row as ProductRowBase);
+    const p = mapProduct(rawRow);
+    const cat = (row as { category?: { slug: string | null } | { slug: string | null }[] }).category;
+    const categorySlug = Array.isArray(cat) ? cat[0]?.slug ?? "" : cat?.slug ?? "";
+    const priority =
+      BESTSELLERS_CATEGORY_PRIORITY.indexOf(categorySlug) >= 0
+        ? BESTSELLERS_CATEGORY_PRIORITY.indexOf(categorySlug)
+        : 999;
+    return { product: p, categorySlug, priority };
+  });
+  products.sort((a, b) => a.priority - b.priority);
+  return products
+    .slice(0, 6)
+    .map(({ product }) => {
+      const oldPrice = product.oldPrice ?? product.price;
+      const discount =
+        oldPrice > product.price
+          ? Math.round((1 - product.price / oldPrice) * 100)
+          : 0;
+      return {
+        id: product.id,
+        slug: product.slug,
+        categorySlug: product.categorySlug,
+        name: product.name[locale],
+        oldPrice,
+        price: product.price,
+        discount,
+        image: product.image || "/category/zenety.jpg",
+        badge: "hit" as const,
+      };
+    });
+}
+
+export function getBestsellersHitProducts(locale: Locale) {
+  return unstable_cache(
+    () => getBestsellersHitProductsUncached(locale),
+    ["catalog", "bestsellers-hit", locale],
+    { revalidate: 300 }
+  )();
+}
+
+async function getProductsWithDiscountUncached(): Promise<CatalogProduct[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select(baseProductSelect)
+    .eq("is_active", true)
+    .not("old_price", "is", null)
+    .order("created_at", { ascending: false });
+  if (error || !data) return [];
+  return data
+    .map((row) => mapProduct(withCountDefaults(row as ProductRowBase)))
+    .filter((p) => p.oldPrice != null && p.oldPrice > p.price);
+}
+
+export function getProductsWithDiscount() {
+  return unstable_cache(
+    getProductsWithDiscountUncached,
+    ["catalog", "products-with-discount"],
+    { revalidate: CACHE_REVALIDATE }
+  )();
+}
