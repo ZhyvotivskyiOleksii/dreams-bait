@@ -61,7 +61,7 @@ export default async function CatalogPage({ params }: CatalogPageProps) {
           ]}
         />
 
-        <div className="-mx-4 overflow-hidden rounded-none border border-slate-200 bg-white sm:mx-0 sm:rounded-3xl">
+        <div className="-mx-4 -mt-px overflow-hidden rounded-none border-x border-b border-slate-200 sm:mx-0 sm:mt-0 sm:rounded-3xl sm:border bg-white">
           <div className="relative h-36 w-full">
             <Image
               src={category.image}

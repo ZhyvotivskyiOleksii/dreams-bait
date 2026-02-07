@@ -16,7 +16,14 @@
     "regulamin": "Terms",
     "search": "Search...",
     "account": "My account",
-    "auth": "Sign in"
+    "auth": "Sign in",
+    "more": "More",
+    "tabHome": "Home",
+    "tabCatalog": "Catalog",
+    "tabCart": "Cart",
+    "tabAccount": "Account",
+    "tabAuth": "Login",
+    "tabMore": "More"
   },
   "breadcrumbs": {
     "home": "Home",
@@ -66,8 +73,11 @@
   },
   "newsletter": {
     "title": "Subscribe to Newsletter",
+    "titleCta": "Stay in the loop!",
     "description": "Get updates on new products, special offers and useful fishing tips",
+    "descriptionCta": "Be the first to get products at great prices, learn about promotions and new arrivals",
     "placeholder": "Your email",
+    "placeholderCta": "Enter your email",
     "button": "Subscribe"
   },
   "footer": {

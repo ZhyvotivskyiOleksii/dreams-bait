@@ -17,7 +17,14 @@
     "admin": "Admin",
     "search": "Szukaj...",
     "account": "Moje konto",
-    "auth": "Zaloguj"
+    "auth": "Zaloguj",
+    "more": "Więcej",
+    "tabHome": "Główna",
+    "tabCatalog": "Katalog",
+    "tabCart": "Koszyk",
+    "tabAccount": "Konto",
+    "tabAuth": "Zaloguj",
+    "tabMore": "Więcej"
   },
   "breadcrumbs": {
     "home": "Strona główna",
@@ -67,8 +74,11 @@
   },
   "newsletter": {
     "title": "Zapisz się do newslettera",
+    "titleCta": "Bądź na bieżąco!",
     "description": "Otrzymuj informacje o nowościach, promocjach i przydatne porady wędkarskie",
+    "descriptionCta": "Otrzymuj jako pierwszy produkty w atrakcyjnych cenach, dowiaduj się o promocjach i nowościach",
     "placeholder": "Twój email",
+    "placeholderCta": "Wpisz swój email",
     "button": "Zapisz się"
   },
   "footer": {

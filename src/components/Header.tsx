@@ -9,6 +9,7 @@ import { Menu, Search, ShoppingCart, X, Percent, User, LogOut } from "lucide-rea
 import LanguageSwitcher from "./LanguageSwitcher";
 import MegaMenu from "./MegaMenu";
 import CartDrawer from "./CartDrawer";
+import MobileBottomNav from "./MobileBottomNav";
 import { useCart } from "./CartProvider";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -71,9 +72,10 @@ export default function Header() {
         <div className="mx-auto w-full max-w-[100vw] min-w-0">
           <div className="flex items-center justify-between gap-3 min-w-0 lg:gap-4">
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 lg:flex-initial">
+              {/* Каталог (гамбургер) — приховано на мобільному, є в нижній навігації */}
               <button
                 onClick={() => setIsMegaMenuOpen(true)}
-                className="group flex items-center justify-center gap-1 sm:gap-2.5 h-8 w-9 lg:h-9 lg:min-w-[130px] lg:px-4 lg:py-2 sm:min-w-0 sm:px-3 sm:py-1.5 rounded-lg transition-all duration-200 hover:brightness-110 flex-shrink-0"
+                className="hidden sm:flex group items-center justify-center gap-1 sm:gap-2.5 h-8 w-9 lg:h-9 lg:min-w-[130px] lg:px-4 lg:py-2 sm:min-w-0 sm:px-3 sm:py-1.5 rounded-lg transition-all duration-200 hover:brightness-110 flex-shrink-0"
                 style={{ backgroundColor: "#7dd3fc" }}
               >
                 <div className="flex flex-col gap-0.5">
@@ -120,8 +122,28 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Права частина */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* На мобільному: тільки кнопки Акції та Розпродаж */}
+            <div className="flex sm:hidden items-center gap-1.5 flex-shrink-0">
+              <Link
+                href={`/${locale}/promotions`}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-white text-[11px] font-bold hover:brightness-110 transition-all whitespace-nowrap"
+                style={{ background: "linear-gradient(90deg, #fb232e, #750e12)" }}
+              >
+                <span>{headerT("promotions")}</span>
+                <span className="w-5 h-5 -mr-1 rounded-full bg-white text-[#750e12] text-[10px] font-bold flex items-center justify-center">0</span>
+              </Link>
+              <Link
+                href={`/${locale}/sale`}
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-white text-[11px] font-bold hover:brightness-110 transition-all whitespace-nowrap"
+                style={{ background: "linear-gradient(90deg, #ff9130, #df4604)" }}
+              >
+                <Percent className="w-3.5 h-3.5 text-white" />
+                <span>{headerT("sale")}</span>
+              </Link>
+            </div>
+
+            {/* Права частина: планшет і десктоп (мова, кабінет, кошик); xl — ще Акції/Розпродаж */}
+            <div className="hidden sm:flex items-center gap-2 sm:gap-3 flex-shrink-0">
               <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
                 <Link
                   href={`/${locale}/promotions`}
@@ -188,11 +210,8 @@ export default function Header() {
               >
                 <span className="relative inline-flex">
                   <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" strokeWidth={2} />
-                  <span
-                    className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] sm:min-w-[16px] sm:h-[16px] lg:min-w-[18px] lg:h-[18px] text-black text-[9px] sm:text-[10px] lg:text-xs font-bold rounded-full flex items-center justify-center border border-white"
-                    style={{ backgroundColor: "#7dd3fc" }}
-                  >
-                    {itemCount}
+                  <span className="absolute top-0 right-0 min-w-[14px] h-[14px] sm:min-w-[16px] sm:h-[16px] lg:min-w-[18px] lg:h-[18px] translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center bg-red-500 text-white text-[9px] sm:text-[10px] lg:text-xs font-bold px-0.5">
+                    {itemCount > 99 ? "99+" : itemCount}
                   </span>
                 </span>
               </button>
@@ -211,6 +230,17 @@ export default function Header() {
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
       />
+
+      {/* Нижня навігація тільки на мобільному (не на auth/admin/account) */}
+      {pathname && !pathname.includes("/auth") && !pathname.includes("/admin") && !pathname.includes("/account") && (
+        <MobileBottomNav
+          itemCount={itemCount}
+          onCatalogClick={() => setIsMegaMenuOpen(true)}
+          onCartClick={() => setIsCartOpen(true)}
+          isLoggedIn={isLoggedIn}
+          isAdmin={isAdmin}
+        />
+      )}
     </>
   );
 }

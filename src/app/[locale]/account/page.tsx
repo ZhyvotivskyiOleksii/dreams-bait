@@ -17,6 +17,8 @@ import {
   Check,
   X,
   LogOut,
+  Eye,
+  Trash2,
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { getProductBySlugOrId } from "@/lib/catalogData";
@@ -413,7 +415,7 @@ export default function AccountPage() {
 
         {activeTab === "favorites" && (
           <div>
-            <h2 className="mb-4 text-base font-semibold text-slate-900">{t("favoritesTitle")}</h2>
+            <h2 className="mb-3 text-sm font-semibold text-slate-900">{t("favoritesTitle")}</h2>
             {displayFavorites.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 py-16 text-center">
                 <Heart className="h-10 w-10 text-slate-300" />
@@ -424,43 +426,48 @@ export default function AccountPage() {
                 {displayFavorites.map((item) => (
                   <li
                     key={`${item.id}-${item.slug}`}
-                    className="flex items-center gap-4 rounded-xl border border-slate-100 bg-white p-3 transition hover:border-slate-200"
+                    className="flex flex-col rounded-xl border border-slate-100 bg-white p-3 transition hover:border-slate-200 sm:flex-row sm:items-center sm:gap-4"
                   >
-                    <Link
-                      href={`/${locale}/product/${item.slug}`}
-                      className="relative block h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-slate-50"
-                    >
-                      {item.image ? (
-                        <Image src={item.image} alt={item.name || ""} fill sizes="64px" className="object-contain p-1" />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-slate-300">
-                          <Heart className="h-6 w-6" />
-                        </div>
-                      )}
-                    </Link>
-                    <div className="min-w-0 flex-1">
+                    <div className="flex gap-3 sm:flex-1 sm:min-w-0">
                       <Link
                         href={`/${locale}/product/${item.slug}`}
-                        className="block font-medium text-slate-900 line-clamp-2 hover:underline"
+                        className="relative block h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-slate-50"
                       >
-                        {item.name || "—"}
+                        {item.image ? (
+                          <Image src={item.image} alt={item.name || ""} fill sizes="64px" className="object-contain p-1" />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-slate-300">
+                            <Heart className="h-6 w-6" />
+                          </div>
+                        )}
                       </Link>
-                      {typeof item.price === "number" && (
-                        <p className="mt-0.5 text-sm font-semibold text-slate-900">{item.price} €</p>
-                      )}
+                      <div className="min-w-0 flex-1 text-left">
+                        <Link
+                          href={`/${locale}/product/${item.slug}`}
+                          className="block text-xs font-medium text-slate-900 line-clamp-2 hover:underline"
+                        >
+                          {item.name || "—"}
+                        </Link>
+                        {typeof item.price === "number" && (
+                          <p className="mt-1 text-base font-semibold text-slate-900">{item.price} €</p>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex flex-shrink-0 gap-2">
+                    <div className="mt-1.5 flex flex-shrink-0 justify-end gap-1.5 sm:mt-0">
                       <Link
                         href={`/${locale}/product/${item.slug}`}
-                        className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-medium text-white hover:bg-slate-800"
+                        className="inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-[11px] font-medium text-white hover:opacity-90 transition-opacity"
+                        style={{ background: "linear-gradient(90deg, #7dd3fc 0%, #38bdf8 100%)" }}
                       >
+                        <Eye className="h-3.5 w-3.5" />
                         {t("favoritesView")}
                       </Link>
                       <button
                         type="button"
                         onClick={() => handleRemoveFavorite(item.slug || item.id, item.id)}
-                        className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                        className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2.5 py-1.5 text-[11px] font-medium text-slate-500 hover:bg-slate-200 hover:text-slate-700 transition-colors"
                       >
+                        <Trash2 className="h-3.5 w-3.5" />
                         {t("favoritesRemove")}
                       </button>
                     </div>

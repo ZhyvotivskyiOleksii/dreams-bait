@@ -15,8 +15,9 @@ type BreadcrumbsBarProps = {
   className?: string;
 };
 
-const HEADER_HEIGHT = 52; // фактична висота хедера на мобільному (py-2 + ряд ~52px), без щілини
-const BAR_HEIGHT = 40;   // breadcrumbs bar height
+const HEADER_HEIGHT = 52; // фактична висота хедера на мобільному (py-2 + ряд ~52px)
+// Висота смуги: padding 0.75rem зверху + знизу + ряд тексту ≈ 48px
+const BAR_HEIGHT = 48;
 
 export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps) {
   return (
@@ -24,22 +25,24 @@ export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps
       {/* Фіксована смуга одразу під хедером, без відступу */}
       <div
         className={clsx(
-          "fixed left-0 right-0 z-40 bg-white border-b border-slate-200 min-w-0 overflow-hidden",
+          "fixed left-0 right-0 z-40 bg-white border-b border-slate-200 min-w-0 overflow-hidden top-[52px] sm:top-16",
           className
         )}
-        style={{ top: HEADER_HEIGHT }}
       >
-        <div className="container mx-auto px-4 pt-2 pb-3 sm:pt-3 sm:pb-3 min-h-[40px] flex items-center">
-          <nav className="flex flex-nowrap items-center gap-2 text-[13px] font-medium text-slate-900 min-w-0 overflow-hidden">
+        <div
+          className="container mx-auto px-4 flex items-center min-h-[40px]"
+          style={{ paddingTop: "0.75rem", paddingBottom: "0.75rem" }}
+        >
+          <nav className="flex flex-nowrap items-center gap-2 text-[13px] font-medium text-slate-900 min-w-0 overflow-hidden leading-none">
         {items.map((item, index) => {
           const isFirst = index === 0;
           const content = item.isHome ? (
-            <span className="inline-flex items-center gap-1 flex-shrink-0">
-              <Home className="h-4 w-4 text-slate-700" />
-              <span className="hidden sm:inline">{item.label}</span>
+            <span className="inline-flex items-center gap-1 flex-shrink-0 leading-none">
+              <Home className="h-4 w-4 flex-shrink-0 text-slate-700" />
+              <span className="hidden sm:inline leading-none">{item.label}</span>
             </span>
           ) : (
-            <span>{item.label}</span>
+            <span className="leading-none">{item.label}</span>
           );
 
           const isLast = index === items.length - 1;
@@ -47,18 +50,18 @@ export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps
             <span
               key={`${item.label}-${index}`}
               className={clsx(
-                "flex items-center gap-2 flex-shrink-0",
+                "inline-flex items-center gap-2 flex-shrink-0 min-h-[1em]",
                 isLast && "min-w-0 flex-shrink overflow-hidden"
               )}
             >
-              {!isFirst && <ChevronRight className="h-4 w-4 text-slate-600 flex-shrink-0" />}
+              {!isFirst && <ChevronRight className="h-4 w-4 flex-shrink-0 text-slate-600" />}
               {item.href ? (
-                <Link href={item.href} className="text-slate-800 hover:text-slate-950 transition-colors">
+                <Link href={item.href} className="inline-flex items-center text-slate-800 hover:text-slate-950 transition-colors leading-none">
                   {content}
                 </Link>
               ) : (
                 <span
-                  className={clsx(isLast && "block truncate min-w-0 text-slate-950 font-semibold")}
+                  className={clsx("inline-flex items-center", isLast && "truncate min-w-0 text-slate-950 font-semibold leading-none")}
                   title={isLast ? item.label : undefined}
                 >
                   {content}
@@ -70,8 +73,8 @@ export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps
           </nav>
         </div>
       </div>
-      {/* Spacer щоб контент не заходив під фіксовані хедер і крошки */}
-      <div className="min-w-0 overflow-hidden mb-3 sm:mb-6" style={{ height: HEADER_HEIGHT + BAR_HEIGHT }} aria-hidden />
+      {/* Spacer тільки під смугу крихт: main вже має pt під хедер, тому не дублюємо HEADER_HEIGHT */}
+      <div className="min-w-0 overflow-hidden mb-0 sm:mb-6" style={{ height: BAR_HEIGHT }} aria-hidden />
     </>
   );
 }

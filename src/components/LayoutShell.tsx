@@ -16,7 +16,7 @@ export default function LayoutShell({ children }: LayoutShellProps) {
   return (
     <div className="flex min-h-screen min-h-[100dvh] flex-col">
       <Header />
-      <main className="min-h-0 flex-1 w-full min-w-0 overflow-x-hidden overflow-y-auto pt-[52px] sm:pt-14">{children}</main>
+      <main className={`min-h-0 flex-1 w-full min-w-0 overflow-x-hidden overflow-y-auto pt-[52px] sm:pt-16 ${!hideFooter ? "pb-16 sm:pb-0" : ""}`}>{children}</main>
       {!hideFooter && <Footer />}
       <ChatWidget />
     </div>

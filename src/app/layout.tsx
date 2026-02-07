@@ -25,6 +25,13 @@ export const metadata: Metadata = {
   },
 };
 
+// iOS Safari: viewport-fit=cover — щоб нижня навігація прилипала до низу без відступу
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 export default async function RootLayout({
   children,
   params,

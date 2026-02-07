@@ -35,36 +35,44 @@ export default function Footer() {
 
   return (
     <footer className="bg-black text-white">
-      {/* Newsletter секція */}
-      <div className="border-b border-slate-200 bg-[#f2f4f8] text-slate-900">
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="font-heading text-3xl md:text-4xl mb-3 text-slate-900">
-              {t("newsletter.title")}
-            </h3>
-            <p className="text-slate-600 mb-6 max-w-xl mx-auto">
-              {t("newsletter.description")}
-            </p>
-            <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input
-                type="email"
-                placeholder={t("newsletter.placeholder")}
-                className="flex-1 px-5 py-3 bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#7dd3fc] focus:border-transparent"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-[#7dd3fc] text-black font-bold tracking-wide rounded-lg hover:bg-[#f5c542] transition-colors flex items-center justify-center gap-2"
-              >
-                <Send className="w-4 h-4" />
-                {t("newsletter.button")}
-              </button>
-            </form>
-          </div>
+      {/* Newsletter — дизайн з розмитим фоном і пілл-формою */}
+      <div className="bg-[#f2f4f8] px-0 pt-6 sm:pt-8 pb-2">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 min-h-[220px] sm:min-h-[260px] flex items-center justify-center">
+        <Image
+          src="/hero-images/3.jpg"
+          alt=""
+          fill
+          className="object-cover blur-[2px] sm:blur-[3px] scale-105"
+        />
+        <div className="absolute inset-0 bg-slate-900/60" />
+        <div className="relative z-10 w-full max-w-lg mx-auto px-4 py-8 sm:py-10 text-center">
+          <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-3 leading-tight">
+            {t("newsletter.titleCta")}
+          </h3>
+          <p className="text-white/95 text-sm sm:text-base mb-5 sm:mb-6 max-w-md mx-auto leading-snug">
+            {t("newsletter.descriptionCta")}
+          </p>
+          <form className="flex rounded-full overflow-hidden bg-white shadow-lg max-w-md mx-auto border border-slate-200/50">
+            <input
+              type="email"
+              placeholder={t("newsletter.placeholderCta")}
+              className="flex-1 min-w-0 px-4 sm:px-5 py-3 sm:py-3.5 text-slate-900 text-sm sm:text-base placeholder-slate-400 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="shrink-0 px-5 sm:px-6 py-3 sm:py-3.5 text-white font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 shadow-sm hover:brightness-95"
+              style={{ background: "linear-gradient(90deg, #7dd3fc 0%, #38bdf8 100%)" }}
+            >
+              <Send className="w-4 h-4 shrink-0" />
+              {t("newsletter.button")}
+            </button>
+          </form>
+        </div>
         </div>
       </div>
 
       {/* Основний контент */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-center">
           {/* Про компанію */}
           <div className="lg:col-span-1 flex flex-col items-center">
