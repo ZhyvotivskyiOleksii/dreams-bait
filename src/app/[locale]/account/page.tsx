@@ -259,10 +259,10 @@ export default function AccountPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pb-20 sm:pb-8">
+    <div className="min-h-screen bg-white pb-8">
       <div className="mx-auto max-w-xl px-4 pt-0 sm:pt-6">
         {/* Профіль-картка: аватар + ім'я + вихід (в кабінеті) */}
-        <div className="mb-6 flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 px-4 py-4 sm:mb-8">
+        <div className="mb-6 flex items-center gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 px-4 py-4 sm:mb-6">
           <div className="relative flex h-12 w-12 flex-shrink-0 sm:h-14 sm:w-14">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7dd3fc] to-[#0ea5e9] shadow-lg shadow-sky-200/50" />
             <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center ring-2 ring-white">
@@ -289,26 +289,45 @@ export default function AccountPage() {
           </button>
         </div>
 
-        {/* Таби: на десктопі — тут; на мобільному — нижня навігація */}
-        <nav className="mb-6 hidden border-b border-slate-200 sm:mb-8 sm:block" aria-label="Tabs">
-          <div className="flex gap-6">
-            {tabs.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setActiveTab(id)}
-                className={`relative pb-3 text-sm font-medium transition-colors ${
-                  activeTab === id ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
+        {/* Меню як кнопки: Профіль, Обране, Замовлення — всередині сторінки */}
+        <div className="mb-5 grid grid-cols-3 gap-1.5 sm:mb-6" role="tablist" aria-label="Account sections">
+          {tabs.map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === id}
+              onClick={() => setActiveTab(id)}
+              className={`relative flex flex-col items-center gap-1 rounded-md border px-2 py-2.5 transition-all ${
+                activeTab === id
+                  ? "border-sky-200 bg-gradient-to-br from-sky-50 to-white shadow-sm ring-2 ring-sky-100"
+                  : "border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              {(id === "orders" && orders.length > 0) || (id === "favorites" && displayFavorites.length > 0) ? (
+                <span className="absolute top-1 right-1 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-white text-[8px] font-bold bg-sky-500">
+                  {id === "orders" ? (orders.length > 9 ? "9+" : orders.length) : displayFavorites.length > 9 ? "9+" : displayFavorites.length}
+                </span>
+              ) : null}
+              <div
+                className={`flex h-6 w-6 items-center justify-center rounded-md transition-colors ${
+                  activeTab === id
+                    ? "bg-gradient-to-br from-[#7dd3fc] to-[#0ea5e9] text-white"
+                    : "bg-slate-200/80 text-slate-600"
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" strokeWidth={2} />
+              </div>
+              <span
+                className={`text-[10px] font-medium whitespace-nowrap leading-tight ${
+                  activeTab === id ? "text-slate-900" : "text-slate-500"
                 }`}
               >
                 {label}
-                {activeTab === id && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900" />
-                )}
-              </button>
-            ))}
-          </div>
-        </nav>
+              </span>
+            </button>
+          ))}
+        </div>
 
         {/* Контент */}
         {activeTab === "profile" && (
@@ -533,23 +552,6 @@ export default function AccountPage() {
           </div>
         )}
       </div>
-
-      {/* Нижня навігація на мобільному: Профіль, Обране, Замовлення */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 flex border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden" aria-label="Account sections">
-        {tabs.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => setActiveTab(id)}
-            className={`flex flex-1 flex-col items-center gap-1 py-3 text-xs font-medium ${
-              activeTab === id ? "text-slate-900" : "text-slate-400"
-            }`}
-          >
-            <Icon className="h-5 w-5" />
-            {label}
-          </button>
-        ))}
-      </nav>
     </div>
   );
 }

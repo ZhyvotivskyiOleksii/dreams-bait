@@ -7,6 +7,34 @@ import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { Home, LayoutGrid, ShoppingCart, User, MoreHorizontal } from "lucide-react";
 
+/** iOS Safari: оновлює bottom при скролі, щоб nav прилипав до видимого низу при хованій адресці */
+function useVisualViewportBottom() {
+  const [bottom, setBottom] = useState(0);
+
+  useEffect(() => {
+    const vv = typeof window !== "undefined" ? window.visualViewport : null;
+    if (!vv) return;
+
+    const update = () => {
+      const offset = vv.offsetTop + vv.height - window.innerHeight;
+      setBottom(Math.max(0, offset));
+    };
+
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return bottom;
+}
+
 type MobileBottomNavProps = {
   itemCount: number;
   onCatalogClick: () => void;
@@ -38,11 +66,16 @@ export default function MobileBottomNav({
     }`;
 
   const [mounted, setMounted] = useState(false);
+  const visualBottomOffset = useVisualViewportBottom();
+
   useEffect(() => setMounted(true), []);
 
   const navEl = (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 flex border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden"
+      className="fixed inset-x-0 z-50 flex border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden"
+      style={{
+        bottom: visualBottomOffset > 0 ? -visualBottomOffset : 0,
+      }}
       aria-label="Main navigation"
     >
       <Link href={`/${locale}`} className={linkClass(isHome)}>

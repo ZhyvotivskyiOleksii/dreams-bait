@@ -231,8 +231,8 @@ export default function Header() {
         onClose={() => setIsCartOpen(false)}
       />
 
-      {/* Нижня навігація тільки на мобільному (не на auth/admin/account) */}
-      {pathname && !pathname.includes("/auth") && !pathname.includes("/admin") && !pathname.includes("/account") && (
+      {/* Нижня навігація на мобільному (auth/admin — без неї; account — з нею, щоб можна було вийти на Головну/Каталог) */}
+      {pathname && !pathname.includes("/auth") && !pathname.includes("/admin") && (
         <MobileBottomNav
           itemCount={itemCount}
           onCatalogClick={() => setIsMegaMenuOpen(true)}
