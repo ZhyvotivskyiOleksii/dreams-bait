@@ -299,7 +299,7 @@ export default async function HomePage({
                   {[
                     { image: "/category/wendka.webp", name: t("categories.rods"), href: toLocalePath("/catalog/rods") },
                     { image: "/category/kolowrotek.webp", name: t("categories.reels"), href: toLocalePath("/catalog/reels") },
-                    { image: "/category/camping.webp", name: t("categories.camping"), href: toLocalePath("/catalog/tents") },
+                    { image: "/category/camping.webp", name: t("categories.camping"), href: toLocalePath("/catalog/camping") },
                     { image: "/category/zenety.jpg", name: t("categories.bait"), href: toLocalePath("/catalog/baits") },
                   ].map((item, idx) => (
                     <Link

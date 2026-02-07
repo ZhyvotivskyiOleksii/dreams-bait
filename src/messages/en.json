@@ -14,7 +14,9 @@
     "contact": "Contact",
     "cart": "Cart",
     "regulamin": "Terms",
-    "search": "Search..."
+    "search": "Search...",
+    "account": "My account",
+    "auth": "Sign in"
   },
   "breadcrumbs": {
     "home": "Home",
@@ -493,10 +495,29 @@
     "backToSite": "Back to website",
     "menuProfile": "Profile",
     "menuFavorites": "Favorites",
+    "menuOrders": "Orders",
+    "editProfile": "Edit profile",
+    "saveProfile": "Save",
+    "cancel": "Cancel",
+    "profileSaved": "Profile saved",
     "favoritesTitle": "Saved products",
     "favoritesEmpty": "You haven't added any favorites yet.",
     "favoritesView": "View",
     "favoritesRemove": "Remove",
+    "ordersTitle": "Order history",
+    "ordersEmpty": "You have no orders yet.",
+    "orderNumber": "Order #",
+    "orderDate": "Date",
+    "orderStatus": "Status",
+    "orderTotal": "Total",
+    "orderStatuses": {
+      "pending": "Pending payment",
+      "paid": "Paid",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
     "fields": {
       "firstName": "First name",
       "lastName": "Last name",

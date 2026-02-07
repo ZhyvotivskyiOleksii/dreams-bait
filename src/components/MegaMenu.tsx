@@ -57,7 +57,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
     "landing-nets": ["landing-nets"],
     "rod-pods": ["rod-pods"],
     "bite-alarms": ["bite-alarms"],
-    camping: ["tents", "bedchairs", "sleeping-bags", "chairs"],
+    camping: ["camping"],
   };
 
   const categories: Category[] = [
@@ -272,12 +272,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
       id: "camping",
       name: t("megaMenu.categories.camping"),
       image: "/category/camping.webp",
-      subcategories: [
-        { name: t("megaMenu.subcategories.tents"), slug: "tents" },
-        { name: t("megaMenu.subcategories.bedchairs"), slug: "bedchairs" },
-        { name: t("megaMenu.subcategories.sleepingBags"), slug: "sleeping-bags" },
-        { name: t("megaMenu.subcategories.chairs"), slug: "chairs" },
-      ],
+      subcategories: [],
       topProducts: [
         {
           name: t("megaMenu.topProducts.camping.item1"),
@@ -677,7 +672,7 @@ export default function MegaMenu({ isOpen, onClose }: MegaMenuProps) {
                             if (fromDb) {
                               return (
                                 <div
-                                  key={product.id + index}
+                                  key={product.id ?? product.href ?? index}
                                   className="group relative bg-white border border-slate-200 rounded-2xl p-2.5 hover:border-slate-300 transition-all duration-300"
                                 >
                                   <Link href={product.href} onClick={onClose} className="block">

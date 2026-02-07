@@ -14,7 +14,10 @@
     "contact": "Контакти",
     "cart": "Кошик",
     "regulamin": "Регламент",
-    "search": "Пошук..."
+    "search": "Пошук...",
+    "account": "Особистий кабінет",
+    "auth": "Увійти",
+    "admin": "Адмінка"
   },
   "breadcrumbs": {
     "home": "Головна",
@@ -493,10 +496,29 @@
     "backToSite": "Назад на сайт",
     "menuProfile": "Профіль",
     "menuFavorites": "Обране",
+    "menuOrders": "Замовлення",
+    "editProfile": "Редагувати профіль",
+    "saveProfile": "Зберегти",
+    "cancel": "Скасувати",
+    "profileSaved": "Дані збережено",
     "favoritesTitle": "Обрані товари",
     "favoritesEmpty": "Ви ще не додали товари до обраного.",
     "favoritesView": "Переглянути",
     "favoritesRemove": "Прибрати",
+    "ordersTitle": "Історія замовлень",
+    "ordersEmpty": "У вас поки немає замовлень.",
+    "orderNumber": "Замовлення №",
+    "orderDate": "Дата",
+    "orderStatus": "Статус",
+    "orderTotal": "Сума",
+    "orderStatuses": {
+      "pending": "Очікує оплати",
+      "paid": "Оплачено",
+      "processing": "Обробляється",
+      "shipped": "Відправлено",
+      "delivered": "Доставлено",
+      "cancelled": "Скасовано"
+    },
     "fields": {
       "firstName": "Ім'я",
       "lastName": "Прізвище",

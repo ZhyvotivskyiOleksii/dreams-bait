@@ -37,33 +37,22 @@ type Product = {
   badge?: string | null;
 };
 
+/** Категорії як у меню на сайті: тільки 10 основних + 2 підкатегорії у Вудилищах і 2 у Котушках. Назви укр — як на скріні. */
 const defaultCategories = [
-  { slug: "rods", name_uk: "ВУДКИ", name_pl: "WĘDKI", name_en: "RODS", image_url: "/category/wendka.webp" },
-  { slug: "reels", name_uk: "КОТУШКИ", name_pl: "KOŁOWROTKI", name_en: "REELS", image_url: "/category/kolowrotek.webp" },
-  { slug: "lines", name_uk: "ЖИЛКИ I ПЛЕТІНКИ", name_pl: "ŻYŁKI I PLECIONKI", name_en: "LINES & BRAIDS", image_url: "/category/zylki.jpg" },
-  { slug: "bait", name_uk: "ЗАНЕТИ ТА ПРИМАНКИ", name_pl: "ZANĘTY I PRZYNĘTY", name_en: "BAIT & LURES", image_url: "/category/zenety.jpg" },
-  { slug: "accessories", name_uk: "АКСЕСУАРИ", name_pl: "AKCESORIA", name_en: "ACCESSORIES", image_url: "/category/aksesoria.jpg" },
-  { slug: "landing-nets", name_uk: "ПІДБИРАКИ", name_pl: "PODBIERAKI", name_en: "LANDING NETS", image_url: "/category/podbierak.jpg" },
-  { slug: "rod-pods", name_uk: "РОДПОДИ", name_pl: "RODPODY", name_en: "ROD PODS", image_url: "/category/rodpod.webp" },
-  { slug: "bite-alarms", name_uk: "СИГНАЛІЗАТОРИ", name_pl: "SYGNALIZATORY", name_en: "BITE ALARMS", image_url: "/category/sygnalizator.jpg" },
-  { slug: "camping", name_uk: "КЕМПІНГ", name_pl: "CAMPING", name_en: "CAMPING", image_url: "/category/camping.webp" },
-  { slug: "carp-rods", name_uk: "КАРПОВІ ВУДКИ", name_pl: "WĘDKI KARPIOWE", name_en: "CARP RODS", image_url: "/category/karpowa-wendka.webp" },
-  { slug: "feeder-rods", name_uk: "ФІДЕРНІ ВУДКИ", name_pl: "WĘDKI FEEDEROWE", name_en: "FEEDER RODS", image_url: "/category/fider-wendka.webp" },
-  { slug: "carp-reels", name_uk: "КАРПОВІ КОТУШКИ", name_pl: "KOŁOWROTKI KARPIOWE", name_en: "CARP REELS", image_url: "/category/karp-kolowrotek.webp" },
-  { slug: "feeder-reels", name_uk: "ФІДЕРНІ КОТУШКИ", name_pl: "KOŁOWROTKI FEEDEROWE", name_en: "FEEDER REELS", image_url: "/category/fider-kolowrotek.png" },
-  { slug: "mono", name_uk: "МОНО ЛІСКА", name_pl: "ŻYŁKA MONO", name_en: "MONO LINE", image_url: "/category/zylki.jpg" },
-  { slug: "braided", name_uk: "ПЛЕТЕНІ ЛІСКИ", name_pl: "PLECIONKI", name_en: "BRAIDED LINE", image_url: "/category/zylki.jpg" },
-  { slug: "fluoro", name_uk: "ФЛЮОРОКАРБОН", name_pl: "FLUOROCARBON", name_en: "FLUOROCARBON", image_url: "/category/zylki.jpg" },
-  { slug: "leadcore", name_uk: "ЛІДКОР", name_pl: "LEADCORE", name_en: "LEADCORE", image_url: "/category/zylki.jpg" },
-  { slug: "nozzles-liquids", name_uk: "НАСАДКИ I ЛІКВІДИ", name_pl: "PRZYNĘTY I LIQUIDY", name_en: "NOZZLES & LIQUIDS", image_url: "/category/zenety.jpg" },
-  { slug: "liquids-components", name_uk: "РІДИНИ I КОМПОНЕНТИ", name_pl: "PŁYNY I KOMPONENTY", name_en: "LIQUIDS & COMPONENTS", image_url: "/category/zenety.jpg" },
-  { slug: "all-for-fishing", name_uk: "ВСЕ ДЛЯ РИБАЛКИ", name_pl: "WSZYSTKO DLA WĘDKARZA", name_en: "ALL FOR FISHING", image_url: "/category/zenety.jpg" },
-  { slug: "ingredients", name_uk: "ІНГРЕДІЄНТИ", name_pl: "SKŁADNIKI", name_en: "INGREDIENTS", image_url: "/category/zenety.jpg" },
-  { slug: "boilie-ingredients", name_uk: "ІНГРЕДІЄНТИ ДЛЯ БОЙЛІВ", name_pl: "SKŁADNIKI DO BOILI", name_en: "BOILIE INGREDIENTS", image_url: "/category/carp_boilies.png" },
-  { slug: "tents", name_uk: "НАМЕТИ", name_pl: "NAMOTY", name_en: "TENTS", image_url: "/category/camping.webp" },
-  { slug: "bedchairs", name_uk: "РОЗКЛАДАЧКИ", name_pl: "ŁÓŻKA POLOWE", name_en: "BEDCHAIRS", image_url: "/category/camping.webp" },
-  { slug: "sleeping-bags", name_uk: "СПАЛЬНИКИ", name_pl: "ŚPIWORY", name_en: "SLEEPING BAGS", image_url: "/category/camping.webp" },
-  { slug: "chairs", name_uk: "КРІСЛА", name_pl: "KRZESŁA", name_en: "CHAIRS", image_url: "/category/camping.webp" },
+  { slug: "rods", name_uk: "Вудилища", name_pl: "Wędki", name_en: "Rods", image_url: "/category/wendka.webp" },
+  { slug: "reels", name_uk: "Котушки", name_pl: "Kołowrotki", name_en: "Reels", image_url: "/category/kolowrotek.webp" },
+  { slug: "lines", name_uk: "Волосінь та шнури", name_pl: "Żyłki i plecionki", name_en: "Lines & braids", image_url: "/category/zylki.jpg" },
+  { slug: "bait", name_uk: "Прикормки та насадки", name_pl: "Zanęty i przynęty", name_en: "Baits & lures", image_url: "/category/zenety.jpg" },
+  { slug: "boilie-ingredients", name_uk: "Інгредієнти для бойлів", name_pl: "Składniki do boili", name_en: "Boilie ingredients", image_url: "/category/carp_boilies.png" },
+  { slug: "accessories", name_uk: "Аксесуари", name_pl: "Akcesoria", name_en: "Accessories", image_url: "/category/aksesoria.jpg" },
+  { slug: "landing-nets", name_uk: "Підсаки", name_pl: "Podbieraki", name_en: "Landing nets", image_url: "/category/podbierak.jpg" },
+  { slug: "rod-pods", name_uk: "Родподи", name_pl: "Rodpody", name_en: "Rod pods", image_url: "/category/rodpod.webp" },
+  { slug: "bite-alarms", name_uk: "Сигналізатори", name_pl: "Sygnalityzatory", name_en: "Bite alarms", image_url: "/category/sygnalizator.jpg" },
+  { slug: "camping", name_uk: "Кемпінг", name_pl: "Camping", name_en: "Camping", image_url: "/category/camping.webp" },
+  { slug: "carp-rods", name_uk: "Карпові вудилища", name_pl: "Wędki karpiowe", name_en: "Carp rods", image_url: "/category/karpowa-wendka.webp" },
+  { slug: "feeder-rods", name_uk: "Фідерні вудилища", name_pl: "Wędki feederowe", name_en: "Feeder rods", image_url: "/category/fider-wendka.webp" },
+  { slug: "carp-reels", name_uk: "Карпові котушки", name_pl: "Kołowrotki karpiowe", name_en: "Carp reels", image_url: "/category/karp-kolowrotek.webp" },
+  { slug: "feeder-reels", name_uk: "Фідерні котушки", name_pl: "Kołowrotki feederowe", name_en: "Feeder reels", image_url: "/category/fider-kolowrotek.png" },
 ];
 
 const categoryImageBySlug: Record<string, string> = {
@@ -71,6 +60,7 @@ const categoryImageBySlug: Record<string, string> = {
   reels: "/category/kolowrotek.webp",
   lines: "/category/zylki.jpg",
   bait: "/category/zenety.jpg",
+  "boilie-ingredients": "/category/carp_boilies.png",
   accessories: "/category/aksesoria.jpg",
   "landing-nets": "/category/podbierak.jpg",
   "rod-pods": "/category/rodpod.webp",
@@ -80,19 +70,6 @@ const categoryImageBySlug: Record<string, string> = {
   "feeder-rods": "/category/fider-wendka.webp",
   "carp-reels": "/category/karp-kolowrotek.webp",
   "feeder-reels": "/category/fider-kolowrotek.png",
-  mono: "/category/zylki.jpg",
-  braided: "/category/zylki.jpg",
-  fluoro: "/category/zylki.jpg",
-  leadcore: "/category/zylki.jpg",
-  "nozzles-liquids": "/category/zenety.jpg",
-  "liquids-components": "/category/zenety.jpg",
-  "all-for-fishing": "/category/zenety.jpg",
-  ingredients: "/category/zenety.jpg",
-  "boilie-ingredients": "/category/carp_boilies.png",
-  tents: "/category/camping.webp",
-  bedchairs: "/category/camping.webp",
-  "sleeping-bags": "/category/camping.webp",
-  chairs: "/category/camping.webp",
 };
 
 const menuCategoryOrder = [
@@ -108,14 +85,11 @@ const menuCategoryOrder = [
   "camping",
 ];
 
+/** Тільки Вудилища та Котушки мають по 2 підкатегорії — як на сайті. */
 const subcategoryByMenuSlug: Record<string, string[]> = {
   rods: ["carp-rods", "feeder-rods"],
   reels: ["carp-reels", "feeder-reels"],
-  camping: ["tents", "bedchairs", "sleeping-bags", "chairs"],
 };
-/** Колишні підкатегорії — у формі показуємо як головну категорію без підкатегорії */
-const legacyLinesSubcategorySlugs = ["mono", "braided", "fluoro", "leadcore"];
-const legacyBaitSubcategorySlugs = ["nozzles-liquids", "liquids-components", "all-for-fishing", "ingredients"];
 
 export default function AdminPage() {
   const t = useTranslations("admin");
@@ -198,19 +172,6 @@ export default function AdminPage() {
       "feeder-rods": rootT("megaMenu.subcategories.feederRods"),
       "carp-reels": rootT("megaMenu.subcategories.carpReels"),
       "feeder-reels": rootT("megaMenu.subcategories.feederReels"),
-      mono: rootT("megaMenu.subcategories.mono"),
-      braided: rootT("megaMenu.subcategories.braided"),
-      fluoro: rootT("megaMenu.subcategories.fluoro"),
-      leadcore: rootT("megaMenu.subcategories.leadcore"),
-      "nozzles-liquids": rootT("megaMenu.subcategories.nozzlesLiquids"),
-      "liquids-components": rootT("megaMenu.subcategories.liquidsComponents"),
-      "all-for-fishing": rootT("megaMenu.subcategories.allForFishing"),
-      ingredients: rootT("megaMenu.subcategories.ingredients"),
-      "boilie-ingredients": rootT("megaMenu.subcategories.boilieIngredients"),
-      tents: rootT("megaMenu.subcategories.tents"),
-      bedchairs: rootT("megaMenu.subcategories.bedchairs"),
-      "sleeping-bags": rootT("megaMenu.subcategories.sleepingBags"),
-      chairs: rootT("megaMenu.subcategories.chairs"),
     }),
     [rootT]
   );
@@ -583,14 +544,25 @@ export default function AdminPage() {
   };
 
   const handleMoveProductToCategory = async (productId: string, newCategoryId: string) => {
+    let categoryId = newCategoryId;
+    if (newCategoryId.startsWith("slug:")) {
+      const slug = newCategoryId.slice(5);
+      const def = defaultCategories.find((c) => c.slug === slug);
+      if (def) {
+        await supabase.from("categories").upsert(def, { onConflict: "slug" });
+        const { data: row } = await supabase.from("categories").select("id").eq("slug", slug).single();
+        if (row?.id) categoryId = row.id;
+        fetchCategories();
+      }
+    }
     const { error } = await supabase
       .from("products")
-      .update({ category_id: newCategoryId })
+      .update({ category_id: categoryId })
       .eq("id", productId);
     if (!error) {
       fetchProducts(activeCategoryId);
       const oldSlug = allCategories.find((c) => c.id === activeCategoryId)?.slug;
-      const newSlug = allCategories.find((c) => c.id === newCategoryId)?.slug;
+      const newSlug = allCategories.find((c) => c.id === categoryId)?.slug ?? (categoryId.startsWith("slug:") ? categoryId.slice(5) : null);
       const slugs = [oldSlug, newSlug].filter(Boolean) as string[];
       if (slugs.length > 0) {
         try {
@@ -604,24 +576,36 @@ export default function AdminPage() {
     }
   };
 
+  const defaultCategoryLabelBySlug = useMemo(() => {
+    const map: Record<string, string> = {};
+    const lang = (locale === "uk" ? "name_uk" : locale === "pl" ? "name_pl" : "name_en") as keyof (typeof defaultCategories)[0];
+    for (const c of defaultCategories) {
+      map[c.slug] = (c[lang] as string) || c.slug;
+    }
+    return map;
+  }, [locale]);
+
   const moveCategoryOptions = useMemo(() => {
     const mainSlugs = [...menuCategoryOrder];
     const out: { id: string; label: string }[] = [];
     for (const slug of mainSlugs) {
-      const cat = allCategories.find((c) => c.slug === slug);
-      if (!cat) continue;
       const subs = subcategoryByMenuSlug[slug];
       if (subs?.length) {
         for (const subSlug of subs) {
-          const sub = allCategories.find((c) => c.slug === subSlug);
-          if (sub) out.push({ id: sub.id, label: (sub[`name_${locale}` as keyof Category] as string) || sub.slug });
+          const cat = allCategories.find((c) => c.slug === subSlug);
+          const id = cat?.id ?? `slug:${subSlug}`;
+          const label = defaultCategoryLabelBySlug[subSlug] || (cat && (cat[`name_${locale}` as keyof Category] as string)) || subSlug;
+          out.push({ id, label });
         }
       } else {
-        out.push({ id: cat.id, label: (cat[`name_${locale}` as keyof Category] as string) || cat.slug });
+        const cat = allCategories.find((c) => c.slug === slug);
+        const id = cat?.id ?? `slug:${slug}`;
+        const label = defaultCategoryLabelBySlug[slug] || (cat && (cat[`name_${locale}` as keyof Category] as string)) || slug;
+        out.push({ id, label });
       }
     }
     return out;
-  }, [allCategories, locale]);
+  }, [allCategories, locale, defaultCategoryLabelBySlug]);
 
   if (loading) {
     return <div className="container mx-auto px-4 py-16 text-center text-slate-600">{commonT("loading")}</div>;
@@ -762,7 +746,7 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-2">
                 {categories.map((category) => {
-                  const categoryName = category[`name_${locale}` as keyof Category];
+                  const categoryName = defaultCategoryLabelBySlug[category.slug] ?? (category[`name_${locale}` as keyof Category] as string);
                   const isOpen = activeMenuSlug === category.slug;
                   const subcategories = subcategoryByMenuSlug[category.slug] ?? [];
                   return (
@@ -851,7 +835,7 @@ export default function AdminPage() {
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-sm font-semibold text-slate-800">
                 {activeCategory
-                  ? t("activeCategory", { name: activeCategory[`name_${locale}` as keyof Category] })
+                  ? t("activeCategory", { name: defaultCategoryLabelBySlug[activeCategory.slug] ?? (activeCategory[`name_${locale}` as keyof Category] as string) })
                   : t("selectCategory")}
               </p>
               <p className="text-xs text-slate-500 mt-1">{t("productsHelp")}</p>
@@ -862,6 +846,7 @@ export default function AdminPage() {
                       const category = allCategories.find((item) => item.slug === slug);
                       if (!category) return null;
                       const label =
+                        defaultCategoryLabelBySlug[slug] ||
                         (category[`name_${locale}` as keyof Category] as string) ||
                         subcategoryLabels[slug] ||
                         slug;
@@ -945,9 +930,7 @@ export default function AdminPage() {
                 const selectedMainSlug = selectedCat
                   ? menuCategoryOrder.includes(selectedCat.slug)
                     ? selectedCat.slug
-                    : (Object.keys(subcategoryByMenuSlug).find((m) =>
-                        subcategoryByMenuSlug[m]?.includes(selectedCat.slug)
-                      ) ?? (legacyLinesSubcategorySlugs.includes(selectedCat.slug) ? "lines" : legacyBaitSubcategorySlugs.includes(selectedCat.slug) ? "bait" : null))
+                    : Object.keys(subcategoryByMenuSlug).find((m) => subcategoryByMenuSlug[m]?.includes(selectedCat.slug)) ?? null
                   : null;
                 const selectedSubSlug =
                   selectedCat &&
@@ -981,7 +964,7 @@ export default function AdminPage() {
                           <option value="">—</option>
                           {mainCategories.map((cat) => (
                             <option key={cat.id} value={cat.id}>
-                              {cat[`name_${locale}` as keyof Category] as string} ({cat.slug})
+                              {defaultCategoryLabelBySlug[cat.slug] ?? (cat[`name_${locale}` as keyof Category] as string)} ({cat.slug})
                             </option>
                           ))}
                         </select>
@@ -1007,7 +990,7 @@ export default function AdminPage() {
                               if (!subCat) return null;
                               return (
                                 <option key={subCat.id} value={subCat.id}>
-                                  {subCat[`name_${locale}` as keyof Category] as string} ({subCat.slug})
+                                  {defaultCategoryLabelBySlug[subSlug] ?? (subCat[`name_${locale}` as keyof Category] as string)} ({subCat.slug})
                                 </option>
                               );
                             })}
@@ -1262,7 +1245,7 @@ export default function AdminPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold text-slate-700">
                     {activeCategory
-                      ? t("activeCategory", { name: activeCategory[`name_${locale}` as keyof Category] })
+                      ? t("activeCategory", { name: defaultCategoryLabelBySlug[activeCategory.slug] ?? (activeCategory[`name_${locale}` as keyof Category] as string) })
                       : t("selectCategory")}
                   </h3>
                   <button

@@ -14,11 +14,11 @@ export default function LayoutShell({ children }: LayoutShellProps) {
   const hideFooter = pathname?.includes("/auth") || pathname?.includes("/admin") || pathname?.includes("/account");
 
   return (
-    <>
+    <div className="flex min-h-screen min-h-[100dvh] flex-col">
       <Header />
-      <main className="flex-1 min-w-0 w-full overflow-x-hidden">{children}</main>
+      <main className="min-h-0 flex-1 w-full min-w-0 overflow-x-hidden overflow-y-auto pt-[52px] sm:pt-14">{children}</main>
       {!hideFooter && <Footer />}
       <ChatWidget />
-    </>
+    </div>
   );
 }

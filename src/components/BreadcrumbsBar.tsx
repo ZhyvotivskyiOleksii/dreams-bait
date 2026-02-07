@@ -15,7 +15,7 @@ type BreadcrumbsBarProps = {
   className?: string;
 };
 
-const HEADER_HEIGHT = 64; // fixed header height (top-16)
+const HEADER_HEIGHT = 52; // фактична висота хедера на мобільному (py-2 + ряд ~52px), без щілини
 const BAR_HEIGHT = 40;   // breadcrumbs bar height
 
 export default function BreadcrumbsBar({ items, className }: BreadcrumbsBarProps) {

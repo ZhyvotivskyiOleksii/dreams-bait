@@ -69,9 +69,7 @@ export default function Header() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md transition-all duration-300 px-4 py-2 sm:px-6 sm:py-2.5 lg:px-10 lg:py-3 xl:px-[40px]">
         <div className="mx-auto w-full max-w-[100vw] min-w-0">
-          {/* На мобільному: сітка [меню | лого по центру | мова+кошик] */}
           <div className="flex items-center justify-between gap-3 min-w-0 lg:gap-4">
-            {/* Ліва частина: Каталог (моб) / Каталог + пошук + лого (десктоп) */}
             <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 lg:flex-initial">
               <button
                 onClick={() => setIsMegaMenuOpen(true)}
@@ -122,13 +120,12 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Права частина: мова + кошик */}
+            {/* Права частина */}
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-              {/* Акції / Розпродаж — тільки на xl */}
               <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
                 <Link
                   href={`/${locale}/promotions`}
-className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-bold hover:brightness-110 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white text-sm font-bold hover:brightness-110 transition-all"
                   style={{ background: "linear-gradient(90deg, #fb232e, #750e12)" }}
                 >
                   <span>{headerT("promotions")}</span>
@@ -148,24 +145,24 @@ className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white te
                 </Link>
               </div>
 
-              {/* Перемикач мови */}
               <Suspense fallback={null}>
                 <LanguageSwitcher isScrolled={false} />
               </Suspense>
 
               {isLoggedIn ? (
-                <div className="hidden lg:flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <Link
                     href={`/${locale}/${isAdmin ? "admin" : "account"}`}
-                    className="inline-flex items-center gap-2 h-9 px-4 rounded-full text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center justify-center w-9 h-9 sm:gap-2 sm:w-auto sm:h-9 sm:px-4 rounded-full text-white hover:bg-white/10 transition-colors"
+                    aria-label={isAdmin ? headerT("admin") : headerT("account")}
                   >
-                    <User className="w-4 h-4" />
-                    {isAdmin ? headerT("admin") : headerT("account")}
+                    <User className="w-5 h-5 sm:w-4 sm:h-4" />
+                    <span className="hidden sm:inline text-sm font-semibold">{isAdmin ? headerT("admin") : headerT("account")}</span>
                   </Link>
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white hover:bg-white/10 transition-colors"
+                    className="hidden lg:inline-flex items-center justify-center w-9 h-9 rounded-full text-white hover:bg-white/10 transition-colors"
                     aria-label={headerT("logout")}
                   >
                     <LogOut className="w-4 h-4" />
@@ -174,10 +171,11 @@ className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-white te
               ) : (
                 <Link
                   href={`/${locale}/auth`}
-                  className="hidden lg:inline-flex items-center gap-2 h-9 px-4 rounded-full text-white text-sm font-semibold hover:bg-white/10 transition-colors"
+                  className="inline-flex items-center justify-center w-9 h-9 sm:gap-2 sm:w-auto sm:h-9 sm:px-4 rounded-full text-white hover:bg-white/10 transition-colors"
+                  aria-label={headerT("auth")}
                 >
-                  <User className="w-4 h-4" />
-                  {headerT("auth")}
+                  <User className="w-5 h-5 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline text-sm font-semibold">{headerT("auth")}</span>
                 </Link>
               )}
 

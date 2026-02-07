@@ -120,57 +120,9 @@ const categoryMeta: Record<
     titleKey: "megaMenu.subcategories.biteAlarms",
     image: "/category/sygnalizator.jpg",
   },
-  mono: {
-    titleKey: "megaMenu.subcategories.mono",
-    image: "/category/zylki.jpg",
-  },
-  braided: {
-    titleKey: "megaMenu.subcategories.braided",
-    image: "/category/zylki.jpg",
-  },
-  fluoro: {
-    titleKey: "megaMenu.subcategories.fluoro",
-    image: "/category/zylki.jpg",
-  },
-  leadcore: {
-    titleKey: "megaMenu.subcategories.leadcore",
-    image: "/category/zylki.jpg",
-  },
-  "nozzles-liquids": {
-    titleKey: "megaMenu.subcategories.nozzlesLiquids",
-    image: "/category/zenety.jpg",
-  },
-  "liquids-components": {
-    titleKey: "megaMenu.subcategories.liquidsComponents",
-    image: "/category/zenety.jpg",
-  },
-  "all-for-fishing": {
-    titleKey: "megaMenu.subcategories.allForFishing",
-    image: "/category/zenety.jpg",
-  },
-  ingredients: {
-    titleKey: "megaMenu.subcategories.ingredients",
-    image: "/category/zenety.jpg",
-  },
   "boilie-ingredients": {
     titleKey: "megaMenu.subcategories.boilieIngredients",
     image: "/category/carp_boilies.png",
-  },
-  tents: {
-    titleKey: "megaMenu.subcategories.tents",
-    image: "/category/camping.webp",
-  },
-  bedchairs: {
-    titleKey: "megaMenu.subcategories.bedchairs",
-    image: "/category/camping.webp",
-  },
-  "sleeping-bags": {
-    titleKey: "megaMenu.subcategories.sleepingBags",
-    image: "/category/camping.webp",
-  },
-  chairs: {
-    titleKey: "megaMenu.subcategories.chairs",
-    image: "/category/camping.webp",
   },
 };
 
@@ -265,7 +217,7 @@ const parentCategorySlugs: Record<string, string[]> = {
   lines: ["lines"],
   bait: ["bait"],
   "boilie-ingredients": ["boilie-ingredients"],
-  camping: ["tents", "bedchairs", "sleeping-bags", "chairs"],
+  camping: ["camping"],
 };
 
 const getCategoryIdsBySlugs = async (slugs: string[]) => {
@@ -388,13 +340,9 @@ export const getProductSlugs = () =>
     { revalidate: CACHE_REVALIDATE }
   )();
 
-/** Пріоритет категорій для хітів: палатка (camping), родпод, прикормки, вудки */
+/** Пріоритет категорій для хітів */
 const BESTSELLERS_CATEGORY_PRIORITY = [
   "camping",
-  "tents",
-  "bedchairs",
-  "sleeping-bags",
-  "chairs",
   "rod-pods",
   "bait",
   "baits",

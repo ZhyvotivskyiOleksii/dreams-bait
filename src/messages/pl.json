@@ -15,7 +15,9 @@
     "cart": "Koszyk",
     "regulamin": "Regulamin",
     "admin": "Admin",
-    "search": "Szukaj..."
+    "search": "Szukaj...",
+    "account": "Moje konto",
+    "auth": "Zaloguj"
   },
   "breadcrumbs": {
     "home": "Strona główna",
@@ -517,10 +519,29 @@
     "backToSite": "Powrót do strony",
     "menuProfile": "Profil",
     "menuFavorites": "Ulubione",
+    "menuOrders": "Zamówienia",
+    "editProfile": "Edytuj profil",
+    "saveProfile": "Zapisz",
+    "cancel": "Anuluj",
+    "profileSaved": "Dane zapisane",
     "favoritesTitle": "Zapisane produkty",
     "favoritesEmpty": "Nie masz jeszcze zapisanych produktów.",
     "favoritesView": "Zobacz",
     "favoritesRemove": "Usuń",
+    "ordersTitle": "Historia zamówień",
+    "ordersEmpty": "Nie masz jeszcze zamówień.",
+    "orderNumber": "Zamówienie nr",
+    "orderDate": "Data",
+    "orderStatus": "Status",
+    "orderTotal": "Suma",
+    "orderStatuses": {
+      "pending": "Oczekuje na płatność",
+      "paid": "Opłacone",
+      "processing": "W realizacji",
+      "shipped": "Wysłane",
+      "delivered": "Dostarczone",
+      "cancelled": "Anulowane"
+    },
     "fields": {
       "firstName": "Imię",
       "lastName": "Nazwisko",

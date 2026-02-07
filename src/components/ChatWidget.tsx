@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -10,10 +11,14 @@ const TELEGRAM_USERNAME = "bigdreamsbait";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const t = useTranslations("common");
+  const isAccountPage = pathname?.includes("/account") ?? false;
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}`;
   const telegramUrl = `https://t.me/${TELEGRAM_USERNAME}`;
+
+  if (isAccountPage) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-30 flex flex-col items-end gap-4">
