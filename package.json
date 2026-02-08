@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "echo '' && echo '📱 Android emulator: http://10.0.2.2:3000' && echo '' && next dev",
     "build": "next build",
-    "postbuild": "node scripts/prepareDist.cjs",
-    "start": "next start",
+    "postbuild": "node scripts/prepareDist.cjs && echo '' && echo '📱 Android emulator: npm start → http://10.0.2.2:3000' && echo ''",
+    "start": "echo '' && echo '📱 Android emulator: http://10.0.2.2:3000' && echo '' && next start",
     "lint": "next lint"
   },
   "dependencies": {

@@ -1,39 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { Home, LayoutGrid, ShoppingCart, User, MoreHorizontal } from "lucide-react";
-
-/** iOS Safari: оновлює bottom при скролі, щоб nav прилипав до видимого низу при хованій адресці */
-function useVisualViewportBottom() {
-  const [bottom, setBottom] = useState(0);
-
-  useEffect(() => {
-    const vv = typeof window !== "undefined" ? window.visualViewport : null;
-    if (!vv) return;
-
-    const update = () => {
-      const offset = vv.offsetTop + vv.height - window.innerHeight;
-      setBottom(Math.max(0, offset));
-    };
-
-    update();
-    vv.addEventListener("resize", update);
-    vv.addEventListener("scroll", update);
-    window.addEventListener("resize", update);
-
-    return () => {
-      vv.removeEventListener("resize", update);
-      vv.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
-
-  return bottom;
-}
 
 type MobileBottomNavProps = {
   itemCount: number;
@@ -65,17 +35,10 @@ export default function MobileBottomNav({
       active ? "text-[#0ea5e9]" : "text-slate-500"
     }`;
 
-  const [mounted, setMounted] = useState(false);
-  const visualBottomOffset = useVisualViewportBottom();
-
-  useEffect(() => setMounted(true), []);
-
-  const navEl = (
+  return (
     <nav
-      className="fixed inset-x-0 z-50 flex border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden"
-      style={{
-        bottom: visualBottomOffset > 0 ? -visualBottomOffset : 0,
-      }}
+      className="fixed inset-x-0 bottom-0 z-50 flex border-t border-slate-200 bg-white pb-[env(safe-area-inset-bottom)] sm:hidden"
+      style={{ WebkitBackfaceVisibility: "hidden" } as React.CSSProperties}
       aria-label="Main navigation"
     >
       <Link href={`/${locale}`} className={linkClass(isHome)}>
@@ -108,8 +71,4 @@ export default function MobileBottomNav({
       </Link>
     </nav>
   );
-
-  // Рендер через portal в body — як у кабінеті, без відступу знизу на iOS/Safari
-  if (!mounted || typeof document === "undefined") return null;
-  return createPortal(navEl, document.body);
 }
